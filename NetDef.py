@@ -6,7 +6,7 @@
 
 class NetworkDevice:
     """ Class container for all attributes and methods related to a Network Device """
-    def __init__(self, device_name, user_name, user_password, enable_password):
+    def __init__(self, device_name, user_name, user_password, enable_password, device_type='cisco_ios'):
         """ Initializing containers"""
         self.DeviceName = device_name
         self.UserName = user_name
@@ -21,7 +21,7 @@ class NetworkDevice:
 
         from netmiko import ConnectHandler
         self.Cisco_Device = {
-            'device_type': 'cisco_ios',
+            'device_type': device_type,
             'ip': self.DeviceName,
             'username': self.UserName,
             'password': self.UPassword,
