@@ -18,6 +18,8 @@ class NetworkDevice:
         self.ShIntSwitchport = {}
         self.ShIntStatus = {}
         self.VRF = {}
+        self.ShowVersion = ''
+        self.ShowVlan = ''
 
         from netmiko import ConnectHandler
         self.Cisco_Device = {
@@ -29,14 +31,22 @@ class NetworkDevice:
             'secret': self.EnablePassword,     # optional, defaults to ''
             #'verbose': False,       # optional, defaults to True
             }
-        self.Device_Connetion = ConnectHandler(**self.Cisco_Device)
+        self.Device_Connection = ConnectHandler(**self.Cisco_Device)
 
-    def SendCommand(self, command):
-        output = self.Device_Connetion.send_command(command)
-        return(output)
+    def send_command(self, command):
+        output = self.Device_Connection.send_command(command)
+        return output
 
-    def Disconnect(self):
-        self.Device_Connetion.disconnect()
+    def disconnect(self):
+        self.Device_Connection.disconnect()
+
+    def show_version(self):
+        self.ShowVersion = self.send_command("sh ver")
+
+    def get_vlans(self):
+        self.ShowVlan = self.send_command("sh vlan")
+
+
 
 
 
