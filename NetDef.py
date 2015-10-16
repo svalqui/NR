@@ -4,6 +4,8 @@
 # Created : 2015/10/08
 # Modified : 2015/10/08
 
+import netconfigparser
+
 class NetworkDevice:
     """ Class container for all attributes and methods related to a Network Device """
     def __init__(self, device_name, user_name, user_password, enable_password, device_type='cisco_ios'):
@@ -44,7 +46,9 @@ class NetworkDevice:
         self.ShowVersion = self.send_command("sh ver")
 
     def get_vlans(self):
+
         self.ShowVlan = self.send_command("sh vlan")
+        self.Vlans = netconfigparser.show_vlan_to_dictionary(self.ShowVlan)
 
 
 

@@ -14,7 +14,6 @@ gs_UserName = getpass.getpass("Username: ")
 gs_password = getpass.getpass()
 gs_EnablePass = getpass.getpass("Enabled Password: ")
 
-
 switch1 = NetDef.NetworkDevice(gs_DeviceName, gs_UserName, gs_password, gs_EnablePass)
 
 fs_keyinput = ''
@@ -22,8 +21,10 @@ fs_keyinput = ''
 while fs_keyinput != 'q':
     fs_keyinput = input()
     if fs_keyinput != "":
-        output = switch1.SendCommand(fs_keyinput)
+        output = switch1.send_command(fs_keyinput)
         print(output)
+        switch1.get_vlans()
+        print (switch1.Vlans[1])
     else:
         try:
             exec(fs_keyinput)
