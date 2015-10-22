@@ -24,7 +24,7 @@ while fs_keyinput != 'q':
         output = switch1.send_command(fs_keyinput)
         print(output)
         switch1.get_vlans()
-        print (switch1.Vlans[1])
+        print (switch1.Vlans['1'])
     else:
         try:
             exec(fs_keyinput)

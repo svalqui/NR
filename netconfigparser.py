@@ -1,6 +1,6 @@
 
 
-def cut_not_include(some_text, start_text, end_text, maximum_lines_per_section=1000):
+def cut_not_include(some_text, start_text, end_text, maximum_lines_per_section=10000):
     ''' from some_text (output from Network device session), returns a List of List, sections of some_text containing
     the lines between StartText to EndText, does not include StartText or EndText on the returning sections.
     When the output from the Network Device needs to be trimmed before is processed.
@@ -27,7 +27,7 @@ def cut_not_include(some_text, start_text, end_text, maximum_lines_per_section=1
                     list_content = []
                     counter = 0
 
-            elif line.find(end_text) >= 0 or counter <= maximum_lines_per_section:
+            elif line.find(end_text) >= 0 or counter >= maximum_lines_per_section:
                 include = False
                 matching_list_text.append(list_content)
                 print('found last', line)
