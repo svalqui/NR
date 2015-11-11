@@ -17,8 +17,8 @@ class NetworkDevice:
         self.Interfaces = {}
         self.Vlans = {}
         self.Modules = []
-        self.ShIntSwitchport = {}
-        self.ShIntStatus = {}
+        self.ShowInterfaceSwitchport = {}
+        self.ShowInterfacesStatus = []
         self.VRF = {}
         self.ShowVersion = ''
         self.ShowVlan = ''
@@ -50,8 +50,14 @@ class NetworkDevice:
         self.ShowVlan = self.send_command("sh vlan")
         self.Vlans = netconfigparser.show_vlan_to_dictionary(self.ShowVlan)
 
+    def get_int_status(self):
+        self.ShowInterfacesStatus = self.send_command("sh int status")
 
+    def get_interfaces(self):
+        self.Interfaces = self.send_command("sh int")
 
+    def get_int_switchport(self):
+        self.ShowInterfaceSwitchport = self.send_command("sh int switchport")
 
 
 
