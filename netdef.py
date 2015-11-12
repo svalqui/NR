@@ -6,6 +6,24 @@
 
 import netconfigparser
 
+class Interface:
+    """Class container for all attributes and methods related to an INterface"""
+    def __init__(self):
+        self.Name = ''
+        self.ShowInterface = []
+        self.ShowInterfaceSwitchport = []
+        self.ShowRunningConfiguration = []
+
+    def read_configuration(self):
+        pass
+
+    def write_configuration(self, commands):
+        pass
+
+    def delete_configuration(self):
+        pass
+
+
 class NetworkDevice:
     """ Class container for all attributes and methods related to a Network Device """
     def __init__(self, device_name, user_name, user_password, enable_password, device_type='cisco_ios'):
