@@ -18,6 +18,7 @@ class NetworkDevice:
         self.Vlans = {}
         self.Modules = []
         self.ShowInterfaceSwitchport = {}
+        self.ShowInterface = {}
         self.ShowInterfacesStatus = []
         self.VRF = {}
         self.ShowVersion = ''
@@ -52,9 +53,11 @@ class NetworkDevice:
 
     def get_int_status(self):
         self.ShowInterfacesStatus = self.send_command("sh int status")
+        self.ShowInterfacesStatus = self.ShowInterfacesStatus.splitlines()
 
     def get_interfaces(self):
-        self.Interfaces = self.send_command("sh int")
+        self.ShowInterface = self.send_command("sh int")
+
 
     def get_int_switchport(self):
         self.ShowInterfaceSwitchport = self.send_command("sh int switchport")
