@@ -2,12 +2,12 @@
 #
 # Authors: Sergio Valqui
 # Created : 2015/10/08
-# Modified : 2015/10/08
+# Modified : 2015/
 
 import netconfigparser
 
 class Interface:
-    """Class container for all attributes and methods related to an INterface"""
+    """Class container for all attributes and methods related to an Interface"""
     def __init__(self):
         self.Name = ''
         self.ShowInterface = []
@@ -23,7 +23,6 @@ class Interface:
     def delete_configuration(self):
         pass
 
-
 class NetworkDevice:
     """ Class container for all attributes and methods related to a Network Device """
     def __init__(self, device_name, user_name, user_password, enable_password, device_type='cisco_ios'):
@@ -32,11 +31,10 @@ class NetworkDevice:
         self.UserName = user_name
         self.UPassword = user_password
         self.EnablePassword = enable_password
-        self.Interfaces = {}
+        self.ShowRunning = ''
+        self.Interfaces = []
         self.Vlans = {}
         self.Modules = []
-        self.ShowInterfaceSwitchport = {}
-        self.ShowInterface = {}
         self.ShowInterfacesStatus = []
         self.VRF = {}
         self.ShowVersion = ''
@@ -64,8 +62,10 @@ class NetworkDevice:
     def show_version(self):
         self.ShowVersion = self.send_command("sh ver")
 
-    def get_vlans(self):
+    def show_running(self):
+        self.ShowRunning = self.send_command("sh run")
 
+    def get_vlans(self):
         self.ShowVlan = self.send_command("sh vlan")
         self.Vlans = netconfigparser.show_vlan_to_dictionary(self.ShowVlan)
 
@@ -73,12 +73,21 @@ class NetworkDevice:
         self.ShowInterfacesStatus = self.send_command("sh int status")
         self.ShowInterfacesStatus = self.ShowInterfacesStatus.splitlines()
 
-    def get_interfaces(self):
+    def populate_interfaces(self):
         self.ShowInterface = self.send_command("sh int")
-
-
-    def get_int_switchport(self):
         self.ShowInterfaceSwitchport = self.send_command("sh int switchport")
+        shointlist = netconfigparser.show_interface_to_list(self.ShowInterface)
+        shointswi = netconfigparser.show_interface_switchport_to_list(self.ShowInterfaceSwitchport)
+
+        for i in shointlist:
+            print(i)
+            print()
+
+        for j in shointswi:
+            print(j)
+            print()
+
+
 
 
 

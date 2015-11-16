@@ -7,14 +7,14 @@
 
 
 import getpass
-import NetDef
+import netdef
 
 gs_DeviceName = input('DeviceName: ')
 gs_UserName = getpass.getpass("Username: ")
 gs_password = getpass.getpass()
 gs_EnablePass = getpass.getpass("Enabled Password: ")
 
-switch1 = NetDef.NetworkDevice(gs_DeviceName, gs_UserName, gs_password, gs_EnablePass)
+switch1 = netdef.NetworkDevice(gs_DeviceName, gs_UserName, gs_password, gs_EnablePass)
 
 fs_keyinput = ''
 
@@ -25,6 +25,7 @@ while fs_keyinput != 'q':
         print(output)
         switch1.get_vlans()
         print (switch1.Vlans['1'])
+        switch1.populate_interfaces()
     else:
         try:
             exec(fs_keyinput)
