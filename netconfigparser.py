@@ -69,17 +69,19 @@ def cut_include_start_end(some_text, start_text, end_text, maximum_lines_per_sec
                 matching_list_text.append(list_content)
                 print('found start', line)
                 print('added list :', list_content)
-                print()
+                print('-----1')
+
                 list_content = []
                 counter = 0
+                list_content.append(line)
 
             elif line.find(end_text) >= 0 or counter >= maximum_lines_per_section:
                 include = False
                 list_content.append(line)
                 matching_list_text.append(list_content)
-                print('found last', line)
+                print('found last on section', line)
                 print('added list :', list_content)
-                print()
+                print('-------2')
                 list_content = []
                 counter = 0
             else:
@@ -87,6 +89,7 @@ def cut_include_start_end(some_text, start_text, end_text, maximum_lines_per_sec
         counter += 1
     if len(list_content) > 0:
         matching_list_text.append(list_content)
+        print("added LAST list:", list_content)
 
     return matching_list_text
 

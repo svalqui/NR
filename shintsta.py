@@ -23,8 +23,10 @@ while fs_keyinput != 'q':
     if fs_keyinput != "":
         output = switch1.send_command(fs_keyinput)
         print(output)
+        print('--++++++++--')
         switch1.get_vlans()
-        print (switch1.Vlans['1'])
+        for i in switch1.Vlans.items():
+            print (i)
         switch1.populate_interfaces()
     else:
         try:

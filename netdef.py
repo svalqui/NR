@@ -9,7 +9,7 @@ import netconfigparser
 class Interface:
     """Class container for all attributes and methods related to an Interface"""
     def __init__(self):
-        self.Name = ''
+        self.InterfaceName = ''
         self.ShowInterface = []
         self.ShowInterfaceSwitchport = []
         self.ShowRunningConfiguration = []
@@ -24,7 +24,9 @@ class Interface:
         pass
 
 class NetworkDevice:
-    """ Class container for all attributes and methods related to a Network Device """
+    """ Class container for all attributes and methods related to a Network Device
+        .. thinking if interfaces should be a list or Dictionary.... ummmm....
+     """
     def __init__(self, device_name, user_name, user_password, enable_password, device_type='cisco_ios'):
         """ Initializing containers"""
         self.DeviceName = device_name
@@ -74,18 +76,22 @@ class NetworkDevice:
         self.ShowInterfacesStatus = self.ShowInterfacesStatus.splitlines()
 
     def populate_interfaces(self):
-        self.ShowInterface = self.send_command("sh int")
-        self.ShowInterfaceSwitchport = self.send_command("sh int switchport")
-        shointlist = netconfigparser.show_interface_to_list(self.ShowInterface)
-        shointswi = netconfigparser.show_interface_switchport_to_list(self.ShowInterfaceSwitchport)
+        ListShowInt = netconfigparser.show_interface_to_list(self.send_command("sh int"))
+        ListShowIntSwi = netconfigparser.show_interface_switchport_to_list(self.send_command("sh int switchport"))
+        #shointswi = netconfigparser.show_interface_switchport_to_list(self.ShowInterfaceSwitchport)
 
-        for i in shointlist:
+        for i in ListShowInt:
+            swi_int = Interface()
+            interface_name = i[0]
+
+
+
             print(i)
             print()
 
-        for j in shointswi:
-            print(j)
-            print()
+        #for j in shointswi:
+        #    print(j)
+         #   print()
 
 
 
