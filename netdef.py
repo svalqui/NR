@@ -82,7 +82,7 @@ class NetworkDevice:
 
         for i in ListShowInt:
             swi_int = Interface()
-            interface_name = i[0]
+            interface_name = i[0].split()[0]
 
 
 

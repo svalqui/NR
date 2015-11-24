@@ -108,20 +108,57 @@ def show_vlan_to_dictionary(show_vlan_output=''):
     return show_vlan_dictionary
 
 def show_interface_to_list(show_interface = ''):
-    """from show int returns a List
+    """from show int returns a List of list
     List: ['sh int contents per interface','...']
     """
     show_interface_list = cut_include_start_end(show_interface,"line protocol", "#")
     return show_interface_list
 
 def show_interface_switchport_to_list(show_interface_switchport = ''):
-    """from show int switchport retuns a list
+    """from show int switchport retuns a list of list
     List: ['sh int switchport content per interface']
     :param show_interface_switchport:
     :return:
     """
     show_interface_switchport_list = cut_include_start_end(show_interface_switchport, "Name:", "#")
     return show_interface_switchport_list
+
+def int_name_to_int_short_name(interface_name = ''):
+    """From interface name returns the short name of the interface
+    Ethernet
+    Port-channel
+    Vlan
+    Loopback
+    Tunnel
+    :param interface_name:
+    :return:
+    """
+    interface_short_name = ''
+    short_text = interface_name[0:2]
+    if interface_name.find('Ethernet') >= 0:
+        start_numbering = interface_name.find('Ethernet') + 8
+        int_numbering = interface_name[start_numbering:]
+        interface_short_name = short_text + int_numbering
+    elif interface_name.find('Port-channel')>= 0:
+        int_numbering = interface_name[12:]
+        interface_short_name = short_text + int_numbering
+    elif interface_name.find('Vlan')>= 0:
+        int_numbering = interface_name[4:]
+        interface_short_name = short_text + int_numbering
+    elif interface_name.find('Loopback')>= 0:
+        int_numbering = interface_name[8:]
+        interface_short_name = short_text + int_numbering
+    elif interface_name.find('Tunnel')>= 0:
+        int_numbering = interface_name[6:]
+        interface_short_name = short_text + int_numbering
+    else:
+        print('Interface, ', interface_name, ' not predefined on int_name_to_int_short_name')
+
+    return interface_short_name
+
+
+
+
 
 
 
