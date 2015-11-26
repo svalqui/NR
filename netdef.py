@@ -6,10 +6,12 @@
 
 import netconfigparser
 
+
 class Interface:
     """Class container for all attributes and methods related to an Interface"""
     def __init__(self):
         self.InterfaceName = ''
+        self.InterfaceShortName=''
         self.ShowInterface = []
         self.ShowInterfaceSwitchport = []
         self.ShowRunningConfiguration = []
@@ -22,6 +24,7 @@ class Interface:
 
     def delete_configuration(self):
         pass
+
 
 class NetworkDevice:
     """ Class container for all attributes and methods related to a Network Device
