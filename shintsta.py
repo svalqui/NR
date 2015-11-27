@@ -28,6 +28,12 @@ while fs_keyinput != 'q':
         for i in switch1.Vlans.items():
             print (i)
         switch1.populate_interfaces()
+        for i in switch1.Interfaces.keys():
+            print(i)
+            print(switch1.Interfaces[i].InterfaceShortName)
+            print(switch1.Interfaces[i].InterfaceName)
+
+
     else:
         try:
             exec(fs_keyinput)

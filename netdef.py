@@ -37,7 +37,7 @@ class NetworkDevice:
         self.UPassword = user_password
         self.EnablePassword = enable_password
         self.ShowRunning = ''
-        self.Interfaces = []
+        self.Interfaces = {}
         self.Vlans = {}
         self.Modules = []
         self.ShowInterfacesStatus = []
@@ -87,19 +87,8 @@ class NetworkDevice:
             swi_int = Interface()
             swi_int.InterfaceName = i[0].split()[0]
             swi_int.InterfaceShortName = netconfigparser.int_name_to_int_short_name(swi_int.InterfaceName)
-
-
-
-            print(i)
-            print()
-
-        #for j in shointswi:
-        #    print(j)
-         #   print()
-
-
-
-
+            swi_int.ShowInterface = i
+            self.Interfaces[swi_int.InterfaceShortName] = swi_int
 
 
 

@@ -16,24 +16,24 @@ def cut_not_include(some_text, start_text, end_text, maximum_lines_per_section=1
             if line.find(start_text) >= 0:
                 include = True
                 print('found start: ', line)
-            print('not including line: ', line)
-            print()
+            #print('not including line: ', line)
+            #print()
         else:
             if line.find(start_text) >= 0:
                 if len(list_content) > 0:
                     matching_list_text.append(list_content)
-                    print('found start', line)
-                    print('added list :',list_content)
-                    print()
+                    #print('found start', line)
+                    #print('added list :',list_content)
+                    #print()
                     list_content = []
                     counter = 0
 
             elif line.find(end_text) >= 0 or counter >= maximum_lines_per_section:
                 include = False
                 matching_list_text.append(list_content)
-                print('found last', line)
-                print('added list :',list_content)
-                print()
+                #print('found last', line)
+                #print('added list :',list_content)
+                #print()
                 list_content = []
                 counter = 0
             else:
@@ -61,15 +61,15 @@ def cut_include_start_end(some_text, start_text, end_text, maximum_lines_per_sec
             if line.find(start_text) >= 0:
                 include = True
                 list_content.append(line)
-                print('found start: ', line)
-                print('including line: ', line)
-                print()
+                #print('found start: ', line)
+                #print('including line: ', line)
+                #print()
         else:
             if line.find(start_text) >= 0:
                 matching_list_text.append(list_content)
-                print('found start', line)
-                print('added list :', list_content)
-                print('-----1')
+                #print('found start', line)
+                #print('added list :', list_content)
+                #print('-----1')
 
                 list_content = []
                 counter = 0
@@ -79,9 +79,9 @@ def cut_include_start_end(some_text, start_text, end_text, maximum_lines_per_sec
                 include = False
                 list_content.append(line)
                 matching_list_text.append(list_content)
-                print('found last on section', line)
-                print('added list :', list_content)
-                print('-------2')
+                #print('found last on section', line)
+                #print('added list :', list_content)
+                #print('-------2')
                 list_content = []
                 counter = 0
             else:
@@ -89,7 +89,7 @@ def cut_include_start_end(some_text, start_text, end_text, maximum_lines_per_sec
         counter += 1
     if len(list_content) > 0:
         matching_list_text.append(list_content)
-        print("added LAST list:", list_content)
+        #print("added LAST list:", list_content)
 
     return matching_list_text
 
