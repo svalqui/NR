@@ -85,7 +85,8 @@ class NetworkDevice:
 
         for i in ListShowInt:
             swi_int = Interface()
-            interface_name = i[0].split()[0]
+            swi_int.InterfaceName = i[0].split()[0]
+            swi_int.InterfaceShortName = netconfigparser.int_name_to_int_short_name(swi_int.InterfaceName)
 
 
 
