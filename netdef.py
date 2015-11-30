@@ -18,7 +18,6 @@ class Interface:
         self.InterfaceDescription = netconfigparser.line_from_text('Description:', self.ShowInterface)
         self.PacketsInput = netconfigparser.line_from_text('packets input', self.ShowInterface)
         self.PacketsOutput = netconfigparser.line_from_text('packets output', self.ShowInterface)
-        sel
 
     def read_configuration(self):
         pass
