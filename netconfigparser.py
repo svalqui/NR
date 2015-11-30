@@ -115,7 +115,7 @@ def show_interface_to_list(show_interface = ''):
     return show_interface_list
 
 def show_interface_switchport_to_list(show_interface_switchport = ''):
-    """from show int switchport retuns a list of list
+    """from show int switchport returns a list of list
     List: ['sh int switchport content per interface']
     :param show_interface_switchport:
     :return:
@@ -155,6 +155,21 @@ def int_name_to_int_short_name(interface_name = ''):
         print('Interface, ', interface_name, ' not predefined on int_name_to_int_short_name')
 
     return interface_short_name
+
+def line_from_text(content= '', some_text= []):
+    '''
+    returns the first line containing content
+    :param line:
+    :param some_text:
+    :return: line containing text
+    '''
+    matching_line = ''
+    for line in some_text:
+        if line.find(content)>= 0
+            matching_line = line
+            break
+
+    return matching_line
 
 
 

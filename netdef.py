@@ -15,6 +15,10 @@ class Interface:
         self.ShowInterface = []
         self.ShowInterfaceSwitchport = []
         self.ShowRunningConfiguration = []
+        self.InterfaceDescription = netconfigparser.line_from_text('Description:', self.ShowInterface)
+        self.PacketsInput = netconfigparser.line_from_text('packets input', self.ShowInterface)
+        self.PacketsOutput = netconfigparser.line_from_text('packets output', self.ShowInterface)
+        sel
 
     def read_configuration(self):
         pass
@@ -89,6 +93,10 @@ class NetworkDevice:
             swi_int.InterfaceShortName = netconfigparser.int_name_to_int_short_name(swi_int.InterfaceName)
             swi_int.ShowInterface = i
             self.Interfaces[swi_int.InterfaceShortName] = swi_int
+
+        for shintswiperint in ListShowIntSwi:
+            intshortname = shintswiperint[0].split(":")[1].strip()
+            self.Interfaces[intshortname].ShowInterfaceSwitchport = shintswiperint
 
 
 
