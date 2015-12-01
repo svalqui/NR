@@ -15,9 +15,33 @@ class Interface:
         self.ShowInterface = []
         self.ShowInterfaceSwitchport = []
         self.ShowRunningConfiguration = []
-        self.InterfaceDescription = netconfigparser.line_from_text('Description:', self.ShowInterface)
-        self.PacketsInput = netconfigparser.line_from_text('packets input', self.ShowInterface)
-        self.PacketsOutput = netconfigparser.line_from_text('packets output', self.ShowInterface)
+        self.InterfaceDescription = ''
+        self.PacketsInput = 0
+        self.PacketsOutput = 0
+        self.LineProtocol = ''
+        self.InputErrors = ''
+        self.OutputErrors = ''
+        self.LastClearing = ''
+        self.AdministrativeMode = ''
+        self.AccessModeVlan = ''
+        self.VoiceVlan = ''
+
+    def load_interface_details(self):
+        '''
+        fill in class details related/from sh int
+        :param show_interface:
+        :return:
+        '''
+
+        for line in self.ShowInterface:
+            if line.find('Description:')>= 0:
+                self.InterfaceDescription = line.replace('Description:', '')
+            elif line.find('packets input')>= 0:
+                self.PacketsInput = int(line.split()[0])
+            elif line.find('packets output')>= 0:
+                self.PacketsOutput = int(line.split()[0])
+            elif line.find('line protocol')>= 0:
+                self.LineProtocol = line
 
     def read_configuration(self):
         pass
@@ -96,6 +120,8 @@ class NetworkDevice:
         for shintswiperint in ListShowIntSwi:
             intshortname = shintswiperint[0].split(":")[1].strip()
             self.Interfaces[intshortname].ShowInterfaceSwitchport = shintswiperint
+            self.Interfaces[intshortname].load_inteface_details()
+
 
 
 

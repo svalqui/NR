@@ -45,6 +45,7 @@ def cut_not_include(some_text, start_text, end_text, maximum_lines_per_section=1
 
     return matching_list_text
 
+
 def cut_include_start_end(some_text, start_text, end_text, maximum_lines_per_section=10000):
     ''' from some_text (output from Network device session), returns a List of List, sections of some_text containing
     the lines between StartText to EndText, including StartText and EndText on the returning sections.
@@ -93,6 +94,7 @@ def cut_include_start_end(some_text, start_text, end_text, maximum_lines_per_sec
 
     return matching_list_text
 
+
 def show_vlan_to_dictionary(show_vlan_output=''):
     ''' from a Show Vlan text returns a Dictionary, Index Vlan Number as text
     Dictionary: [VlanNumber], List
@@ -107,12 +109,14 @@ def show_vlan_to_dictionary(show_vlan_output=''):
                 show_vlan_dictionary[line_split[0]] = [line_split[0], line_split[1], "Vlan"+line_split[0]]
     return show_vlan_dictionary
 
+
 def show_interface_to_list(show_interface = ''):
     """from show int returns a List of list
     List: ['sh int contents per interface','...']
     """
     show_interface_list = cut_include_start_end(show_interface,"line protocol", "#")
     return show_interface_list
+
 
 def show_interface_switchport_to_list(show_interface_switchport = ''):
     """from show int switchport returns a list of list
@@ -122,6 +126,7 @@ def show_interface_switchport_to_list(show_interface_switchport = ''):
     """
     show_interface_switchport_list = cut_include_start_end(show_interface_switchport, "Name:", "#")
     return show_interface_switchport_list
+
 
 def int_name_to_int_short_name(interface_name = ''):
     """From interface name returns the short name of the interface
@@ -156,7 +161,8 @@ def int_name_to_int_short_name(interface_name = ''):
 
     return interface_short_name
 
-def line_from_text(content= '', some_text= []):
+
+def line_from_text(content='', some_text=[]):
     '''
     returns the first line containing content
     :param line:
@@ -165,10 +171,9 @@ def line_from_text(content= '', some_text= []):
     '''
     matching_line = ''
     for line in some_text:
-        if line.find(content)>= 0
+        if line.find(content)>= 0:
             matching_line = line
             break
-
     return matching_line
 
 
