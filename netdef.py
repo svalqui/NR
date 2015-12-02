@@ -110,11 +110,11 @@ class NetworkDevice(object):
         ListShowIntSwi = netconfigparser.show_interface_switchport_to_list(self.send_command("sh int switchport"))
         #shointswi = netconfigparser.show_interface_switchport_to_list(self.ShowInterfaceSwitchport)
 
-        for i in ListShowInt:
+        for shintperint in ListShowInt:
             swi_int = Interface()
-            swi_int.InterfaceName = i[0].split()[0]
+            swi_int.InterfaceName = shintperint[0].split()[0]
             swi_int.InterfaceShortName = netconfigparser.int_name_to_int_short_name(swi_int.InterfaceName)
-            swi_int.ShowInterface = i
+            swi_int.ShowInterface = shintperint
             self.Interfaces[swi_int.InterfaceShortName] = swi_int
 
         for shintswiperint in ListShowIntSwi:
