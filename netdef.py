@@ -7,7 +7,7 @@
 import netconfigparser
 
 
-class Interface:
+class Interface(object):
     """Class container for all attributes and methods related to an Interface"""
     def __init__(self):
         self.InterfaceName = ''
@@ -34,13 +34,13 @@ class Interface:
         '''
 
         for line in self.ShowInterface:
-            if line.find('Description:')>= 0:
+            if line.find('Description:') >= 0:
                 self.InterfaceDescription = line.replace('Description:', '')
-            elif line.find('packets input')>= 0:
+            elif line.find('packets input') >= 0:
                 self.PacketsInput = int(line.split()[0])
-            elif line.find('packets output')>= 0:
+            elif line.find('packets output') >= 0:
                 self.PacketsOutput = int(line.split()[0])
-            elif line.find('line protocol')>= 0:
+            elif line.find('line protocol') >= 0:
                 self.LineProtocol = line
 
     def read_configuration(self):
@@ -53,7 +53,7 @@ class Interface:
         pass
 
 
-class NetworkDevice:
+class NetworkDevice(object):
     """ Class container for all attributes and methods related to a Network Device
         .. thinking if interfaces should be a list or Dictionary.... ummmm....
      """
@@ -120,7 +120,7 @@ class NetworkDevice:
         for shintswiperint in ListShowIntSwi:
             intshortname = shintswiperint[0].split(":")[1].strip()
             self.Interfaces[intshortname].ShowInterfaceSwitchport = shintswiperint
-            self.Interfaces[intshortname].load_inteface_details()
+            self.Interfaces[intshortname].load_inteface_details
 
 
 
