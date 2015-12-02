@@ -2,7 +2,7 @@
 #
 # Authors: Sergio Valqui
 # Created : 2015/08/13
-# Modified : 2015/0813
+# Modified : 2015
 
 import getpass
 import netdef
@@ -27,11 +27,11 @@ while fs_keyinput != 'q':
             print (i)
         switch1.populate_interfaces()
         for i in switch1.Interfaces.keys():
+            #switch1.Interfaces[i].load_inteface_details()
             print(switch1.Interfaces[i].InterfaceShortName)
             print(switch1.Interfaces[i].InterfaceName)
             print(switch1.Interfaces[i].ShowInterfaceSwitchport)
             print(switch1.Interfaces[i].PacketsInput)
-
 
     else:
         try:

@@ -11,7 +11,7 @@ class Interface(object):
     """Class container for all attributes and methods related to an Interface"""
     def __init__(self):
         self.InterfaceName = ''
-        self.InterfaceShortName=''
+        self.InterfaceShortName = ''
         self.ShowInterface = []
         self.ShowInterfaceSwitchport = []
         self.ShowRunningConfiguration = []
@@ -27,11 +27,10 @@ class Interface(object):
         self.VoiceVlan = ''
 
     def load_interface_details(self):
-        '''
-        fill in class details related/from sh int
-        :param show_interface:
+        """ complete class details related/from sh int
+        :param :
         :return:
-        '''
+        """
 
         for line in self.ShowInterface:
             if line.find('Description:') >= 0:
@@ -108,7 +107,6 @@ class NetworkDevice(object):
     def populate_interfaces(self):
         ListShowInt = netconfigparser.show_interface_to_list(self.send_command("sh int"))
         ListShowIntSwi = netconfigparser.show_interface_switchport_to_list(self.send_command("sh int switchport"))
-        #shointswi = netconfigparser.show_interface_switchport_to_list(self.ShowInterfaceSwitchport)
 
         for shintperint in ListShowInt:
             swi_int = Interface()
@@ -120,7 +118,8 @@ class NetworkDevice(object):
         for shintswiperint in ListShowIntSwi:
             intshortname = shintswiperint[0].split(":")[1].strip()
             self.Interfaces[intshortname].ShowInterfaceSwitchport = shintswiperint
-            self.Interfaces[intshortname].load_inteface_details
+            self.Interfaces[intshortname].load_inteface_details()
+
 
 
 
