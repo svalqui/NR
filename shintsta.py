@@ -30,8 +30,10 @@ while fs_keyinput != 'q':
             #switch1.Interfaces[i].load_inteface_details()
             print(switch1.Interfaces[i].InterfaceShortName)
             print(switch1.Interfaces[i].InterfaceName)
-            print(switch1.Interfaces[i].ShowInterfaceSwitchport)
+            #print(switch1.Interfaces[i].ShowInterfaceSwitchport)
             print(switch1.Interfaces[i].PacketsInput)
+            print()
+
 
     else:
         try:
