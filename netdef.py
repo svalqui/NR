@@ -11,7 +11,7 @@ class Interface(object):
     """Class container for all attributes and methods related to an Interface"""
     def __init__(self):
         self.InterfaceName = ''
-        self.InterfaceShortName=''
+        self.InterfaceShortName = ''
         self.ShowInterface = []
         self.ShowInterfaceSwitchport = []
         self.ShowRunningConfiguration = []
@@ -27,12 +27,11 @@ class Interface(object):
         self.VoiceVlan = ''
 
     def load_interface_details(self):
-        '''
+        """
         fill in class details related/from sh int
-        :param show_interface:
+        :param:
         :return:
-        '''
-
+        """
         for line in self.ShowInterface:
             if line.find('Description:') >= 0:
                 self.InterfaceDescription = line.replace('Description:', '')
@@ -43,20 +42,20 @@ class Interface(object):
             elif line.find('line protocol') >= 0:
                 self.LineProtocol = line
 
-    def read_configuration(self):
-        pass
-
-    def write_configuration(self, commands):
-        pass
-
-    def delete_configuration(self):
-        pass
+    # def read_configuration(self):
+    #     pass
+    #
+    # def write_configuration(self, commands):
+    #     pass
+    #
+    # def delete_configuration(self):
+    #     pass
 
 
 class NetworkDevice(object):
     """ Class container for all attributes and methods related to a Network Device
         .. thinking if interfaces should be a list or Dictionary.... ummmm....
-     """
+    """
     def __init__(self, device_name, user_name, user_password, enable_password, device_type='cisco_ios'):
         """ Initializing containers"""
         self.DeviceName = device_name
@@ -120,7 +119,14 @@ class NetworkDevice(object):
         for shintswiperint in ListShowIntSwi:
             intshortname = shintswiperint[0].split(":")[1].strip()
             self.Interfaces[intshortname].ShowInterfaceSwitchport = shintswiperint
-            self.Interfaces[intshortname].load_inteface_details
+
+        for intkey in self.Interfaces.keys():
+            #print(dir(self.Interfaces[intkey]))
+            a = self.Interfaces[intkey]
+            #print("--+")
+            #print(dir(a))
+            a.load_interface_details()
+
 
 
 
