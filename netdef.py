@@ -41,6 +41,9 @@ class Interface(object):
                 self.PacketsOutput = int(line.split()[0])
             elif line.find('line protocol') >= 0:
                 self.LineProtocol = line
+            elif line.find('Last clearing of') >= 0:
+                self.LastClearing = line
+
 
     # def read_configuration(self):
     #     pass
