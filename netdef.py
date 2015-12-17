@@ -86,6 +86,11 @@ class NetworkDevice(object):
             }
         self.Device_Connection = ConnectHandler(**self.Cisco_Device)
 
+        self.show_version()
+        self.get_vlans()
+        self.get_int_status()
+        self.populate_interfaces()
+
     def send_command(self, command):
         output = self.Device_Connection.send_command(command)
         return output
