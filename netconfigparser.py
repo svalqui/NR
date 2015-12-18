@@ -15,7 +15,7 @@ def cut_not_include(some_text, start_text, end_text, maximum_lines_per_section=1
         if not include:
             if line.find(start_text) >= 0:
                 include = True
-                print('found start: ', line)
+                #print('found start: ', line)
             #print('not including line: ', line)
             #print()
         else:
