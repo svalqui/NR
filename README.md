@@ -2,7 +2,7 @@
 
 A set of python libraries, code examples for Network Engineers to interact with Network Devices; CLI style.
 
-exa010shint.py : Example 010, show interfaces on steroids, collects "show interfaces status" and others commands to show an extended version of sh int status.
+exa010shint.py : Example 010, show interfaces on steroids, collects "show interfaces status" and others commands to show an extended version of "show intrefaces status" .
 
 netdef.py : Class definitions for Network devices
 
@@ -13,6 +13,7 @@ libnetservices.py : A library to connect with Network devices, ssh using Paramik
 test* : test files are concoction pots; will be deleted... eventually.
 
 Requirements:
-Python3.3 or above
-Paramiko 1.15.2 https://github.com/paramiko/paramiko
+Python3.3 or above;
+Paramiko 1.15.2 https://github.com/paramiko/paramiko;
 Netmiko 0.2.6 https://github.com/ktbyers/netmiko
+
