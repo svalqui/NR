@@ -86,18 +86,6 @@ class NetworkDevice(object):
             }
         self.Device_Connection = ConnectHandler(**self.Cisco_Device)
 
-        print('getting sh ver')
-        self.show_version()
-
-        print('getting vlans')
-        self.get_vlans()
-
-        print('getting int status')
-        self.get_int_status()
-
-        print('Populating interfaces')
-        self.populate_interfaces()
-
     def send_command(self, command):
         output = self.Device_Connection.send_command(command)
         return output
@@ -107,6 +95,7 @@ class NetworkDevice(object):
 
     def show_version(self):
         self.ShowVersion = self.send_command("sh ver")
+        self.ShowVersion = self.ShowVersion.splitlines()
 
     def show_running(self):
         self.ShowRunning = self.send_command("sh run")
