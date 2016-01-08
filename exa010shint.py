@@ -11,6 +11,7 @@ switch1 = netdef.NetworkDevice(gs_DeviceName, gs_UserName, gs_password, gs_Enabl
 
 print('getting sh ver...')
 switch1.show_version()
+print(switch1.ShowVersion)
 
 print('getting vlans...')
 switch1.get_vlans()
