@@ -9,6 +9,19 @@ gs_EnablePass = getpass.getpass("Enabled Password: ")
 
 switch1 = netdef.NetworkDevice(gs_DeviceName, gs_UserName, gs_password, gs_EnablePass)
 
+print('getting sh ver...')
+switch1.show_version()
+
+print('getting vlans...')
+switch1.get_vlans()
+
+print('getting int status...')
+switch1.get_int_status()
+
+print('Populating interfaces...')
+switch1.populate_interfaces()
+
+
 for i in switch1.ShowInterfacesStatus:
     if len(i) > 0:
         gs_interface = i.split()[0]
