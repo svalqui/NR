@@ -1,3 +1,9 @@
+# An example "show interfaces on steroids" to manipulate the output of "sh int status" an
+# return something a little bit more useful.
+#
+# Authors: Sergio Valqui
+# Created : 2015/12/
+# Modified : 2016/
 
 import getpass
 import netdef
@@ -14,10 +20,7 @@ switch1.show_version()
 print(switch1.ShowVersion)
 
 print('getting vlans...')
-switch1.get_vlans()
-
-print('getting int status...')
-switch1.get_int_status()
+switch1.populate_vlans()
 
 print('Populating interfaces...')
 switch1.populate_interfaces()

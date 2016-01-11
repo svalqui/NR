@@ -1,14 +1,13 @@
-#
+# Library for the Class, methods related to Network devices;
 #
 # Authors: Sergio Valqui
 # Created : 2015/10/08
-# Modified : 2015/
+# Modified : 2016/
 
 import netconfigparser
 
-
 class Interface(object):
-    """Class container for all attributes and methods related to an Interface"""
+    """Class container for all attributes and methods related to an Interface, they are part of NetworkDevice"""
     def __init__(self):
         self.InterfaceName = ''
         self.InterfaceShortName = ''
@@ -57,7 +56,6 @@ class Interface(object):
 
 class NetworkDevice(object):
     """ Class container for all attributes and methods related to a Network Device
-        .. thinking if interfaces should be a list or Dictionary.... ummmm....
     """
     def __init__(self, device_name, user_name, user_password, enable_password, device_type='cisco_ios'):
         """ Initializing containers"""
@@ -70,9 +68,14 @@ class NetworkDevice(object):
         self.Vlans = {}
         self.Modules = []
         self.ShowInterfacesStatus = []
+        self.ShowInterfaces = []
+        self.ShowInterfaceSwitchport = []
         self.VRF = {}
         self.ShowVersion = ''
         self.ShowVlan = ''
+
+        """ testing using Netmiko
+        """
 
         from netmiko import ConnectHandler
         self.Cisco_Device = {
@@ -80,9 +83,7 @@ class NetworkDevice(object):
             'ip': self.DeviceName,
             'username': self.UserName,
             'password': self.UPassword,
-            #'port' : 22,          # optional, defaults to 22
-            'secret': self.EnablePassword,     # optional, defaults to ''
-            #'verbose': False,       # optional, defaults to True
+            'secret': self.EnablePassword,
             }
         self.Device_Connection = ConnectHandler(**self.Cisco_Device)
 
@@ -97,21 +98,40 @@ class NetworkDevice(object):
         self.ShowVersion = self.send_command("sh ver")
         self.ShowVersion = self.ShowVersion.splitlines()
 
+    def show_module(self):
+        self.ShowModule = self.send_command("sh module")
+        self.ShowModule = self.ShowModule.splitlines()
+
     def show_running(self):
         self.ShowRunning = self.send_command("sh run")
 
-    def get_vlans(self):
-        self.ShowVlan = self.send_command("sh vlan")
-        self.Vlans = netconfigparser.show_vlan_to_dictionary(self.ShowVlan)
+    def show_int(self):
+        self.ShowInterfaces = self.send_command("show interfaces")
+        self.ShowInterfaces = self.ShowInterfaces.splitlines()
 
-    def get_int_status(self):
+    def show_int_status(self):
         self.ShowInterfacesStatus = self.send_command("sh int status")
         self.ShowInterfacesStatus = self.ShowInterfacesStatus.splitlines()
 
+    def show_int_switchport(self):
+        self.ShowInterfaceSwitchport = self.send_command("sh int switchport")
+        self.ShowInterfaceSwitchport = self.ShowInterfaceSwitchport.splitlines()
+
+    def show_vlan(self):
+        self.ShowVlan = self.send_command("sh vlan")
+        self.ShowVlan = self.ShowVlan.splitlines()
+
+    def populate_vlans(self):
+        self.show_vlan()
+        self.Vlans = netconfigparser.show_vlan_to_dictionary(self.ShowVlan)
+
     def populate_interfaces(self):
-        ListShowInt = netconfigparser.show_interface_to_list(self.send_command("sh int"))
-        ListShowIntSwi = netconfigparser.show_interface_switchport_to_list(self.send_command("sh int switchport"))
-        #shointswi = netconfigparser.show_interface_switchport_to_list(self.ShowInterfaceSwitchport)
+
+        self.show_int()
+        ListShowInt = netconfigparser.show_interface_to_list(self.ShowInterfaces)
+
+        self.show_int_switchport()
+        ListShowIntSwi = netconfigparser.show_interface_switchport_to_list(self.ShowInterfaceSwitchport)
 
         for shintperint in ListShowInt:
             swi_int = Interface()

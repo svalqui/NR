@@ -1,6 +1,6 @@
 # libnetservices library for functions related to Network services
 # Such ssh, Sockets etc
-# Authors: Sergio Valqui
+# Author: Sergio Valqui
 # Created : 2015/08/13
 
 

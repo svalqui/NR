@@ -1,13 +1,17 @@
+# A library to work, process the output fo Network Devices an return a more workable structure.
+#
+# Authors: Sergio Valqui
+# Created : 2015/11/08
+# Modified : 2016/
 
 
 def cut_not_include(some_text, start_text, end_text, maximum_lines_per_section=10000):
     ''' from some_text (output from Network device session), returns a List of List, sections of some_text containing
-    the lines between StartText to EndText, does not include StartText or EndText on the returning sections.
+    the lines between StartText to EndText, DOES NOT include StartText or EndText on the returning sections.
     When the output from the Network Device needs to be trimmed before is processed.
     to remove headers (sh vlan, sh mod, ...)
     '''
     include = False
-    list_text = some_text.splitlines()
     matching_list_text = []
     list_content = []
     counter = 0
@@ -48,12 +52,11 @@ def cut_not_include(some_text, start_text, end_text, maximum_lines_per_section=1
 
 def cut_include_start_end(some_text, start_text, end_text, maximum_lines_per_section=10000):
     ''' from some_text (output from Network device session), returns a List of List, sections of some_text containing
-    the lines between StartText to EndText, including StartText and EndText on the returning sections.
+    the lines between StartText to EndText, INCLUDING StartText and EndText on the returning sections.
     When the output from the Network Device needs to be trimmed before is processed.
     to extract sections (Interfaces)
     '''
     include = False
-    list_text = some_text.splitlines()
     matching_list_text = []
     list_content = []
     counter = 0
@@ -111,7 +114,7 @@ def show_vlan_to_dictionary(show_vlan_output=''):
 
 
 def show_interface_to_list(show_interface = ''):
-    """from show int returns a List of list
+    """from 'show int' returns a List of list
     List: ['sh int contents per interface','...']
     """
     show_interface_list = cut_include_start_end(show_interface,"line protocol", "#")
@@ -164,7 +167,7 @@ def int_name_to_int_short_name(interface_name = ''):
 
 def line_from_text(content='', some_text=[]):
     '''
-    returns the first line containing content
+    returns the first line containing 'content'
     :param line:
     :param some_text:
     :return: line containing text
