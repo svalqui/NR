@@ -15,7 +15,7 @@ def cut_not_include(some_text, start_text, end_text, maximum_lines_per_section=1
     matching_list_text = []
     list_content = []
     counter = 0
-    for line in list_text:
+    for line in some_text:
         if not include:
             if line.find(start_text) >= 0:
                 include = True
@@ -60,7 +60,7 @@ def cut_include_start_end(some_text, start_text, end_text, maximum_lines_per_sec
     matching_list_text = []
     list_content = []
     counter = 0
-    for line in list_text:
+    for line in some_text:
         if not include:
             if line.find(start_text) >= 0:
                 include = True
