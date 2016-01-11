@@ -19,7 +19,10 @@ print('getting sh ver...')
 switch1.show_version()
 print(switch1.ShowVersion)
 
-print('getting vlans...')
+switch1.show_module()
+print(switch1.ShowModule)
+
+print('Populating vlans...')
 switch1.populate_vlans()
 
 print('Populating interfaces...')
