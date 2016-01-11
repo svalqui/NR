@@ -122,10 +122,15 @@ class NetworkDevice(object):
         self.ShowVlan = self.ShowVlan.splitlines()
 
     def populate_vlans(self):
+        """
+        :return: {vlan_id_srt}: [Vlannumber, Vlanname, composite]
+        """
         self.show_vlan()
         self.Vlans = netconfigparser.show_vlan_to_dictionary(self.ShowVlan)
 
     def populate_interfaces(self):
+
+        self.show_int_status()
 
         self.show_int()
         ListShowInt = netconfigparser.show_interface_to_list(self.ShowInterfaces)

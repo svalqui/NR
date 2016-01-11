@@ -7,6 +7,7 @@
 
 import getpass
 import netdef
+import netconfigparser
 
 gs_DeviceName = input('DeviceName: ')
 gs_UserName = getpass.getpass("Username: ")
@@ -17,16 +18,24 @@ switch1 = netdef.NetworkDevice(gs_DeviceName, gs_UserName, gs_password, gs_Enabl
 
 print('getting sh ver...')
 switch1.show_version()
-print(switch1.ShowVersion)
+print(netconfigparser.line_from_text("IOS Software", switch1.ShowVersion))
+print(netconfigparser.line_from_text("uptime is", switch1.ShowVersion))
+print(netconfigparser.line_from_text("bytes of memory", switch1.ShowVersion))
+print(netconfigparser.line_from_text("bytes of physical memory", switch1.ShowVersion))
 
 switch1.show_module()
 print(switch1.ShowModule)
 
 print('Populating vlans...')
 switch1.populate_vlans()
+vlansordered = list(switch1.Vlans.keys())
+vlansordered.sort()
+for vlankey in vlansordered:
+    print(switch1.Vlans[vlankey][0], switch1.Vlans[vlankey][1] )
 
 print('Populating interfaces...')
 switch1.populate_interfaces()
+print(switch1.ShowInterfacesStatus)
 
 
 for i in switch1.ShowInterfacesStatus:
@@ -34,11 +43,10 @@ for i in switch1.ShowInterfacesStatus:
         gs_interface = i.split()[0]
         if gs_interface in switch1.Interfaces.keys():
             gs_formated_interface = gs_interface
-            gs_formated_description = switch1.Interfaces[gs_interface].Interfacedescription
-            gs_formated_status = switch1.Interfaces[gs_interface].LineProtol
+            gs_formated_description = switch1.Interfaces[gs_interface].InterfaceDescription
+            gs_formated_status = switch1.Interfaces[gs_interface].LineProtocol
 
             gs_line_to_print = ''
-
 
             print(gs_interface)
 

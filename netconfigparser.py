@@ -168,7 +168,7 @@ def int_name_to_int_short_name(interface_name = ''):
 def line_from_text(content='', some_text=[]):
     '''
     returns the first line containing 'content'
-    :param line:
+    :param content:
     :param some_text:
     :return: line containing text
     '''
