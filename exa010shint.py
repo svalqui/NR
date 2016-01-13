@@ -1,4 +1,4 @@
-# An example "show interfaces on steroids" to manipulate the output of "sh int status" an
+# An example "show interfaces on steroids" to manipulate the output of "sh int status" and
 # return something a little bit more useful.
 #
 # Authors: Sergio Valqui
@@ -24,19 +24,23 @@ print(netconfigparser.line_from_text("bytes of memory", switch1.ShowVersion))
 print(netconfigparser.line_from_text("bytes of physical memory", switch1.ShowVersion))
 
 switch1.show_module()
-print(switch1.ShowModule)
+if len(switch1.ShowModule) > 0:
+    if switch1.ShowModule[0].find("^") < 0:
+        print(switch1.ShowModule)
 
 print('Populating vlans...')
 switch1.populate_vlans()
 vlansordered = list(switch1.Vlans.keys())
 vlansordered.sort()
 for vlankey in vlansordered:
-    print(switch1.Vlans[vlankey][0], switch1.Vlans[vlankey][1] )
+    line_to_print = netconfigparser.format_string_spacing([(switch1.Vlans[vlankey][0], 'r',7),
+                                                          (switch1.Vlans[vlankey][1], 'l',32),
+                                                          (switch1.Vlans[vlankey][2], 'l',11),])
+    print(line_to_print)
 
 print('Populating interfaces...')
 switch1.populate_interfaces()
 print(switch1.ShowInterfacesStatus)
-
 
 for i in switch1.ShowInterfacesStatus:
     if len(i) > 0:

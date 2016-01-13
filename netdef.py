@@ -44,15 +44,6 @@ class Interface(object):
                 self.LastClearing = line
 
 
-    # def read_configuration(self):
-    #     pass
-    #
-    # def write_configuration(self, commands):
-    #     pass
-    #
-    # def delete_configuration(self):
-    #     pass
-
 
 class NetworkDevice(object):
     """ Class container for all attributes and methods related to a Network Device
@@ -123,7 +114,7 @@ class NetworkDevice(object):
 
     def populate_vlans(self):
         """
-        :return: {vlan_id_srt}: [Vlannumber, Vlanname, composite]
+        :return: {vlan_id_int}: [Vlannumber_str, Vlanname, composite]
         """
         self.show_vlan()
         self.Vlans = netconfigparser.show_vlan_to_dictionary(self.ShowVlan)

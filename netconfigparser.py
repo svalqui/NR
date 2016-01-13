@@ -100,8 +100,8 @@ def cut_include_start_end(some_text, start_text, end_text, maximum_lines_per_sec
 
 def show_vlan_to_dictionary(show_vlan_output=''):
     ''' from a Show Vlan text returns a Dictionary, Index Vlan Number as text
-    Dictionary: [VlanNumber], List
-      List:(VlanNumber, VlanName, Composite(Vlan1))
+    Dictionary: [VlanNumber_int], List
+      List:(VlanNumber_str, VlanName, Composite(Vlan1))
     '''
     show_vlan_dictionary = {}
     show_vlan_list = cut_not_include(show_vlan_output,'VLAN Name','VLAN Type')
@@ -109,7 +109,7 @@ def show_vlan_to_dictionary(show_vlan_output=''):
         if len(line) > 0:
             line_split = line.split()
             if line_split[0].isnumeric():
-                show_vlan_dictionary[line_split[0]] = [line_split[0], line_split[1], "Vlan"+line_split[0]]
+                show_vlan_dictionary[int(line_split[0])] = [line_split[0], line_split[1], "Vlan"+line_split[0]]
     return show_vlan_dictionary
 
 
@@ -178,6 +178,30 @@ def line_from_text(content='', some_text=[]):
             matching_line = line
             break
     return matching_line
+
+def format_string_spacing(list_tuples):
+    """
+    Format spacing of a list of tuples into a one string.
+    :param list_tuples: a list of tuples ( text_to_format, 'l' or 'c' or 'r', text_width )
+    l : left justified
+    c: centered
+    r : right justified
+    :return: a single string
+    """
+    formatted_str = ''
+    for tupleset in list_tuples:
+        formatted_section = ''
+        if tupleset[1] == 'l':
+            formatted_section = tupleset[0].ljust(tupleset[2])
+        elif tupleset[1] == 'c':
+            formatted_section = tupleset[0].center(tupleset[2])
+        elif tupleset[1] == 'r':
+            formatted_section = tupleset[0].rjust(tupleset[2])
+        formatted_str += formatted_section + ' '
+
+    return formatted_str
+
+
 
 
 
