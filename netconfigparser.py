@@ -179,7 +179,8 @@ def line_from_text(content='', some_text=[]):
             break
     return matching_line
 
-def format_string_spacing(list_tuples):
+
+def format_str_space(list_tuples):
     """
     Format spacing of a list of tuples into a one string.
     :param list_tuples: a list of tuples ( text_to_format, 'l' or 'c' or 'r', text_width )

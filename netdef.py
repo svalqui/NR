@@ -27,7 +27,7 @@ class Interface(object):
 
     def load_interface_details(self):
         """
-        fill in class details related/from sh int
+        fills in class details related/from sh int
         :param:
         :return:
         """
@@ -49,7 +49,6 @@ class NetworkDevice(object):
     """ Class container for all attributes and methods related to a Network Device
     """
     def __init__(self, device_name, user_name, user_password, enable_password, device_type='cisco_ios'):
-        """ Initializing containers"""
         self.DeviceName = device_name
         self.UserName = user_name
         self.UPassword = user_password
@@ -65,7 +64,7 @@ class NetworkDevice(object):
         self.ShowVersion = ''
         self.ShowVlan = ''
 
-        """ testing using Netmiko
+        """ testing using Netmiko as seems stable
         """
 
         from netmiko import ConnectHandler
@@ -120,32 +119,33 @@ class NetworkDevice(object):
         self.Vlans = netconfigparser.show_vlan_to_dictionary(self.ShowVlan)
 
     def populate_interfaces(self):
-
+        """
+        runs 'sh int status', 'sh int' and 'sh int switchport'; and fills in NetworkDevice.Interfaces, dictionary;
+        items are Interface classes
+        :return:
+        """
         self.show_int_status()
 
         self.show_int()
-        ListShowInt = netconfigparser.show_interface_to_list(self.ShowInterfaces)
+        listshowint = netconfigparser.show_interface_to_list(self.ShowInterfaces)
 
         self.show_int_switchport()
-        ListShowIntSwi = netconfigparser.show_interface_switchport_to_list(self.ShowInterfaceSwitchport)
+        listshowintswi = netconfigparser.show_interface_switchport_to_list(self.ShowInterfaceSwitchport)
 
-        for shintperint in ListShowInt:
+        for shintperint in listshowint:
             swi_int = Interface()
             swi_int.InterfaceName = shintperint[0].split()[0]
             swi_int.InterfaceShortName = netconfigparser.int_name_to_int_short_name(swi_int.InterfaceName)
             swi_int.ShowInterface = shintperint
             self.Interfaces[swi_int.InterfaceShortName] = swi_int
 
-        for shintswiperint in ListShowIntSwi:
+        for shintswiperint in listshowintswi:
             intshortname = shintswiperint[0].split(":")[1].strip()
             self.Interfaces[intshortname].ShowInterfaceSwitchport = shintswiperint
 
         for intkey in self.Interfaces.keys():
-            #print(dir(self.Interfaces[intkey]))
-            a = self.Interfaces[intkey]
-            #print("--+")
-            #print(dir(a))
-            a.load_interface_details()
+            intholder = self.Interfaces[intkey]
+            intholder.load_interface_details()
 
 
 
