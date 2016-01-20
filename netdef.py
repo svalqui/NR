@@ -27,7 +27,8 @@ class Interface(object):
 
     def load_interface_details(self):
         """
-        fills in class details related/from sh int
+        fills in class details coming from 'sh int'
+        and 'sh int switchport' both should be already filled
         :param:
         :return:
         """
@@ -43,6 +44,13 @@ class Interface(object):
             elif line.find('Last clearing of') >= 0:
                 self.LastClearing = line
 
+        for line in self.ShowInterfaceSwitchport:
+            if line.find('Administrative Mode:') >= 0:
+                self.AdministrativeMode = line[19:]
+            elif line.find('Access Mode VLAN:') >= 0:
+                self.AccessModeVlan = line.split()[3]
+            elif line.find('Voice VLAN:') >= 0:
+                self.VoiceVlan = line.split()[2]
 
 
 class NetworkDevice(object):

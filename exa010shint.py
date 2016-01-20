@@ -24,7 +24,7 @@ print(netconfigparser.line_from_text("uptime is", switch1.ShowVersion))
 print(netconfigparser.line_from_text("bytes of memory", switch1.ShowVersion))
 print(netconfigparser.line_from_text("bytes of physical memory", switch1.ShowVersion))
 
-# This code also works with 6500 switches, if would show a brief of it.
+# This code also works with 6500 switches, if so it would show a brief of it.
 switch1.show_module()
 if len(switch1.ShowModule) > 0:
     if switch1.ShowModule[0].find("^") < 0:
@@ -36,9 +36,9 @@ switch1.populate_vlans()
 vlansordered = list(switch1.Vlans.keys())
 vlansordered.sort()
 for vlankey in vlansordered:
-    line = netconfigparser.format_str_space([(switch1.Vlans[vlankey][0], 'r',7),
-                                                          (switch1.Vlans[vlankey][1], 'l',32),
-                                                          (switch1.Vlans[vlankey][2], 'l',11),])
+    line = netconfigparser.format_str_space([(switch1.Vlans[vlankey][0], 'r', 7),
+                                                          (switch1.Vlans[vlankey][1], 'l', 32),
+                                                          (switch1.Vlans[vlankey][2], 'l', 11)])
     print(line)
 
 # Working with interfaces details, getting details from interfaces and producing a report;
@@ -50,11 +50,19 @@ for line_int_status in switch1.ShowInterfacesStatus:
     if len(line_int_status) > 0:
         interface_short = line_int_status.split()[0]
         if interface_short in switch1.Interfaces.keys():
-            formatted_interface = interface_short
-            formatted_description = switch1.Interfaces[interface_short].InterfaceDescription
-            formatted_status = switch1.Interfaces[interface_short].LineProtocol
+            interface = interface_short
+            description = switch1.Interfaces[interface_short].InterfaceDescription
+            status = switch1.Interfaces[interface_short].LineProtocol.split()[-1]
+            vlan = switch1.Interfaces[interface_short].AccessModeVlan
+            voice = switch1.Interfaces[interface_short].VoiceVlan
 
-            line = netconfigparser.format_str_space([(interface_short, 'r', 12)])
+            line = netconfigparser.format_str_space([(interface, 'r', 12),
+                                                     (description,'l', 25),
+                                                     (status, 'r', 10),
+                                                     (vlan, 'l', 10),
+                                                     (voice, 'l', 10),
+                                                     ])
+
 
             print (line)
 
