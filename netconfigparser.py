@@ -6,8 +6,8 @@
 
 
 def cut_not_include(some_text, start_text, end_text, maximum_lines_per_section=10000):
-    ''' from some_text (output from Network device session), returns a List of List, sections of some_text containing
-    the lines between StartText to EndText, DOES NOT include StartText or EndText on the returning sections.
+    ''' from some_text (output from Network device session), returns a List of List(strings), sections of some_text
+    containing the lines between StartText to EndText, DOES NOT include StartText or EndText on the returning sections.
     When the output from the Network Device needs to be trimmed before is processed.
     to remove headers (sh vlan, sh mod, ...)
     '''
@@ -42,7 +42,7 @@ def cut_not_include(some_text, start_text, end_text, maximum_lines_per_section=1
                 counter = 0
             else:
                 list_content.append(line)
-        counter += 1
+                counter += 1
 
     if len(list_content) > 0:
         matching_list_text.append(list_content)
@@ -51,8 +51,8 @@ def cut_not_include(some_text, start_text, end_text, maximum_lines_per_section=1
 
 
 def cut_include_start_end(some_text, start_text, end_text, maximum_lines_per_section=10000):
-    ''' from some_text (output from Network device session), returns a List of List, sections of some_text containing
-    the lines between StartText to EndText, INCLUDING StartText and EndText on the returning sections.
+    ''' from some_text (output from Network device session), returns a List of List(strings), sections of some_text
+    containing the lines between StartText to EndText, INCLUDING StartText and EndText on the returning sections.
     When the output from the Network Device needs to be trimmed before is processed.
     to extract sections (Interfaces)
     '''
@@ -65,6 +65,7 @@ def cut_include_start_end(some_text, start_text, end_text, maximum_lines_per_sec
             if line.find(start_text) >= 0:
                 include = True
                 list_content.append(line)
+                counter += 1
                 #print('found start: ', line)
                 #print('including line: ', line)
                 #print()
@@ -90,12 +91,55 @@ def cut_include_start_end(some_text, start_text, end_text, maximum_lines_per_sec
                 counter = 0
             else:
                 list_content.append(line)
-        counter += 1
+                counter += 1
     if len(list_content) > 0:
         matching_list_text.append(list_content)
         #print("added LAST list:", list_content)
 
     return matching_list_text
+
+
+def cut_include_from_list(some_text, list_keys, maximum_lines_per_section=10000):
+    """ from some_text (output from Network device session), returns a List of List(strings), sections of some_text;
+    each section starts with an item of the list 'list_keys', exact match; includes the matching item,
+    and all following lines; section ends when the next item is found or when the end of the list is reached.
+
+    :param some_text: output from a session
+    :param list_keys: list of items that define the beginning of the sections we want to extract(cut)
+    :param maximum_lines_per_section: if we want to limit the number of lines per section
+    :return: matching_list: list of sections
+    """
+    matching_list = []
+    list_content = []
+    include = False
+    counter = 0
+
+    for line in some_text:
+        if not include:
+            if line in list_keys:
+                include = True
+                list_content.append(line)
+        else:
+            if line in list_keys:
+                matching_list.append(list_content)
+                counter = 0
+                include = False
+                list_content = []
+            elif counter >= maximum_lines_per_section:
+                include = False
+                counter = 0
+                list_content.append(line)
+                matching_list.append(list_content)
+                list_content = []
+            else:
+                list_content.append(line)
+                counter += 1
+
+    if len(list_content) > 0:
+        matching_list.append(list_content)
+
+    return matching_list
+
 
 
 def show_vlan_to_dictionary(show_vlan_output=''):

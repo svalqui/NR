@@ -14,6 +14,7 @@ class Interface(object):
         self.ShowInterface = []
         self.ShowInterfaceSwitchport = []
         self.ShowRunningConfiguration = []
+        self.ShowInterfaceCapabilities = []
         self.InterfaceDescription = ''
         self.PacketsInput = 0
         self.PacketsOutput = 0
@@ -68,6 +69,7 @@ class NetworkDevice(object):
         self.ShowInterfacesStatus = []
         self.ShowInterfaces = []
         self.ShowInterfaceSwitchport = []
+        self.ShowInterfaceCapabilities = []
         self.VRF = {}
         self.ShowVersion = ''
         self.ShowVlan = ''
@@ -115,6 +117,10 @@ class NetworkDevice(object):
         self.ShowInterfaceSwitchport = self.send_command("sh int switchport")
         self.ShowInterfaceSwitchport = self.ShowInterfaceSwitchport.splitlines()
 
+    def show_int_capabilities(self):
+        self.ShowInterfaceCapabilities = self.send_command("sh int capabilities ")
+        self.ShowInterfaceCapabilities = self.ShowInterfaceCapabilities.splitlines()
+
     def show_vlan(self):
         self.ShowVlan = self.send_command("sh vlan")
         self.ShowVlan = self.ShowVlan.splitlines()
@@ -128,7 +134,8 @@ class NetworkDevice(object):
 
     def populate_interfaces(self):
         """
-        runs 'sh int status', 'sh int' and 'sh int switchport'; and fills in NetworkDevice.Interfaces, dictionary;
+        runs 'sh int status', 'sh int', 'sh int switchport', 'sh int capabilities';
+        and fills in NetworkDevice.Interfaces, dictionary;
         items are Interface classes
         :return:
         """
