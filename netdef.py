@@ -172,9 +172,3 @@ class NetworkDevice(object):
         for intkey in self.Interfaces.keys():
             intholder = self.Interfaces[intkey]
             intholder.load_interface_details()
-
-
-
-
-
-
