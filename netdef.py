@@ -25,6 +25,7 @@ class Interface(object):
         self.AdministrativeMode = ''
         self.AccessModeVlan = ''
         self.VoiceVlan = ''
+        self.Type = ''
 
     def load_interface_details(self):
         """
@@ -53,6 +54,10 @@ class Interface(object):
             elif line.find('Voice VLAN:') >= 0:
                 self.VoiceVlan = line.split()[2]
 
+        for line in self.ShowInterfaceCapabilities:
+            if line.find('Type:') >= 0:
+                self.Type = line.split()[1]
+
 
 class NetworkDevice(object):
     """ Class container for all attributes and methods related to a Network Device
@@ -73,6 +78,7 @@ class NetworkDevice(object):
         self.VRF = {}
         self.ShowVersion = ''
         self.ShowVlan = ''
+        self.ListIntLonNam = []
 
         """ testing using Netmiko as seems stable
         """
@@ -147,16 +153,21 @@ class NetworkDevice(object):
         self.show_int_switchport()
         listshowintswi = netconfigparser.show_interface_switchport_to_list(self.ShowInterfaceSwitchport)
 
+
         for shintperint in listshowint:
             swi_int = Interface()
             swi_int.InterfaceName = shintperint[0].split()[0]
             swi_int.InterfaceShortName = netconfigparser.int_name_to_int_short_name(swi_int.InterfaceName)
             swi_int.ShowInterface = shintperint
             self.Interfaces[swi_int.InterfaceShortName] = swi_int
+            self.ListIntLonNam.append(swi_int.InterfaceName)
 
         for shintswiperint in listshowintswi:
             intshortname = shintswiperint[0].split(":")[1].strip()
             self.Interfaces[intshortname].ShowInterfaceSwitchport = shintswiperint
+
+        self.show_int_capabilities()
+        listshowintcap = netconfigparser.cut_include_from_list(self.ShowInterfaceCapabilities,self.ListIntLonNam)
 
         for intkey in self.Interfaces.keys():
             intholder = self.Interfaces[intkey]
