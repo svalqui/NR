@@ -100,16 +100,17 @@ def cut_include_start_end(some_text, start_text, end_text, maximum_lines_per_sec
 
 
 def cut_include_from_list(some_text, list_keys, maximum_lines_per_section=10000):
-    """ from some_text (output from Network device session), Dictionary, sections of some_text;
+    """ from some_text (output from Network device session), returns a Dictionary, sections of some_text;
     each section starts with an item of the list 'list_keys', exact match; includes the matching item,
     and all following lines; section ends when the next item is found or when the end of the list is reached.
 
     :param some_text: output from a session
     :param list_keys: list of items that define the beginning of the sections we want to extract(cut)
     :param maximum_lines_per_section: if we want to limit the number of lines per section
-    :return: matching_list: list of sections
+    :return: matching_list: dictionary of sections
     """
     matching_list = {}
+    matching_list_idx = ''
     list_content = []
     include = False
     counter = 0
@@ -118,28 +119,30 @@ def cut_include_from_list(some_text, list_keys, maximum_lines_per_section=10000)
         if not include:
             if line in list_keys:
                 include = True
+                matching_list_idx = line
                 list_content.append(line)
+                counter +=1
         else:
             if line in list_keys:
-                matching_list.append(list_content)
-                counter = 0
-                include = False
+                matching_list[matching_list_idx] = list_content
                 list_content = []
+                matching_list_idx = line
+                list_content.append(line)
+                counter = 1
             elif counter >= maximum_lines_per_section:
                 include = False
                 counter = 0
                 list_content.append(line)
-                matching_list.append(list_content)
+                matching_list[matching_list_idx] = list_content
                 list_content = []
             else:
                 list_content.append(line)
                 counter += 1
 
     if len(list_content) > 0:
-        matching_list.append(list_content)
+        matching_list[matching_list_idx] = list_content
 
     return matching_list
-
 
 
 def show_vlan_to_dictionary(show_vlan_output=''):

@@ -167,7 +167,7 @@ class NetworkDevice(object):
             self.Interfaces[intshortname].ShowInterfaceSwitchport = shintswiperint
 
         self.show_int_capabilities()
-        listshowintcap = netconfigparser.cut_include_from_list(self.ShowInterfaceCapabilities,self.ListIntLonNam)
+        dicshowintcap = netconfigparser.cut_include_from_list(self.ShowInterfaceCapabilities,self.ListIntLonNam)
 
         for intkey in self.Interfaces.keys():
             intholder = self.Interfaces[intkey]
