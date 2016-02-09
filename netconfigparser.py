@@ -8,7 +8,7 @@
 def cut_not_include(some_text, start_text, end_text, maximum_lines_per_section=10000):
     ''' from some_text (output from Network device session), returns a List of List(strings), sections of some_text
     containing the lines between StartText to EndText, DOES NOT include StartText or EndText on the returning sections.
-    When the output from the Network Device needs to be trimmed before is processed.
+    Used when the output from the Network Device needs to be trimmed before is processed.
     to remove headers (sh vlan, sh mod, ...)
     '''
     include = False
@@ -53,7 +53,7 @@ def cut_not_include(some_text, start_text, end_text, maximum_lines_per_section=1
 def cut_include_start_end(some_text, start_text, end_text, maximum_lines_per_section=10000):
     ''' from some_text (output from Network device session), returns a List of List(strings), sections of some_text
     containing the lines between StartText to EndText, INCLUDING StartText and EndText on the returning sections.
-    When the output from the Network Device needs to be trimmed before is processed.
+    Used when the output from the Network Device needs to be trimmed before is processed.
     to extract sections (Interfaces)
     '''
     include = False
@@ -100,7 +100,7 @@ def cut_include_start_end(some_text, start_text, end_text, maximum_lines_per_sec
 
 
 def cut_include_from_list(some_text, list_keys, maximum_lines_per_section=10000):
-    """ from some_text (output from Network device session), returns a List of List(strings), sections of some_text;
+    """ from some_text (output from Network device session), Dictionary, sections of some_text;
     each section starts with an item of the list 'list_keys', exact match; includes the matching item,
     and all following lines; section ends when the next item is found or when the end of the list is reached.
 
@@ -109,7 +109,7 @@ def cut_include_from_list(some_text, list_keys, maximum_lines_per_section=10000)
     :param maximum_lines_per_section: if we want to limit the number of lines per section
     :return: matching_list: list of sections
     """
-    matching_list = []
+    matching_list = {}
     list_content = []
     include = False
     counter = 0
@@ -143,7 +143,7 @@ def cut_include_from_list(some_text, list_keys, maximum_lines_per_section=10000)
 
 
 def show_vlan_to_dictionary(show_vlan_output=''):
-    ''' from a Show Vlan text returns a Dictionary, Index Vlan Number as text
+    ''' from a Show Vlan text returns a Dictionary, Indexed by Vlan Number as integer.
     Dictionary: [VlanNumber_int], List
       List:(VlanNumber_str, VlanName, Composite(Vlan1))
     '''
@@ -158,7 +158,7 @@ def show_vlan_to_dictionary(show_vlan_output=''):
 
 
 def show_interface_to_list(show_interface = ''):
-    """from 'show int' returns a List of list
+    """from 'show int' returns a List of list(strings)
     List: ['sh int contents per interface','...']
     """
     show_interface_list = cut_include_start_end(show_interface,"line protocol", "#")
@@ -166,7 +166,7 @@ def show_interface_to_list(show_interface = ''):
 
 
 def show_interface_switchport_to_list(show_interface_switchport = ''):
-    """from show int switchport returns a list of list
+    """from show int switchport returns a list of list(strings)
     List: ['sh int switchport content per interface']
     :param show_interface_switchport:
     :return:
@@ -213,7 +213,7 @@ def line_from_text(content='', some_text=[]):
     '''
     returns the first line containing 'content'
     :param content:
-    :param some_text:
+    :param some_text: list of strings
     :return: line containing text
     '''
     matching_line = ''
@@ -226,7 +226,8 @@ def line_from_text(content='', some_text=[]):
 
 def format_str_space(list_tuples):
     """
-    Format spacing of a list of tuples into a one string.
+    Format spacing and lenght of a string(text).
+    Used to format text before print it
     :param list_tuples: a list of tuples ( text_to_format, 'l' or 'c' or 'r', text_width )
     l : left justified
     c: centered
