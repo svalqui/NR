@@ -2,13 +2,13 @@
 
 A set of python libraries, code examples for Network Engineers to interact with Network Devices; CLI style.
 
-**exa010shint.py** : Example 010, show interfaces on steroids, collects "show interfaces status" and others commands to show an extended version of "show intrefaces status" .
+**exa010shint.py** : Example 010, show interfaces on steroids, collects "show interfaces status" and others related commands to show an extended version of "show interfaces status".
 
-**netdef.py** : Class definitions for Network devices
+**netdef.py** : Class definitions for Network devices.
 
-**netconfigparser.py** : library of text manipulation, to review Network Devices' output, do some processing and return more workable structures
+**netconfigparser.py** : Library of text manipulation, to review Network Devices' output, do some processing and return more workable structures.
 
-libnetservices.py : A library to connect with Network devices, ssh using Paramiko
+libnetservices.py : A library to connect with Network devices, ssh using Paramiko.
 
 test* : test files are concoction pots; will be deleted... eventually.
 
