@@ -1,9 +1,20 @@
 # NetworkTangents
 
-A set of python libraries, code examples for Network Engineers to interact with Network Devices
+A set of python libraries, code examples for Network Engineers to interact with Network Devices; CLI style.
 
-netdef.py : Class definitions for Network devices
+**exa010shint.py** : Example 010, show interfaces on steroids, collects "show interfaces status" and others related commands to show an extended version of "show interfaces status".
 
-netconfigparser.py : library of text manipulation returning more workable structures
+**netdef.py** : Class definitions for Network devices.
 
-libnetservices.py : A library to connect with Network devices, ssh using Paramiko
+**netconfigparser.py** : Library of text manipulation, to review Network Devices' output, do some processing and return more workable structures.
+
+libnetservices.py : A library to connect with Network devices, ssh using Paramiko.
+
+test* : test files are concoction pots; will be deleted... eventually.
+
+####Requirements:
+Python3.3 or above
+
+Paramiko 1.15.2 
+
+Netmiko 0.2.6 

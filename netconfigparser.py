@@ -1,21 +1,25 @@
+# A library to work, process the output fo Network Devices an return a more workable structure.
+#
+# Authors: Sergio Valqui
+# Created : 2015/11/08
+# Modified : 2016/
 
 
 def cut_not_include(some_text, start_text, end_text, maximum_lines_per_section=10000):
-    ''' from some_text (output from Network device session), returns a List of List, sections of some_text containing
-    the lines between StartText to EndText, does not include StartText or EndText on the returning sections.
-    When the output from the Network Device needs to be trimmed before is processed.
+    ''' from some_text (output from Network device session), returns a List of List(strings), sections of some_text
+    containing the lines between StartText to EndText, DOES NOT include StartText or EndText on the returning sections.
+    Used when the output from the Network Device needs to be trimmed before is processed.
     to remove headers (sh vlan, sh mod, ...)
     '''
     include = False
-    list_text = some_text.splitlines()
     matching_list_text = []
     list_content = []
     counter = 0
-    for line in list_text:
+    for line in some_text:
         if not include:
             if line.find(start_text) >= 0:
                 include = True
-                print('found start: ', line)
+                #print('found start: ', line)
             #print('not including line: ', line)
             #print()
         else:
@@ -38,7 +42,7 @@ def cut_not_include(some_text, start_text, end_text, maximum_lines_per_section=1
                 counter = 0
             else:
                 list_content.append(line)
-        counter += 1
+                counter += 1
 
     if len(list_content) > 0:
         matching_list_text.append(list_content)
@@ -47,21 +51,21 @@ def cut_not_include(some_text, start_text, end_text, maximum_lines_per_section=1
 
 
 def cut_include_start_end(some_text, start_text, end_text, maximum_lines_per_section=10000):
-    ''' from some_text (output from Network device session), returns a List of List, sections of some_text containing
-    the lines between StartText to EndText, including StartText and EndText on the returning sections.
-    When the output from the Network Device needs to be trimmed before is processed.
+    ''' from some_text (output from Network device session), returns a List of List(strings), sections of some_text
+    containing the lines between StartText to EndText, INCLUDING StartText and EndText on the returning sections.
+    Used when the output from the Network Device needs to be trimmed before is processed.
     to extract sections (Interfaces)
     '''
     include = False
-    list_text = some_text.splitlines()
     matching_list_text = []
     list_content = []
     counter = 0
-    for line in list_text:
+    for line in some_text:
         if not include:
             if line.find(start_text) >= 0:
                 include = True
                 list_content.append(line)
+                counter += 1
                 #print('found start: ', line)
                 #print('including line: ', line)
                 #print()
@@ -87,7 +91,7 @@ def cut_include_start_end(some_text, start_text, end_text, maximum_lines_per_sec
                 counter = 0
             else:
                 list_content.append(line)
-        counter += 1
+                counter += 1
     if len(list_content) > 0:
         matching_list_text.append(list_content)
         #print("added LAST list:", list_content)
@@ -95,10 +99,56 @@ def cut_include_start_end(some_text, start_text, end_text, maximum_lines_per_sec
     return matching_list_text
 
 
+def cut_include_from_list(some_text, list_keys, maximum_lines_per_section=10000):
+    """ from some_text (output from Network device session), returns a Dictionary, sections of some_text;
+    each section starts with an item of the list 'list_keys', which becomes the index ; includes the matching item,
+    and all following lines; section ends when the next item is found or when the end of the list is reached.
+
+    :param some_text: output from a session
+    :param list_keys: list of items that define the beginning of the sections we want to extract(cut)
+    :param maximum_lines_per_section: if we want to limit the number of lines per section
+    :return: matching_list: dictionary of sections
+    """
+    matching_list = {}
+    matching_list_idx = ''
+    list_content = []
+    include = False
+    counter = 0
+
+    for line in some_text:
+        if not include:
+            if line in list_keys:
+                include = True
+                matching_list_idx = line
+                list_content.append(line)
+                counter +=1
+        else:
+            if line in list_keys:
+                matching_list[matching_list_idx] = list_content
+                list_content = []
+                matching_list_idx = line
+                list_content.append(line)
+                counter = 1
+            elif counter >= maximum_lines_per_section:
+                include = False
+                counter = 0
+                list_content.append(line)
+                matching_list[matching_list_idx] = list_content
+                list_content = []
+            else:
+                list_content.append(line)
+                counter += 1
+
+    if len(list_content) > 0:
+        matching_list[matching_list_idx] = list_content
+
+    return matching_list
+
+
 def show_vlan_to_dictionary(show_vlan_output=''):
-    ''' from a Show Vlan text returns a Dictionary, Index Vlan Number as text
-    Dictionary: [VlanNumber], List
-      List:(VlanNumber, VlanName, Composite(Vlan1))
+    ''' from a Show Vlan text returns a Dictionary, Indexed by Vlan Number as integer.
+    Dictionary: [VlanNumber_int], List
+      List:(VlanNumber_str, VlanName, Composite(Vlan1))
     '''
     show_vlan_dictionary = {}
     show_vlan_list = cut_not_include(show_vlan_output,'VLAN Name','VLAN Type')
@@ -106,12 +156,12 @@ def show_vlan_to_dictionary(show_vlan_output=''):
         if len(line) > 0:
             line_split = line.split()
             if line_split[0].isnumeric():
-                show_vlan_dictionary[line_split[0]] = [line_split[0], line_split[1], "Vlan"+line_split[0]]
+                show_vlan_dictionary[int(line_split[0])] = [line_split[0], line_split[1], "Vlan"+line_split[0]]
     return show_vlan_dictionary
 
 
 def show_interface_to_list(show_interface = ''):
-    """from show int returns a List of list
+    """from 'show int' returns a List of list(strings)
     List: ['sh int contents per interface','...']
     """
     show_interface_list = cut_include_start_end(show_interface,"line protocol", "#")
@@ -119,7 +169,7 @@ def show_interface_to_list(show_interface = ''):
 
 
 def show_interface_switchport_to_list(show_interface_switchport = ''):
-    """from show int switchport returns a list of list
+    """from show int switchport returns a list of list(strings)
     List: ['sh int switchport content per interface']
     :param show_interface_switchport:
     :return:
@@ -164,9 +214,9 @@ def int_name_to_int_short_name(interface_name = ''):
 
 def line_from_text(content='', some_text=[]):
     '''
-    returns the first line containing content
-    :param line:
-    :param some_text:
+    returns the first line containing 'content'
+    :param content:
+    :param some_text: list of strings
     :return: line containing text
     '''
     matching_line = ''
@@ -175,6 +225,32 @@ def line_from_text(content='', some_text=[]):
             matching_line = line
             break
     return matching_line
+
+
+def format_str_space(list_tuples):
+    """
+    Format spacing and lenght of a string(text).
+    Used to format text before print it
+    :param list_tuples: a list of tuples ( text_to_format, 'l' or 'c' or 'r', text_width )
+    l : left justified
+    c: centered
+    r : right justified
+    :return: a single string
+    """
+    formatted_str = ''
+    for tupleset in list_tuples:
+        formatted_section = ''
+        if tupleset[1] == 'l':
+            formatted_section = tupleset[0].ljust(tupleset[2])
+        elif tupleset[1] == 'c':
+            formatted_section = tupleset[0].center(tupleset[2])
+        elif tupleset[1] == 'r':
+            formatted_section = tupleset[0].rjust(tupleset[2])
+        formatted_str += formatted_section + ' '
+
+    return formatted_str
+
+
 
 
 
