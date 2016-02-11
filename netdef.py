@@ -171,5 +171,6 @@ class NetworkDevice(object):
 
         for intkey in self.Interfaces.keys():
             intholder = self.Interfaces[intkey]
-            intholder.ShowInterfacesCapabilities = dicshowintcap[intholder.InterfaceName]
+            if intholder.InterfaceName in dicshowintcap.keys():
+                intholder.ShowInterfacesCapabilities = dicshowintcap[intholder.InterfaceName]
             intholder.load_interface_details()
