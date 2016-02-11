@@ -55,12 +55,14 @@ for line_int_status in switch1.ShowInterfacesStatus:
             status = switch1.Interfaces[interface_short].LineProtocol.split()[-1]
             vlan = switch1.Interfaces[interface_short].AccessModeVlan
             voice = switch1.Interfaces[interface_short].VoiceVlan
+            type = switch1.Interfaces[interface_short].Type
 
             line = netconfigparser.format_str_space([(interface, 'r', 12),
                                                      (description,'l', 25),
                                                      (status, 'r', 10),
                                                      (vlan, 'l', 10),
                                                      (voice, 'l', 10),
+                                                     (type, 'l', 20)
                                                      ])
 
 
