@@ -101,7 +101,7 @@ def cut_include_start_end(some_text, start_text, end_text, maximum_lines_per_sec
 
 def cut_include_from_list(some_text, list_keys, maximum_lines_per_section=10000):
     """ from some_text (output from Network device session), returns a Dictionary, sections of some_text;
-    each section starts with an item of the list 'list_keys', exact match; includes the matching item,
+    each section starts with an item of the list 'list_keys', which becomes the index ; includes the matching item,
     and all following lines; section ends when the next item is found or when the end of the list is reached.
 
     :param some_text: output from a session
