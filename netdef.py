@@ -56,7 +56,7 @@ class Interface(object):
 
         for line in self.ShowInterfaceCapabilities:
             if line.find('Type:') >= 0:
-                self.Type = line.split()[1]
+                self.Type = line.split(":")[1]
 
 
 class NetworkDevice(object):

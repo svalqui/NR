@@ -46,6 +46,8 @@ for vlankey in vlansordered:
 print('Populating interfaces...')
 switch1.populate_interfaces()
 
+print(switch1.ListIntLonNam)
+
 for line_int_status in switch1.ShowInterfacesStatus:
     if len(line_int_status) > 0:
         interface_short = line_int_status.split()[0]
@@ -56,6 +58,10 @@ for line_int_status in switch1.ShowInterfacesStatus:
             vlan = switch1.Interfaces[interface_short].AccessModeVlan
             voice = switch1.Interfaces[interface_short].VoiceVlan
             type = switch1.Interfaces[interface_short].Type
+            print()
+            print(switch1.Interfaces[interface_short].ShowInterfaceCapabilities)
+            print()
+            print()
 
             line = netconfigparser.format_str_space([(interface, 'r', 12),
                                                      (description,'l', 25),
