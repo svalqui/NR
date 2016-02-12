@@ -61,6 +61,7 @@ for line_int_status in switch1.ShowInterfacesStatus:
             print()
             print(switch1.Interfaces[interface_short].ShowInterfaceCapabilities)
             print()
+
             print()
 
             line = netconfigparser.format_str_space([(interface, 'r', 12),

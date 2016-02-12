@@ -169,6 +169,7 @@ class NetworkDevice(object):
         self.show_int_capabilities()
         dicshowintcap = netconfigparser.cut_include_from_list(self.ShowInterfaceCapabilities,self.ListIntLonNam)
 
+
         for intkey in self.Interfaces.keys():
             intholder = self.Interfaces[intkey]
             if intholder.InterfaceName in dicshowintcap.keys():
