@@ -11,10 +11,10 @@ class Interface(object):
     def __init__(self):
         self.InterfaceName = ''
         self.InterfaceShortName = ''
-        self.ShowInterface = []
-        self.ShowInterfaceSwitchport = []
-        self.ShowRunningConfiguration = []
-        self.ShowInterfaceCapabilities = []
+        self.ShowInterfacePerInt = []
+        self.ShowInterfaceSwitchportPerInt = []
+        self.ShowRunningConfigurationPerInt = []
+        self.ShowInterfaceCapabilitiesPerInt = []
         self.InterfaceDescription = ''
         self.PacketsInput = 0
         self.PacketsOutput = 0
@@ -34,7 +34,7 @@ class Interface(object):
         :param:
         :return:
         """
-        for line in self.ShowInterface:
+        for line in self.ShowInterfacePerInt:
             if line.find('Description:') >= 0:
                 self.InterfaceDescription = line.replace('Description:', '')
             elif line.find('packets input') >= 0:
@@ -46,7 +46,7 @@ class Interface(object):
             elif line.find('Last clearing of') >= 0:
                 self.LastClearing = line
 
-        for line in self.ShowInterfaceSwitchport:
+        for line in self.ShowInterfaceSwitchportPerInt:
             if line.find('Administrative Mode:') >= 0:
                 self.AdministrativeMode = line[19:]
             elif line.find('Access Mode VLAN:') >= 0:
@@ -54,9 +54,9 @@ class Interface(object):
             elif line.find('Voice VLAN:') >= 0:
                 self.VoiceVlan = line.split()[2]
 
-        for line in self.ShowInterfaceCapabilities:
+        for line in self.ShowInterfaceCapabilitiesPerInt:
             if line.find('Type:') >= 0:
-                self.Type = line.split(":")[1]
+                self.Type = line.split(":")[1].strip()
 
 
 class NetworkDevice(object):
@@ -158,13 +158,13 @@ class NetworkDevice(object):
             swi_int = Interface()
             swi_int.InterfaceName = shintperint[0].split()[0]
             swi_int.InterfaceShortName = netconfigparser.int_name_to_int_short_name(swi_int.InterfaceName)
-            swi_int.ShowInterface = shintperint
+            swi_int.ShowInterfacePerInt = shintperint
             self.Interfaces[swi_int.InterfaceShortName] = swi_int
             self.ListIntLonNam.append(swi_int.InterfaceName)
 
         for shintswiperint in listshowintswi:
             intshortname = shintswiperint[0].split(":")[1].strip()
-            self.Interfaces[intshortname].ShowInterfaceSwitchport = shintswiperint
+            self.Interfaces[intshortname].ShowInterfaceSwitchportPerInt = shintswiperint
 
         self.show_int_capabilities()
         dicshowintcap = netconfigparser.cut_include_from_list(self.ShowInterfaceCapabilities,self.ListIntLonNam)
@@ -173,5 +173,8 @@ class NetworkDevice(object):
         for intkey in self.Interfaces.keys():
             intholder = self.Interfaces[intkey]
             if intholder.InterfaceName in dicshowintcap.keys():
-                intholder.ShowInterfacesCapabilities = dicshowintcap[intholder.InterfaceName]
+                #print(intholder.InterfaceName, "in keys of Dic")
+                #intholder.ShowInterfacesCapabilities = dicshowintcap[intholder.InterfaceName]
+                self.Interfaces[intkey].ShowInterfaceCapabilitiesPerInt = dicshowintcap[intholder.InterfaceName]
+
             intholder.load_interface_details()
