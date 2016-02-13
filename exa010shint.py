@@ -59,6 +59,7 @@ for line_int_status in switch1.ShowInterfacesStatus:
             packetsIn = switch1.Interfaces[interface_short].PacketsInput
             packetsOut = switch1.Interfaces[interface_short].PacketsOutput
             lastclearing = switch1.Interfaces[interface_short].LastClearing
+            print(interface_short, switch1.Interfaces[interface_short].LastClearing)
             line = netconfigparser.format_str_space([(interface, 'l', 12),
                                                      (description,'l', 25),
                                                      (status, 'r', 10),
@@ -66,9 +67,8 @@ for line_int_status in switch1.ShowInterfacesStatus:
                                                      (voice, 'l', 10),
                                                      (type, 'l', 20),
                                                      (packetsIn,'r', 10),
-                                                     (packetsOut, 'r', 10),
-                                                     (lastclearing, 'r', 10)
-                                                     ]),
+                                                     (packetsOut, 'r', 10)
+                                                     ])
 
             print (line)
 

@@ -16,8 +16,8 @@ class Interface(object):
         self.ShowRunningConfigurationPerInt = []
         self.ShowInterfaceCapabilitiesPerInt = []
         self.InterfaceDescription = ''
-        self.PacketsInput = 0
-        self.PacketsOutput = 0
+        self.PacketsInput = ''
+        self.PacketsOutput = ''
         self.LineProtocol = ''
         self.InputErrors = ''
         self.OutputErrors = ''
