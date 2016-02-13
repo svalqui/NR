@@ -41,6 +41,7 @@ for vlankey in vlansordered:
                                                           (switch1.Vlans[vlankey][2], 'l', 11)])
     print(line)
 
+
 # Working with interfaces details, getting details from interfaces and producing a report;
 # we will use 'show interface status' as a base and add fields to the default output.
 print('Populating interfaces...')
