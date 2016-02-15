@@ -44,7 +44,7 @@ class Interface(object):
             elif line.find('line protocol') >= 0:
                 self.LineProtocol = line
             elif line.find('Last clearing of') >= 0:
-                self.LastClearing = line
+                self.LastClearing = line.split()[-1]
 
         for line in self.ShowInterfaceSwitchportPerInt:
             if line.find('Administrative Mode:') >= 0:
