@@ -28,7 +28,8 @@ print(netconfigparser.line_from_text("bytes of physical memory", switch1.ShowVer
 switch1.show_module()
 if len(switch1.ShowModule) > 0:
     if switch1.ShowModule[0].find("^") < 0:
-        print(switch1.ShowModule)
+        for line in switch1.ShowModule:
+            print(line)
 
 # Working with Vlans, getting them and presenting a brief.
 print('Populating vlans...')
@@ -57,18 +58,18 @@ for line_int_status in switch1.ShowInterfacesStatus:
             vlan = switch1.Interfaces[interface_short].AccessModeVlan
             voice = switch1.Interfaces[interface_short].VoiceVlan
             type = switch1.Interfaces[interface_short].Type
-            packetsIn = switch1.Interfaces[interface_short].PacketsInput
-            packetsOut = switch1.Interfaces[interface_short].PacketsOutput
+            packetsIn = str(switch1.Interfaces[interface_short].PacketsInput)
+            packetsOut = str(switch1.Interfaces[interface_short].PacketsOutput)
             lastclearing = switch1.Interfaces[interface_short].LastClearing
-            print(interface_short, switch1.Interfaces[interface_short].LastClearing)
             line = netconfigparser.format_str_space([(interface, 'l', 12),
-                                                     (description,'l', 25),
+                                                     (description,'l', 15),
                                                      (status, 'r', 10),
-                                                     (vlan, 'l', 10),
-                                                     (voice, 'l', 10),
+                                                     (vlan, 'l', 8),
+                                                     (voice, 'l', 8),
                                                      (type, 'l', 20),
                                                      (packetsIn,'r', 10),
-                                                     (packetsOut, 'r', 10)
+                                                     (packetsOut, 'r', 10),
+                                                     (lastclearing, 'r', 10)
                                                      ])
 
             print (line)

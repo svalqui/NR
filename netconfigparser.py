@@ -241,11 +241,13 @@ def format_str_space(list_tuples):
     for tupleset in list_tuples:
         formatted_section = ''
         if tupleset[1] == 'l':
-            formatted_section = tupleset[0].ljust(tupleset[2])
+            formatted_section = tupleset[0].strip()[:tupleset[2]].ljust(tupleset[2])
         elif tupleset[1] == 'c':
             formatted_section = tupleset[0].center(tupleset[2])
         elif tupleset[1] == 'r':
-            formatted_section = tupleset[0].rjust(tupleset[2])
+            formatted_section = tupleset[0].strip()[:tupleset[2]].rjust(tupleset[2])
+
+
         formatted_str += formatted_section + ' '
 
     return formatted_str
