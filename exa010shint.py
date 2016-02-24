@@ -21,6 +21,7 @@ print("getting sh ver...")
 switch1.show_version()
 print(netconfigparser.line_from_text("IOS Software", switch1.ShowVersion))
 print(netconfigparser.line_from_text("uptime is", switch1.ShowVersion))
+
 print(netconfigparser.line_from_text("bytes of memory", switch1.ShowVersion))
 print(netconfigparser.line_from_text("bytes of physical memory", switch1.ShowVersion))
 

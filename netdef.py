@@ -106,6 +106,7 @@ class NetworkDevice(object):
         self.ShowVersion = self.ShowVersion.splitlines()
         self.SystemUpTime = netconfigparser.line_from_text("uptime is", self.ShowVersion)
 
+
     def show_module(self):
         self.ShowModule = self.send_command("sh module")
         self.ShowModule = self.ShowModule.splitlines()
