@@ -17,7 +17,7 @@ gs_EnablePass = getpass.getpass("Enabled Password: ")
 switch1 = netdef.NetworkDevice(gs_DeviceName, gs_UserName, gs_password, gs_EnablePass)
 
 # Working with the IOS version, getting it and presenting a brief.
-print('getting sh ver...')
+print("getting sh ver...")
 switch1.show_version()
 print(netconfigparser.line_from_text("IOS Software", switch1.ShowVersion))
 print(netconfigparser.line_from_text("uptime is", switch1.ShowVersion))
@@ -32,7 +32,7 @@ if len(switch1.ShowModule) > 0:
             print(line)
 
 # Working with Vlans, getting them and presenting a brief.
-print('Populating vlans...')
+print("Populating vlans...")
 switch1.populate_vlans()
 vlansordered = list(switch1.Vlans.keys())
 vlansordered.sort()
@@ -58,8 +58,12 @@ for line_int_status in switch1.ShowInterfacesStatus:
             vlan = switch1.Interfaces[interface_short].AccessModeVlan
             voice = switch1.Interfaces[interface_short].VoiceVlan
             type = switch1.Interfaces[interface_short].Type
-            packetsIn = str(switch1.Interfaces[interface_short].PacketsInput)
-            packetsOut = str(switch1.Interfaces[interface_short].PacketsOutput)
+            packetsIn = switch1.Interfaces[interface_short].PacketsInput
+            packetsOut = switch1.Interfaces[interface_short].PacketsOutput
+            if packetsIn or packetsOut > 0 :
+                used = 'Yes'
+            else:
+                used = 'No'
             lastclearing = switch1.Interfaces[interface_short].LastClearing
             line = netconfigparser.format_str_space([(interface, 'l', 12),
                                                      (description,'l', 15),
@@ -67,8 +71,7 @@ for line_int_status in switch1.ShowInterfacesStatus:
                                                      (vlan, 'l', 8),
                                                      (voice, 'l', 8),
                                                      (type, 'l', 20),
-                                                     (packetsIn,'r', 10),
-                                                     (packetsOut, 'r', 10),
+                                                     (used,'l', 4),
                                                      (lastclearing, 'r', 10)
                                                      ])
 

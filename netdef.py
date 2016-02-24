@@ -67,7 +67,9 @@ class NetworkDevice(object):
         self.UserName = user_name
         self.UPassword = user_password
         self.EnablePassword = enable_password
+        self.ShowVersion = ''
         self.ShowRunning = ''
+        self.SystemUpTime = ''
         self.Interfaces = {}
         self.Vlans = {}
         self.Modules = []
@@ -76,7 +78,6 @@ class NetworkDevice(object):
         self.ShowInterfaceSwitchport = []
         self.ShowInterfaceCapabilities = []
         self.VRF = {}
-        self.ShowVersion = ''
         self.ShowVlan = ''
         self.ListIntLonNam = []
 
@@ -103,6 +104,7 @@ class NetworkDevice(object):
     def show_version(self):
         self.ShowVersion = self.send_command("sh ver")
         self.ShowVersion = self.ShowVersion.splitlines()
+        self.SystemUpTime = netconfigparser.line_from_text("uptime is", self.ShowVersion)
 
     def show_module(self):
         self.ShowModule = self.send_command("sh module")
