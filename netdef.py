@@ -73,7 +73,7 @@ class NetworkDevice(object):
         self.SystemUpTime = ''
         self.Interfaces = {}
         self.Vlans = {}
-        self.Modules = []
+        self.ShowModule = []
         self.ShowCdpNeiDet = []
         self.ShowMacAddress = []
         self.ShowInterfacesStatus = []
@@ -165,7 +165,6 @@ class NetworkDevice(object):
 
         self.show_int_switchport()
         listshowintswi = netconfigparser.show_interface_switchport_to_list(self.ShowInterfaceSwitchport)
-
 
         for shintperint in listshowint:
             swi_int = Interface()
