@@ -58,7 +58,7 @@ for line_int_status in switch1.ShowInterfacesStatus:
             status = switch1.Interfaces[interface_short].LineProtocol.split()[-1]
             vlan = switch1.Interfaces[interface_short].AccessModeVlan
             voice = switch1.Interfaces[interface_short].VoiceVlan
-            type = switch1.Interfaces[interface_short].Type
+            inttype = switch1.Interfaces[interface_short].Type
             packetsIn = switch1.Interfaces[interface_short].PacketsInput
             packetsOut = switch1.Interfaces[interface_short].PacketsOutput
             if packetsIn or packetsOut > 0 :
@@ -67,14 +67,13 @@ for line_int_status in switch1.ShowInterfacesStatus:
                 used = 'No'
             lastclearing = switch1.Interfaces[interface_short].LastClearing
             line = netconfigparser.format_str_space([(interface, 'l', 12),
-                                                     (description,'l', 15),
+                                                     (description, 'l', 15),
                                                      (status, 'r', 10),
                                                      (vlan, 'l', 8),
                                                      (voice, 'l', 8),
-                                                     (type, 'l', 20),
-                                                     (used,'l', 4),
+                                                     (inttype, 'l', 20),
+                                                     (used, 'l', 4),
                                                      (lastclearing, 'r', 10)
                                                      ])
 
-            print (line)
-
+            print(line)
