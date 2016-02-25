@@ -6,6 +6,7 @@
 
 import netconfigparser
 
+
 class Interface(object):
     """Class container for all attributes and methods related to an Interface, they are part of NetworkDevice"""
     def __init__(self):
@@ -73,6 +74,8 @@ class NetworkDevice(object):
         self.Interfaces = {}
         self.Vlans = {}
         self.Modules = []
+        self.ShowCdpNeiDet = []
+        self.ShowMacAddress = []
         self.ShowInterfacesStatus = []
         self.ShowInterfaces = []
         self.ShowInterfaceSwitchport = []
@@ -106,13 +109,20 @@ class NetworkDevice(object):
         self.ShowVersion = self.ShowVersion.splitlines()
         self.SystemUpTime = netconfigparser.line_from_text("uptime is", self.ShowVersion)
 
-
     def show_module(self):
         self.ShowModule = self.send_command("sh module")
         self.ShowModule = self.ShowModule.splitlines()
 
     def show_running(self):
         self.ShowRunning = self.send_command("sh run")
+
+    def show_cdp_nei_det(self):
+        self.ShowCdpNeiDet = self.send_command("show cdp nei det")
+        self.ShowCdpNeiDet = self.ShowCdpNeiDet.splitlines()
+
+    def show_mac_address(self):
+        self.ShowMacAddress = self.send_command("show mac address")
+        self.ShowMacAddress = self.ShowMacAddress.splitlines()
 
     def show_int(self):
         self.ShowInterfaces = self.send_command("show interfaces")
