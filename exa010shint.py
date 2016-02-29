@@ -20,8 +20,7 @@ switch1 = netdef.NetworkDevice(gs_DeviceName, gs_UserName, gs_password, gs_Enabl
 print("getting sh ver...")
 switch1.show_version()
 print(netconfigparser.line_from_text("IOS Software", switch1.ShowVersion))
-print(netconfigparser.line_from_text("uptime is", switch1.ShowVersion))
-
+print(switch1.SystemUpTime)
 print(netconfigparser.line_from_text("bytes of memory", switch1.ShowVersion))
 print(netconfigparser.line_from_text("bytes of physical memory", switch1.ShowVersion))
 

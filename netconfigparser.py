@@ -253,6 +253,44 @@ def format_str_space(list_tuples):
     return formatted_str
 
 
+def uptime_to_short (sh_ver_uptime_line):
+    """
+    uptime to short converts the uptime line form sh version to short format 1y2m3d
+    :param sh_ver_uptime_line: line from show version containing the uptime
+    :return: uptime short format
+    """
+    fs_year = ''
+    fs_week = ''
+    fs_day = ''
+    fs_hour = ''
+    fs_minu = ''
+    up_time_short = ''
+
+    dumbline = sh_ver_uptime_line.split()
+    for (index, word) in enumerate(dumbline):
+        if (word.find('ear') >= 0) and (index > 0):
+            fs_year = dumbline[index - 1]
+        if (word.find('eek') >= 0) and (index > 0):
+            fs_week = dumbline[index - 1]
+        if (word.find('ay') >= 0) and (index > 0):
+            fs_day = dumbline[index - 1]
+        if (word.find('our') >= 0) and (index > 0):
+            fs_hour = dumbline[index - 1]
+        if (word.find('inut') >= 0) and (index > 0):
+            fs_minu = dumbline[index - 1]
+    if fs_year != '':
+        up_time_short = up_time_short+ fs_year + 'y'
+    if fs_week != '':
+        up_time_short = up_time_short + fs_week + 'w'
+    if fs_day != '':
+        up_time_short = up_time_short + fs_day + 'd'
+    if fs_hour != '':
+        up_time_short = up_time_short + fs_hour + 'h'
+    if fs_minu != '':
+        up_time_short = up_time_short + fs_minu + 'm'
+
+    return up_time_short
+
 
 
 
