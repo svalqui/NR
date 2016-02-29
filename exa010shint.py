@@ -60,7 +60,7 @@ for line_int_status in switch1.ShowInterfacesStatus:
             inttype = switch1.Interfaces[interface_short].Type
             packetsIn = switch1.Interfaces[interface_short].PacketsInput
             packetsOut = switch1.Interfaces[interface_short].PacketsOutput
-            if packetsIn or packetsOut > 0 :
+            if packetsIn or packetsOut > 0:
                 used = 'Yes'
             else:
                 used = 'No'
