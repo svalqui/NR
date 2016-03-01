@@ -48,6 +48,10 @@ for vlankey in vlansordered:
 print('Populating interfaces...')
 switch1.populate_interfaces()
 
+total_number_interfaces = 0
+number_interface_used = 0
+
+
 for line_int_status in switch1.ShowInterfacesStatus:
     if len(line_int_status) > 0:
         interface_short = line_int_status.split()[0]
@@ -58,10 +62,13 @@ for line_int_status in switch1.ShowInterfacesStatus:
             vlan = switch1.Interfaces[interface_short].AccessModeVlan
             voice = switch1.Interfaces[interface_short].VoiceVlan
             inttype = switch1.Interfaces[interface_short].Type
+            if inttype = "10/100/1000BaseT"
+                total_number_interfaces =+ 1
             packetsIn = switch1.Interfaces[interface_short].PacketsInput
             packetsOut = switch1.Interfaces[interface_short].PacketsOutput
             if packetsIn or packetsOut > 0:
                 used = 'Yes'
+                number_interface_used =+ 1
             else:
                 used = 'No'
             lastclearing = switch1.Interfaces[interface_short].LastClearing
@@ -76,3 +83,6 @@ for line_int_status in switch1.ShowInterfacesStatus:
                                                      ])
 
             print(line)
+print ("Total Number of interfaces: ", total_number_interfaces)
+print ("Interfaces 10/100/1000BaseT in use: ", number_interface_used)
+print ("Percentage use: {:2.0%}".format(total_number_interfaces/number_interface_used))
