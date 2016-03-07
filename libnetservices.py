@@ -5,7 +5,7 @@
 
 
 def ssh_pse_exp(obj_ssh_ses, obj_ssh_ses_cha, fs_command, fs_prompt, fb_print):
-    '''
+    """
     ssh pseudo expect; receives data from the session channel till founds prompt or empty
     returns fl_return, list of text (response from device); fs_last_prompt
     ---
@@ -14,7 +14,7 @@ def ssh_pse_exp(obj_ssh_ses, obj_ssh_ses_cha, fs_command, fs_prompt, fb_print):
     fs_command: text to send to the device
     fs_prompt: prompt expected to indicate end of waiting/receiving
     fb_print: would you like it printed on the screen?
-    '''
+    """
     fs_command += '\n'
     obj_ssh_ses_cha.send(fs_command)
     fs_buffer = b""
@@ -32,8 +32,9 @@ def ssh_pse_exp(obj_ssh_ses, obj_ssh_ses_cha, fs_command, fs_prompt, fb_print):
 
     return fl_return, fs_last_prompt
 
+
 def ssh_ses_con(fs_devnam= '', fs_user='', fs_pass= '', fs_enapass='', fb_ena = False):
-    '''
+    """
     ssh session connect, opens a ssh session to a SSH Server device
     returns the ssh Object, Status of the connection, and prompt
     ---
@@ -49,11 +50,9 @@ def ssh_ses_con(fs_devnam= '', fs_user='', fs_pass= '', fs_enapass='', fb_ena = 
     2 = Username/password Failed,
     3 = Enabled Mode Failed,
     5 = Succeed
-    '''
+    """
     import paramiko as P
     import sys
-
-    fn_status = 0
 
     print('\nConnecting to: ', fs_devnam)
 
@@ -81,15 +80,16 @@ def ssh_ses_con(fs_devnam= '', fs_user='', fs_pass= '', fs_enapass='', fb_ena = 
             print('Logged in enabled mode\n')
             print('exit netser lib')
 
-    return (obj_ssh_ses, obj_ssh_ses_cha, fn_status)
+    return obj_ssh_ses, obj_ssh_ses_cha, fn_status
+
 
 def ssh_ses_clo(obj_ssh_ses, obj_ses_cha):
-    '''
+    """
     ssh sesssion close
     :param obj_ssh_ses: ssh session to be close
     :param obj_ses_cha: ssh session channel to be close
     :return: nothing
-    '''
+    """
     obj_ses_cha.close()
     obj_ssh_ses.close()
     return

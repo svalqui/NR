@@ -253,7 +253,7 @@ def format_str_space(list_tuples):
     return formatted_str
 
 
-def uptime_to_short (sh_ver_uptime_line):
+def uptime_to_short(sh_ver_uptime_line):
     """
     uptime to short converts the uptime line form sh version to short format 1y2m3d
     :param sh_ver_uptime_line: line from show version containing the uptime
