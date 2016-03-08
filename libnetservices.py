@@ -19,7 +19,7 @@ def ssh_pse_exp(obj_ssh_ses, obj_ssh_ses_cha, fs_command, fs_prompt, fb_print):
     obj_ssh_ses_cha.send(fs_command)
     fs_buffer = b""
 
-    while not bytes(fs_prompt,'ascii') in fs_buffer:
+    while not bytes(fs_prompt, 'ascii') in fs_buffer:
         # Flush the receive buffer
         fs_buffer += obj_ssh_ses_cha.recv(1024)
 
@@ -57,7 +57,7 @@ def ssh_ses_con(fs_devnam= '', fs_user='', fs_pass= '', fs_enapass='', fb_ena = 
     print('\nConnecting to: ', fs_devnam)
 
     P.common.logging.basicConfig(level=P.common.DEBUG)
-    #P.transport.set_keepalive(1)
+#   P.transport.set_keepalive(1)
     try:
         obj_ssh_ses = P.SSHClient()
         obj_ssh_ses.set_missing_host_key_policy(P.AutoAddPolicy())
@@ -71,12 +71,12 @@ def ssh_ses_con(fs_devnam= '', fs_user='', fs_pass= '', fs_enapass='', fb_ena = 
         obj_ssh_ses_cha = obj_ssh_ses.invoke_shell()
         print('Shell enabled')
 
-        ssh_pse_exp(obj_ssh_ses, obj_ssh_ses_cha,'terminal length 0', '>', True)
-        ssh_pse_exp(obj_ssh_ses, obj_ssh_ses_cha,'sh ver', '>', True)
+        ssh_pse_exp(obj_ssh_ses, obj_ssh_ses_cha, 'terminal length 0', '>', True)
+        ssh_pse_exp(obj_ssh_ses, obj_ssh_ses_cha, 'sh ver', '>', True)
         print('setting session')
         if fb_ena:
-            ssh_pse_exp(obj_ssh_ses, obj_ssh_ses_cha,'enable', 'Password:', True)
-            ssh_pse_exp(obj_ssh_ses, obj_ssh_ses_cha,fs_enapass, '#', True)
+            ssh_pse_exp(obj_ssh_ses, obj_ssh_ses_cha, 'enable', 'Password:', True)
+            ssh_pse_exp(obj_ssh_ses, obj_ssh_ses_cha, fs_enapass, '#', True)
             print('Logged in enabled mode\n')
             print('exit netser lib')
 

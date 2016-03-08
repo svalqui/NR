@@ -6,11 +6,11 @@
 
 
 def cut_not_include(some_text, start_text, end_text, maximum_lines_per_section=10000):
-    ''' from some_text (output from Network device session), returns a List of List(strings), sections of some_text
+    """ from some_text (output from Network device session), returns a List of List(strings), sections of some_text
     containing the lines between StartText to EndText, DOES NOT include StartText or EndText on the returning sections.
     Used when the output from the Network Device needs to be trimmed before is processed.
     to remove headers (sh vlan, sh mod, ...)
-    '''
+    """
     include = False
     matching_list_text = []
     list_content = []
@@ -51,11 +51,11 @@ def cut_not_include(some_text, start_text, end_text, maximum_lines_per_section=1
 
 
 def cut_include_start_end(some_text, start_text, end_text, maximum_lines_per_section=10000):
-    ''' from some_text (output from Network device session), returns a List of List(strings), sections of some_text
+    """ from some_text (output from Network device session), returns a List of List(strings), sections of some_text
     containing the lines between StartText to EndText, INCLUDING StartText and EndText on the returning sections.
     Used when the output from the Network Device needs to be trimmed before is processed.
     to extract sections (Interfaces)
-    '''
+    """
     include = False
     matching_list_text = []
     list_content = []
@@ -121,7 +121,7 @@ def cut_include_from_list(some_text, list_keys, maximum_lines_per_section=10000)
                 include = True
                 matching_list_idx = line
                 list_content.append(line)
-                counter +=1
+                counter += 1
         else:
             if line in list_keys:
                 matching_list[matching_list_idx] = list_content
@@ -146,10 +146,10 @@ def cut_include_from_list(some_text, list_keys, maximum_lines_per_section=10000)
 
 
 def show_vlan_to_dictionary(show_vlan_output=''):
-    ''' from a Show Vlan text returns a Dictionary, Indexed by Vlan Number as integer.
+    """ from a Show Vlan text returns a Dictionary, Indexed by Vlan Number as integer.
     Dictionary: [VlanNumber_int], List
       List:(VlanNumber_str, VlanName, Composite(Vlan1))
-    '''
+    """
     show_vlan_dictionary = {}
     show_vlan_list = cut_not_include(show_vlan_output,'VLAN Name','VLAN Type')
     for line in show_vlan_list[0]:
@@ -178,7 +178,7 @@ def show_interface_switchport_to_list(show_interface_switchport = ''):
     return show_interface_switchport_list
 
 
-def int_name_to_int_short_name(interface_name = ''):
+def int_name_to_int_short_name(interface_name=''):
     """From interface name returns the short name of the interface
     Ethernet
     Port-channel
@@ -194,16 +194,16 @@ def int_name_to_int_short_name(interface_name = ''):
         start_numbering = interface_name.find('Ethernet') + 8
         int_numbering = interface_name[start_numbering:]
         interface_short_name = short_text + int_numbering
-    elif interface_name.find('Port-channel')>= 0:
+    elif interface_name.find('Port-channel') >= 0:
         int_numbering = interface_name[12:]
         interface_short_name = short_text + int_numbering
-    elif interface_name.find('Vlan')>= 0:
+    elif interface_name.find('Vlan') >= 0:
         int_numbering = interface_name[4:]
         interface_short_name = short_text + int_numbering
-    elif interface_name.find('Loopback')>= 0:
+    elif interface_name.find('Loopback') >= 0:
         int_numbering = interface_name[8:]
         interface_short_name = short_text + int_numbering
-    elif interface_name.find('Tunnel')>= 0:
+    elif interface_name.find('Tunnel') >= 0:
         int_numbering = interface_name[6:]
         interface_short_name = short_text + int_numbering
     else:
@@ -213,12 +213,12 @@ def int_name_to_int_short_name(interface_name = ''):
 
 
 def line_from_text(content='', some_text=[]):
-    '''
+    """
     returns the first line containing 'content'
     :param content:
     :param some_text: list of strings
     :return: line containing text
-    '''
+    """
     matching_line = ''
     for line in some_text:
         if line.find(content)>= 0:
@@ -246,7 +246,6 @@ def format_str_space(list_tuples):
             formatted_section = tupleset[0].center(tupleset[2])
         elif tupleset[1] == 'r':
             formatted_section = tupleset[0].strip()[:tupleset[2]].rjust(tupleset[2])
-
 
         formatted_str += formatted_section + ' '
 
@@ -279,7 +278,7 @@ def uptime_to_short(sh_ver_uptime_line):
         if (word.find('inut') >= 0) and (index > 0):
             fs_minu = dumbline[index - 1]
     if fs_year != '':
-        up_time_short = up_time_short+ fs_year + 'y'
+        up_time_short = up_time_short + fs_year + 'y'
     if fs_week != '':
         up_time_short = up_time_short + fs_week + 'w'
     if fs_day != '':
@@ -290,23 +289,4 @@ def uptime_to_short(sh_ver_uptime_line):
         up_time_short = up_time_short + fs_minu + 'm'
 
     return up_time_short
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
