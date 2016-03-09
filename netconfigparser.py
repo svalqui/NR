@@ -142,7 +142,7 @@ def show_vlan_to_dictionary(show_vlan_output=''):
     return show_vlan_dictionary
 
 
-def show_interface_to_list(show_interface = ''):
+def show_interface_to_list(show_interface=''):
     """from 'show int' returns a List of list(strings)
     :param show_interface:
     List: ['sh int contents per interface','...']
