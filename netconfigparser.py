@@ -10,6 +10,10 @@ def cut_not_include(some_text, start_text, end_text, maximum_lines_per_section=1
     containing the lines between StartText to EndText, DOES NOT include StartText or EndText on the returning sections.
     Used when the output from the Network Device needs to be trimmed before is processed.
     to remove headers (sh vlan, sh mod, ...)
+    :param some_text usually the full command output
+    :param start_text the text that defines the begging of a section
+    :param end_text the text that defines the ending of a section
+    :param maximum_lines_per_section if the end_text is not found yet how many lines we want to take in a section
     """
     include = False
     matching_list_text = []
@@ -45,7 +49,11 @@ def cut_include_start_end(some_text, start_text, end_text, maximum_lines_per_sec
     """ from some_text (output from Network device session), returns a List of List(strings), sections of some_text
     containing the lines between StartText to EndText, INCLUDING StartText and EndText on the returning sections.
     Used when the output from the Network Device needs to be trimmed before is processed.
-    to extract sections (Interfaces)
+    to extract sections (e.g. Interfaces)
+    :param some_text usually the full command output
+    :param start_text the text that defines the begging of a section
+    :param end_text the text that defines the ending of a section
+    :param maximum_lines_per_section if the end_text is not found yet how many lines we want to take in a section
     """
     include = False
     matching_list_text = []
