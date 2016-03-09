@@ -19,25 +19,16 @@ def cut_not_include(some_text, start_text, end_text, maximum_lines_per_section=1
         if not include:
             if line.find(start_text) >= 0:
                 include = True
-                #print('found start: ', line)
-            #print('not including line: ', line)
-            #print()
         else:
             if line.find(start_text) >= 0:
                 if len(list_content) > 0:
                     matching_list_text.append(list_content)
-                    #print('found start', line)
-                    #print('added list :',list_content)
-                    #print()
                     list_content = []
                     counter = 0
 
             elif line.find(end_text) >= 0 or counter >= maximum_lines_per_section:
                 include = False
                 matching_list_text.append(list_content)
-                #print('found last', line)
-                #print('added list :',list_content)
-                #print()
                 list_content = []
                 counter = 0
             else:
@@ -66,16 +57,9 @@ def cut_include_start_end(some_text, start_text, end_text, maximum_lines_per_sec
                 include = True
                 list_content.append(line)
                 counter += 1
-                #print('found start: ', line)
-                #print('including line: ', line)
-                #print()
         else:
             if line.find(start_text) >= 0:
                 matching_list_text.append(list_content)
-                #print('found start', line)
-                #print('added list :', list_content)
-                #print('-----1')
-
                 list_content = []
                 counter = 0
                 list_content.append(line)
@@ -84,9 +68,6 @@ def cut_include_start_end(some_text, start_text, end_text, maximum_lines_per_sec
                 include = False
                 list_content.append(line)
                 matching_list_text.append(list_content)
-                #print('found last on section', line)
-                #print('added list :', list_content)
-                #print('-------2')
                 list_content = []
                 counter = 0
             else:
@@ -94,7 +75,6 @@ def cut_include_start_end(some_text, start_text, end_text, maximum_lines_per_sec
                 counter += 1
     if len(list_content) > 0:
         matching_list_text.append(list_content)
-        #print("added LAST list:", list_content)
 
     return matching_list_text
 
@@ -149,9 +129,11 @@ def show_vlan_to_dictionary(show_vlan_output=''):
     """ from a Show Vlan text returns a Dictionary, Indexed by Vlan Number as integer.
     Dictionary: [VlanNumber_int], List
       List:(VlanNumber_str, VlanName, Composite(Vlan1))
+    :param show_vlan_output
+    :return a dictionary of index int(vlan number)
     """
     show_vlan_dictionary = {}
-    show_vlan_list = cut_not_include(show_vlan_output,'VLAN Name','VLAN Type')
+    show_vlan_list = cut_not_include(show_vlan_output, 'VLAN Name', 'VLAN Type')
     for line in show_vlan_list[0]:
         if len(line) > 0:
             line_split = line.split()
@@ -162,13 +144,15 @@ def show_vlan_to_dictionary(show_vlan_output=''):
 
 def show_interface_to_list(show_interface = ''):
     """from 'show int' returns a List of list(strings)
+    :param show_interface:
     List: ['sh int contents per interface','...']
+    :return:
     """
-    show_interface_list = cut_include_start_end(show_interface,"line protocol", "#")
+    show_interface_list = cut_include_start_end(show_interface, "line protocol", "#")
     return show_interface_list
 
 
-def show_interface_switchport_to_list(show_interface_switchport = ''):
+def show_interface_switchport_to_list(show_interface_switchport=''):
     """from show int switchport returns a list of list(strings)
     List: ['sh int switchport content per interface']
     :param show_interface_switchport:
@@ -221,7 +205,7 @@ def line_from_text(content='', some_text=[]):
     """
     matching_line = ''
     for line in some_text:
-        if line.find(content)>= 0:
+        if line.find(content) >= 0:
             matching_line = line
             break
     return matching_line
@@ -289,4 +273,3 @@ def uptime_to_short(sh_ver_uptime_line):
         up_time_short = up_time_short + fs_minu + 'm'
 
     return up_time_short
-

@@ -9,11 +9,11 @@ def ssh_pse_exp(obj_ssh_ses, obj_ssh_ses_cha, fs_command, fs_prompt, fb_print):
     ssh pseudo expect; receives data from the session channel till founds prompt or empty
     returns fl_return, list of text (response from device); fs_last_prompt
     ---
-    obj_ssh_ses: Object session needed to maintain the link with the channel
-    obj_ssh_ses_cha: the chanel with device to send/rcv commands/outputs
-    fs_command: text to send to the device
-    fs_prompt: prompt expected to indicate end of waiting/receiving
-    fb_print: would you like it printed on the screen?
+    :param obj_ssh_ses: Object session needed to maintain the link with the channel
+    :param obj_ssh_ses_cha: the chanel with device to send/rcv commands/outputs
+    :param fs_command: text to send to the device
+    :param fs_prompt: prompt expected to indicate end of waiting/receiving
+    :param fb_print: would you like it printed on the screen?
     """
     fs_command += '\n'
     obj_ssh_ses_cha.send(fs_command)
@@ -33,16 +33,16 @@ def ssh_pse_exp(obj_ssh_ses, obj_ssh_ses_cha, fs_command, fs_prompt, fb_print):
     return fl_return, fs_last_prompt
 
 
-def ssh_ses_con(fs_devnam= '', fs_user='', fs_pass= '', fs_enapass='', fb_ena = False):
+def ssh_ses_con(fs_devnam='', fs_user='', fs_pass='', fs_enapass='', fb_ena=False):
     """
     ssh session connect, opens a ssh session to a SSH Server device
     returns the ssh Object, Status of the connection, and prompt
     ---
-    fs_devnam: device/host name
-    fs_user: username
-    fs_pass: password
-    fs_enapass: enable password
-    fb_enable: go to enable mode or not
+    :param fs_devnam: device/host name
+    :param fs_user: username
+    :param fs_pass: password
+    :param fs_enapass: enable password
+    :param fb_ena: go to enable mode or not
     ---
     Returns : obj_ssh_ses (session)), obj_ses_cha (channel), fn_status
     fn_Status: 0 = session failed,
@@ -61,7 +61,7 @@ def ssh_ses_con(fs_devnam= '', fs_user='', fs_pass= '', fs_enapass='', fb_ena = 
     try:
         obj_ssh_ses = P.SSHClient()
         obj_ssh_ses.set_missing_host_key_policy(P.AutoAddPolicy())
-        obj_ssh_ses.connect(fs_devnam, username = fs_user, password = fs_pass)
+        obj_ssh_ses.connect(fs_devnam, username=fs_user, password=fs_pass)
     except:
         print('Unexpected error:', sys.exc_info()[0])
         raise
