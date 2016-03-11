@@ -2,7 +2,7 @@
 
 A set of python libraries, code examples for Network Engineers to interact with Network Devices; CLI style.
 
-**exa010shint.py** : Example 010, show interfaces on steroids, collects "show interfaces status" and others related commands to show an extended version of "show interfaces status".
+**exa010shint.py** : Example 010, show interfaces on steroids, collects "show interfaces status" and others related commands to show an extended version of "show interfaces status".more can be found here http://littletechnicalities.weebly.com/show-interfaces-status-on-steroids.html
 
 **netdef.py** : Class definitions for Network devices.
 
