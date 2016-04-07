@@ -281,3 +281,37 @@ def uptime_to_short(sh_ver_uptime_line):
         up_time_short = up_time_short + fs_minu + 'm'
 
     return up_time_short
+
+def show_fs_to_space_free(sh_file_systems):
+    """
+    from 'show file systems', returns a list of tuple
+    :param sh_file_systems:
+    :return:
+    """
+    master_line = ''
+    file_systems_free_space = ()
+
+    for line in sh_file_systems:
+        if len(line) > 0 :
+            if line[0] == "*"
+                master_line = line
+
+    line_split = master_line.split()
+    master_fs = line_split[-1]
+    master_fs_size = line_split[2]
+    file_systems_free_space.add([master_fs, master_fs_size],)
+
+    for line in sh_file_systems:
+        if len(line) > 0 :
+            if line[0] != "#" and line.find(master_fs) >= 0:
+                line_split = line.split()
+                other_fs = line_split[-1]
+                other_fs_size = line_split[1]
+                file_systems_free_space.add([other_fs, other_fs_size])
+
+    return file_systems_free_space
+
+
+
+
+

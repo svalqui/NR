@@ -71,6 +71,7 @@ class NetworkDevice(object):
         self.ShowVersion = ''
         self.ShowRunning = ''
         self.SystemUpTime = ''
+        self.Show_File_System = []
         self.Interfaces = {}
         self.Vlans = {}
         self.ShowModule = []
@@ -108,6 +109,10 @@ class NetworkDevice(object):
         self.ShowVersion = self.send_command("sh ver")
         self.ShowVersion = self.ShowVersion.splitlines()
         self.SystemUpTime = netconfigparser.line_from_text("uptime is", self.ShowVersion)
+
+    def show_file_system(self):
+        self.Show_File_System = self.send_command("show file systems")
+        self.Show_File_System = self.Show_File_System.splitlines()
 
     def show_module(self):
         self.ShowModule = self.send_command("sh module")
@@ -187,3 +192,4 @@ class NetworkDevice(object):
                 self.Interfaces[intkey].ShowInterfaceCapabilitiesPerInt = dicshowintcap[intholder.InterfaceName]
 
             intholder.load_interface_details()
+
