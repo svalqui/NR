@@ -293,7 +293,7 @@ def show_fs_to_space_free(sh_file_systems):
 
     for line in sh_file_systems:
         print('line: ', line)
-        if len(line) > 0 :
+        if len(line) > 0:
             if line[0] == "*":
                 master_line = line
                 print('master: ', master_line)
@@ -301,15 +301,15 @@ def show_fs_to_space_free(sh_file_systems):
     line_split = master_line.split()
     master_fs = line_split[-1]
     master_fs_size = line_split[2]
-    file_systems_free_space.add([master_fs, master_fs_size],)
+    file_systems_free_space = ((master_fs, master_fs_size),)
 
     for line in sh_file_systems:
-        if len(line) > 0 :
-            if line[0] != "#" and line.find(master_fs) >= 0:
+        if len(line) > 0:
+            if line[0] != "*" and line.find(master_fs) >= 0:
                 line_split = line.split()
                 other_fs = line_split[-1]
                 other_fs_size = line_split[1]
-                file_systems_free_space.add([other_fs, other_fs_size])
+                file_systems_free_space += ((other_fs, other_fs_size),)
 
     return file_systems_free_space
 

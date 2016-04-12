@@ -24,7 +24,7 @@ print(switch1.SystemUpTime)
 print(netconfigparser.line_from_text("bytes of memory", switch1.ShowVersion))
 print(netconfigparser.line_from_text("bytes of physical memory", switch1.ShowVersion))
 
-# This code also works with 6500 switches, if so it would show a brief of it.
+# for 6x00 platform.
 switch1.show_module()
 if len(switch1.ShowModule) > 0:
     if switch1.ShowModule[0].find("^") < 0:

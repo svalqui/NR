@@ -16,11 +16,12 @@ gs_EnablePass = getpass.getpass("Enabled Password: ")
 
 switch1 = netdef.NetworkDevice(gs_DeviceName, gs_UserName, gs_password, gs_EnablePass)
 
-print("In Enabled Mode? : ",switch1.Device_Connection.check_enable_mode)
+print("In Enabled Mode? : ", switch1.Device_Connection.check_enable_mode())
 
-if switch1.Device_Connection.check_enable_mode:
+if switch1.Device_Connection.check_enable_mode():
     print("In enabled mode")
 else:
+    print("going to enabled mode...")
     switch1.Device_Connection.enable()
 
 # Working with the IOS version, getting it and presenting a brief.
