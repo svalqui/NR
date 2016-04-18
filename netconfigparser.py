@@ -288,7 +288,7 @@ def show_fs_to_space_free(sh_file_systems):
     :param sh_file_systems:
     :return:
     """
-    master_line = ''
+    master_id = ''
     file_systems_free_space = ()
 
     for line in sh_file_systems:
@@ -297,15 +297,15 @@ def show_fs_to_space_free(sh_file_systems):
             if line[0] == "*":
                 master_line = line
                 print('master: ', master_line)
-
-    line_split = master_line.split()
-    master_fs = line_split[-1]
-    master_fs_size = line_split[2]
-    file_systems_free_space = ((master_fs, master_fs_size),)
+                line_split = master_line.split()
+                master_fs = line_split[-1]
+                master_fs_size = line_split[2]
+                file_systems_free_space = ((master_fs, master_fs_size),)
+                master_id = master_fs[:-2]
 
     for line in sh_file_systems:
         if len(line) > 0:
-            if line[0] != "*" and line.find(master_fs) >= 0:
+            if line[0] != "*" and line.find(master_id) >= 0:
                 line_split = line.split()
                 other_fs = line_split[-1]
                 other_fs_size = line_split[1]
