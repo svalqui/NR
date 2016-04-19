@@ -71,7 +71,7 @@ class NetworkDevice(object):
         self.ShowVersion = ''
         self.ShowRunning = ''
         self.SystemUpTime = ''
-        self.Show_File_System = []
+        self.Show_File_System = ''
         self.Interfaces = {}
         self.Vlans = {}
         self.ShowModule = []

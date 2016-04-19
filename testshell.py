@@ -2,7 +2,9 @@
 #
 # Authors: Sergio Valqui
 # Created : 2015/08/13
-# Modified : 2015
+# Modified : 2015/0813
+
+
 
 import getpass
 import netdef
@@ -12,30 +14,14 @@ gs_UserName = getpass.getpass("Username: ")
 gs_password = getpass.getpass()
 gs_EnablePass = getpass.getpass("Enabled Password: ")
 
-switch1 = netdef.NetworkDevice(gs_DeviceName, gs_UserName, gs_password, gs_EnablePass)
+
+switch1 = netdef.NetworkDevice(gs_DeviceName, gs_UserName, gs_password, gs_EnablePass,'cisco_ios')
 
 fs_keyinput = ''
 
 while fs_keyinput != 'q':
     fs_keyinput = input()
     if fs_keyinput != "":
-        output = switch1.send_command(fs_keyinput)
-        print(output)
-        print('--++++++++--')
-        switch1.get_vlans()
-        for i in switch1.Vlans.items():
-            print (i)
-        switch1.populate_interfaces()
-        for i in switch1.Interfaces.keys():
-            #switch1.Interfaces[i].load_inteface_details()
-            print(switch1.Interfaces[i].InterfaceShortName)
-            print(switch1.Interfaces[i].InterfaceName)
-            #print(switch1.Interfaces[i].ShowInterfaceSwitchport)
-            print(switch1.Interfaces[i].PacketsInput)
-            print()
-
-
-    else:
         try:
             exec(fs_keyinput)
         except NameError :
@@ -51,6 +37,6 @@ while fs_keyinput != 'q':
         except ValueError:
             print('ValueError:')
 
-switch1.Disconnect()
+switch1.disconnect()
 print('finished for now')
 
