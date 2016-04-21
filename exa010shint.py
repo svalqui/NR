@@ -19,10 +19,12 @@ switch1 = netdef.NetworkDevice(gs_DeviceName, gs_UserName, gs_password, gs_Enabl
 # Working with the IOS version, getting it and presenting a brief.
 print("getting sh ver...")
 switch1.show_version()
-print(netconfigparser.line_from_text("IOS Software", switch1.ShowVersion))
+
+for line in switch1.ShowVersionBrief:
+    print(line)
+
 print(switch1.SystemUpTime)
-print(netconfigparser.line_from_text("bytes of memory", switch1.ShowVersion))
-print(netconfigparser.line_from_text("bytes of physical memory", switch1.ShowVersion))
+print()
 
 # for 6x00 platform.
 switch1.show_module()

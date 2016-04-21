@@ -248,6 +248,8 @@ def show_ver_brief(show_version):
     for line in show_version:
         if line.find("IOS Software") >= 0:
             brief.append(line)
+        elif line.find("System image file is") >= 0:
+            brief.append(line)
         elif line.find("bytes of memory") >= 0:
             brief.append(line)
         elif line.find("bytes of physical memory") >= 0:
@@ -298,6 +300,7 @@ def show_fs_to_space_free(sh_file_systems, debug=False):
     """
     from 'show file systems', returns a list of tuple
     :param sh_file_systems:
+    :param debug:
     :return:
     """
     master_id = ''
@@ -319,7 +322,9 @@ def show_fs_to_space_free(sh_file_systems, debug=False):
         if len(line) > 0:
             if line[0] != "*" and line.find(master_id) >= 0:
                 line_split = line.split()
-                other_fs = line_split[-1]
+                for string in line_split:
+                    if string.find(master_id)>= 0:
+                        other_fs = string
                 other_fs_size = line_split[1]
                 file_systems_free_space += ((other_fs, other_fs_size),)
 
