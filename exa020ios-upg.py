@@ -29,6 +29,7 @@ for line in switch1.ShowVersionBrief:
 print(switch1.SystemUpTime)
 print()
 print("getting show file systems....")
+
 switch1.show_file_system()
 
 File_System = netconfigparser.show_fs_to_space_free(switch1.Show_File_System)
