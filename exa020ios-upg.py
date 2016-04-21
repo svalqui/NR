@@ -16,17 +16,17 @@ gs_EnablePass = getpass.getpass("Enabled Password: ")
 
 switch1 = netdef.NetworkDevice(gs_DeviceName, gs_UserName, gs_password, gs_EnablePass)
 
-print()rint("\ngoing to enabled mode...")
+print("\ngoing to enabled mode...")
 switch1.Device_Connection.enable()
 
 # Working with the IOS version, getting it and presenting a brief.
 print("getting sh ver...")
 switch1.show_version()
 
-print(netconfigparser.line_from_text("IOS Software", switch1.ShowVersion))
+for line in switch1.ShowVersionBrief:
+    print(line)
+
 print(switch1.SystemUpTime)
-print(netconfigparser.line_from_text("bytes of memory", switch1.ShowVersion))
-print(netconfigparser.line_from_text("bytes of physical memory", switch1.ShowVersion))
 print()
 
 print("getting show file systems....")

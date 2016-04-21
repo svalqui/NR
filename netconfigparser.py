@@ -243,6 +243,18 @@ def format_str_space(list_tuples):
 
     return formatted_str
 
+def show_ver_brief(show_version):
+    brief = []
+    for line in show_version:
+        if line.find("IOS Software") >= 0:
+            brief.append(line)
+        elif line.find("bytes of memory") >= 0:
+            brief.append(line)
+        elif line.find("bytes of physical memory") >= 0:
+            brief.append(line)
+
+    return brief
+
 
 def uptime_to_short(sh_ver_uptime_line):
     """
@@ -282,7 +294,7 @@ def uptime_to_short(sh_ver_uptime_line):
 
     return up_time_short
 
-def show_fs_to_space_free(sh_file_systems):
+def show_fs_to_space_free(sh_file_systems, debug=False):
     """
     from 'show file systems', returns a list of tuple
     :param sh_file_systems:
@@ -292,11 +304,11 @@ def show_fs_to_space_free(sh_file_systems):
     file_systems_free_space = ()
 
     for line in sh_file_systems:
-        print('line: ', line)
         if len(line) > 0:
             if line[0] == "*":
                 master_line = line
-                print('master: ', master_line)
+                if debug == True:
+                    print('master: ', master_line)
                 line_split = master_line.split()
                 master_fs = line_split[-1]
                 master_fs_size = line_split[2]
