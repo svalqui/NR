@@ -34,7 +34,9 @@ switch1.show_file_system()
 
 File_System = netconfigparser.show_fs_to_space_free(switch1.Show_File_System)
 
-for fs in File_System:
-    print(fs)
+print("FileSystem                 Free Space in Bytes")
+for item in File_System:
+    line = netconfigparser.format_str_space([(item[0], 'l', 25), (item[1], 'r', 12)])
+    print(line)
 
 switch1.disconnect()
