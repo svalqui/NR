@@ -255,10 +255,18 @@ def show_ver_brief(show_version):
             brief.append(line)
         elif line.find("bytes of physical memory") >= 0:
             brief.append(line)
-        elif line.find("cisco") >=0 and line.find("processor") >= 0:
+        elif line.find("isco") >=0 and line.find("processor") >= 0:
             brief.append(line)
-
     return brief
+
+
+def show_ver_model(show_version):
+    model = ''
+    for line in show_version:
+        if line.find("isco") >= 0 and line.find("rocessor") >= 0:
+            model = line.split()[1]
+            break
+    return model
 
 
 def uptime_to_short(sh_ver_uptime_line):

@@ -70,6 +70,7 @@ class NetworkDevice(object):
         self.EnablePassword = enable_password
         self.ShowVersion = ''
         self.ShowVersionBrief = ''
+        self.ChassisModel = ''
         self.ShowRunning = ''
         self.SystemUpTime = ''
         self.Show_File_System = ''
@@ -111,6 +112,7 @@ class NetworkDevice(object):
         self.ShowVersion = self.ShowVersion.splitlines()
         self.SystemUpTime = libnetconparser.line_from_text("uptime is", self.ShowVersion)
         self.ShowVersionBrief = libnetconparser.show_ver_brief(self.ShowVersion)
+        self.ChassisModel = libnetconparser.show_ver_model(self.ShowVersionBrief)
 
     def show_file_system(self):
         self.Show_File_System = self.send_command("show file systems")
