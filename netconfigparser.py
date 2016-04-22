@@ -309,6 +309,7 @@ def show_fs_to_space_free(sh_file_systems, debug=False):
     """
     master_id = ''
     file_systems_free_space = ()
+    other_fs = ''
 
     for line in sh_file_systems:
         if len(line) > 0:
@@ -331,7 +332,6 @@ def show_fs_to_space_free(sh_file_systems, debug=False):
                         other_fs = string
                 other_fs_size = line_split[1]
                 file_systems_free_space += ((other_fs, other_fs_size),)
-
 
     return file_systems_free_space
 
