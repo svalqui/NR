@@ -4,7 +4,7 @@
 # Created : 2015/10/08
 # Modified : 2016/
 
-import netconfigparser
+import libnetconparser
 
 
 class Interface(object):
@@ -109,8 +109,8 @@ class NetworkDevice(object):
     def show_version(self):
         self.ShowVersion = self.send_command("sh ver")
         self.ShowVersion = self.ShowVersion.splitlines()
-        self.SystemUpTime = netconfigparser.line_from_text("uptime is", self.ShowVersion)
-        self.ShowVersionBrief = netconfigparser.show_ver_brief(self.ShowVersion)
+        self.SystemUpTime = libnetconparser.line_from_text("uptime is", self.ShowVersion)
+        self.ShowVersionBrief = libnetconparser.show_ver_brief(self.ShowVersion)
 
     def show_file_system(self):
         self.Show_File_System = self.send_command("show file systems")
@@ -156,7 +156,7 @@ class NetworkDevice(object):
         :return: {vlan_id_int}: [Vlannumber_str, Vlanname, composite]
         """
         self.show_vlan()
-        self.Vlans = netconfigparser.show_vlan_to_dictionary(self.ShowVlan)
+        self.Vlans = libnetconparser.show_vlan_to_dictionary(self.ShowVlan)
 
     def populate_interfaces(self):
         """
@@ -168,15 +168,15 @@ class NetworkDevice(object):
         self.show_int_status()
 
         self.show_int()
-        listshowint = netconfigparser.show_interface_to_list(self.ShowInterfaces)
+        listshowint = libnetconparser.show_interface_to_list(self.ShowInterfaces)
 
         self.show_int_switchport()
-        listshowintswi = netconfigparser.show_interface_switchport_to_list(self.ShowInterfaceSwitchport)
+        listshowintswi = libnetconparser.show_interface_switchport_to_list(self.ShowInterfaceSwitchport)
 
         for shintperint in listshowint:
             swi_int = Interface()
             swi_int.InterfaceName = shintperint[0].split()[0]
-            swi_int.InterfaceShortName = netconfigparser.int_name_to_int_short_name(swi_int.InterfaceName)
+            swi_int.InterfaceShortName = libnetconparser.int_name_to_int_short_name(swi_int.InterfaceName)
             swi_int.ShowInterfacePerInt = shintperint
             self.Interfaces[swi_int.InterfaceShortName] = swi_int
             self.ListIntLonNam.append(swi_int.InterfaceName)
@@ -186,7 +186,7 @@ class NetworkDevice(object):
             self.Interfaces[intshortname].ShowInterfaceSwitchportPerInt = shintswiperint
 
         self.show_int_capabilities()
-        dicshowintcap = netconfigparser.cut_include_from_list(self.ShowInterfaceCapabilities, self.ListIntLonNam)
+        dicshowintcap = libnetconparser.cut_include_from_list(self.ShowInterfaceCapabilities, self.ListIntLonNam)
 
         for intkey in self.Interfaces.keys():
             intholder = self.Interfaces[intkey]

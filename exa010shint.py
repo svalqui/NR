@@ -7,7 +7,7 @@
 
 import getpass
 import netdef
-import netconfigparser
+import libnetconparser
 
 gs_DeviceName = input('DeviceName: ')
 gs_UserName = getpass.getpass("Username: ")
@@ -39,9 +39,9 @@ switch1.populate_vlans()
 vlansordered = list(switch1.Vlans.keys())
 vlansordered.sort()
 for vlankey in vlansordered:
-    line = netconfigparser.format_str_space([(switch1.Vlans[vlankey][0], 'r', 7),
-                                                          (switch1.Vlans[vlankey][1], 'l', 32),
-                                                          (switch1.Vlans[vlankey][2], 'l', 11)])
+    line = libnetconparser.format_str_space([(switch1.Vlans[vlankey][0], 'r', 7),
+                                             (switch1.Vlans[vlankey][1], 'l', 32),
+                                             (switch1.Vlans[vlankey][2], 'l', 11)])
     print(line)
 
 
@@ -52,7 +52,7 @@ switch1.populate_interfaces()
 
 number_interfaces = 0
 number_interface_used = 0
-up_time_Short = netconfigparser.uptime_to_short(switch1.SystemUpTime)
+up_time_Short = libnetconparser.uptime_to_short(switch1.SystemUpTime)
 
 for line_int_status in switch1.ShowInterfacesStatus:
     if len(line_int_status) > 0:
@@ -76,7 +76,7 @@ for line_int_status in switch1.ShowInterfacesStatus:
             lastclearing = switch1.Interfaces[interface_short].LastClearing
             if lastclearing == 'never':
                 lastclearing = up_time_Short
-            line = netconfigparser.format_str_space([(interface, 'l', 12),
+            line = libnetconparser.format_str_space([(interface, 'l', 12),
                                                      (description, 'l', 15),
                                                      (status, 'r', 12),
                                                      (vlan, 'r', 8),

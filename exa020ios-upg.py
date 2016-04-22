@@ -7,7 +7,7 @@
 
 import getpass
 import netdef
-import netconfigparser
+import libnetconparser
 
 gs_DeviceName = input('DeviceName: ')
 gs_UserName = getpass.getpass("Username: ")
@@ -32,11 +32,11 @@ print("getting show file systems....")
 
 switch1.show_file_system()
 
-File_System = netconfigparser.show_fs_to_space_free(switch1.Show_File_System)
+File_System = libnetconparser.show_fs_to_space_free(switch1.Show_File_System)
 
 print("FileSystem                 Free Space in Bytes")
 for item in File_System:
-    line = netconfigparser.format_str_space([(item[0], 'l', 25), (item[1], 'r', 12)])
+    line = libnetconparser.format_str_space([(item[0], 'l', 25), (item[1], 'r', 12)])
     print(line)
 
 switch1.disconnect()
