@@ -254,7 +254,7 @@ def show_ver_brief(show_version):
             brief.append(line)
         elif line.find("bytes of physical memory") >= 0:
             brief.append(line)
-        elif line.find("cisco") >=0 and line.find("processor")>= 0:
+        elif line.find("cisco") >=0 and line.find("processor") >= 0:
             brief.append(line)
 
     return brief
