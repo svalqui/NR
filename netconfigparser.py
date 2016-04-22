@@ -243,6 +243,7 @@ def format_str_space(list_tuples):
 
     return formatted_str
 
+
 def show_ver_brief(show_version):
     brief = []
     for line in show_version:
@@ -297,6 +298,7 @@ def uptime_to_short(sh_ver_uptime_line):
         up_time_short = up_time_short + fs_minu + 'm'
 
     return up_time_short
+
 
 def show_fs_to_space_free(sh_file_systems, debug=False):
     """
