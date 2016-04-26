@@ -13,8 +13,5 @@ libnetservices.py : A library to connect with Network devices, ssh using Paramik
 test* : test files are concoction pots; will be deleted... eventually.
 
 ####Requirements:
-Python3.3 or above
-
-Paramiko 1.15.2 
-
-Netmiko 0.2.6 
+Python3.5 or above
+Netmiko 0.4.3
