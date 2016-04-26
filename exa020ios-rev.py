@@ -1,12 +1,20 @@
 # An example series related to IOS upgrades
-# .
+# On this example we will connect to multiple switches to check there is space in the file system
+#  for an IOS upgrade
 #
 # Authors: Sergio Valqui
 # Created : 2016/04/
 # Modified : 2016/
 # file_status = 0  # 0 : Good file exist with data; 1: file empty; 2: file do not exists
+# this script need 2 files in the parent directory as follow:
+# "exa020ios-rev-devices.txt" ; text file containing the devices names, one per line.
+# "exa020ios-rev-model-to-ios.tx"; text file containing:switch model, ios name, ios size(in bytes); separate by comma,
+#  which ios you wish to install on each model as below
+# WS-C3750X-24P, c3750e-ipbasek9-mz.150-2.SE9.bin, 20430848
+# WS-C3750G-48PS, c3750e-ipbasek9-mz.150-2.SE9.bin, 20430848
+#
 # s2t54-advipservicesk9-mz.SPA.151-2.SY7.bin (118655448 bytes)
-# c3750e-ipbasek9-mz.150-2.SE9.bin            (20430848 bytes)
+
 
 import getpass
 import netdef
@@ -16,11 +24,16 @@ import libfilesio
 import sys
 import netmiko
 
-filename = "exa020ios-rev-devices.txt"  # file to be located in the parent directory away from dev
-path_and_file = pathlib.Path.cwd().parent.joinpath(filename)
-files_status, devices_list = libfilesio.l_text_f(path_and_file)
+filename_devices = "exa020ios-rev-devices.txt"  # file to be located in the parent directory away from dev
+current_directory = pathlib.Path.cwd()
+path_and_file_devices = current_directory.parent.joinpath(filename_devices)
+file_status_devices, devices_list = libfilesio.l_text_f(path_and_file_devices)
 
-if files_status == 0:
+filename_model_ios = "exa020ios-rev-model-to-ios.tx"
+path_and_file_model_ios = current_directory.parent.joinpath(filename_model_ios)
+file_status_model_ios, model_ios_list = libfilesio.l_text_f(path_and_file_model_ios)
+
+if file_status_devices == 0 and file_status_model_ios == 0:
     gs_UserName = getpass.getpass("Username: ")
     gs_password = getpass.getpass()
     gs_EnablePass = getpass.getpass("Enabled Password: ")
@@ -59,3 +72,7 @@ if files_status == 0:
                 print(line)
 
             switch1.disconnect()
+else:
+    print("File or files not found on parent directory")
+    print("exa020ios-rev-devices.txt")
+    print("exa020ios-rev-model-to-ios.tx")
