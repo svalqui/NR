@@ -38,11 +38,12 @@ def w_text_file(path_and_filename, content, overwrite=False, create_copy=False, 
         elif create_copy:  # Copy and Write
             import shutil
             import datetime
-            now = datetime.datetime.now().strftime("-%Y%m%d-%H%M%S")
+            date_time_now = datetime.datetime.now().strftime("-%Y%m%d-%H%M%S")
+            new_filename = path_and_filename + date_time_now
 
         else:  # Append
             file_obj = open(path_and_filename, 'a')
-    else:  # Write
+    else:  # Write if path doesn't exists
         file_obj = open(path_and_filename, 'w')
 
     for line in content:
