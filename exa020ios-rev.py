@@ -18,18 +18,17 @@
 import getpass
 import netdef
 import libnetconparser
-import pathlib
+import os
 import libfilesio
 import sys
 import netmiko
 
 filename_devices = "exa020ios-rev-devices.txt"  # file to be located in the parent directory away from dev
-current_directory = pathlib.Path.cwd()
-path_and_file_devices = current_directory.parent.joinpath(filename_devices)
+path_and_file_devices = os.path.join(os.path.abspath(os.pardir), filename_devices)
 file_status_devices, devices_list = libfilesio.l_text_f(path_and_file_devices, True)
 
 filename_model_ios = "exa020ios-rev-model-to-ios.txt"
-path_and_file_model_ios = current_directory.parent.joinpath(filename_model_ios)
+path_and_file_model_ios = os.path.join(os.path.abspath(os.pardir), filename_model_ios)
 file_status_model_ios, model_ios_list = libfilesio.l_text_f(path_and_file_model_ios, True)
 
 # 0 : Good file exist with data; 1: file empty; 2: file do not exists

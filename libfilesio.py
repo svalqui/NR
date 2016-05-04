@@ -9,6 +9,7 @@ def l_text_f(path_and_filename, show_progress=False):
     import pathlib
     status = 0  # 0 : Good file exist with data; 1: file empty; 2: file do not exists
     content = []
+    path_and_filename = pathlib.Path(path_and_filename)  # From string to Path subclass
     if pathlib.Path.exists(path_and_filename):  # if the file exists
         file_obj = pathlib.Path.open(path_and_filename, 'r')
         content_lines = file_obj.readlines()
