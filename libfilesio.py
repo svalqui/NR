@@ -31,7 +31,7 @@ def l_text_f(path_and_filename, show_progress=False):
     return status, content
 
 
-def w_text_file(path_and_filename, content, overwrite=False, create_copy=False, debug=False):
+def w_text_file(path_and_filename, content, overwrite=False, create_copy=True, debug=False):
     import pathlib
     import sys
     file_opened = False
