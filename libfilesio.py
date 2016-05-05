@@ -33,11 +33,14 @@ def l_text_f(path_and_filename, show_progress=False):
 
 def w_text_file(path_and_filename, content, overwrite=False, create_copy=False, debug=False):
     import pathlib
+    import sys
+    file_opened = False
     path_and_filename = pathlib.Path(path_and_filename)  # From string to Path subclass
     if pathlib.Path.is_file(path_and_filename):  # if is a file
-        if overwrite:  # Write
+        if overwrite:  # OverWrite(Creates New)
             file_obj = pathlib.Path.open(path_and_filename, 'w')
-        elif create_copy:  # Copy and Write
+            file_opened = True
+        elif create_copy:  # Copy and OverWrite(Creates New)
             import shutil
             import datetime
             date_time_now = datetime.datetime.now().strftime("-%Y%m%d-%H%M%S")
@@ -48,16 +51,27 @@ def w_text_file(path_and_filename, content, overwrite=False, create_copy=False, 
             new_path_filename = path_and_filename.with_name(new_filename)
             shutil.copy(str(path_and_filename), str(new_path_filename))
             file_obj = pathlib.Path.open(path_and_filename, 'w')
+            file_opened = True
         else:  # Append
             file_obj = pathlib.Path.open(path_and_filename, 'a')
+            file_opened = True
     else:  # Write if is not an existing file
-        file_obj = pathlib.Path.open(path_and_filename, 'w')
+        try:
+            file_obj = pathlib.Path.open(path_and_filename, 'w')
+            file_opened = True
+        except FileNotFoundError:
+            print ("No such file or directory: ", str(path_and_filename))
+        except NotADirectoryError:
+            print ("Not a directory: ", str(path_and_filename))
+        except:
+            print("Error: ", sys.exc_info()[0])
 
-    for line in content:
-        if type(line).__name__ == "str":
-            file_obj.write(line + '\n')
-        else:
-            file_obj.write(str(line) + '\n')
-    file_obj.close()
+    if file_opened:
+        for line in content:
+            if type(line).__name__ == "str":
+                file_obj.write(line + '\n')
+            else:
+                file_obj.write(str(line) + '\n')
+        file_obj.close()
 
     return
