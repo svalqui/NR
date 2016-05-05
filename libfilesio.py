@@ -33,19 +33,25 @@ def l_text_f(path_and_filename, show_progress=False):
 
 def w_text_file(path_and_filename, content, overwrite=False, create_copy=False, debug=False):
     import pathlib
-    if pathlib.Path.exists(path_and_filename):
+    path_and_filename = pathlib.Path(path_and_filename)  # From string to Path subclass
+    if pathlib.Path.is_file(path_and_filename):  # if is a file
         if overwrite:  # Write
-            file_obj = open(path_and_filename, 'w')
+            file_obj = pathlib.Path.open(path_and_filename, 'w')
         elif create_copy:  # Copy and Write
             import shutil
             import datetime
             date_time_now = datetime.datetime.now().strftime("-%Y%m%d-%H%M%S")
-            new_filename = path_and_filename + date_time_now
+            file_suffix = path_and_filename.suffix
+            file_stem = path_and_filename.stem
 
+            new_filename = file_stem + date_time_now + file_suffix
+            new_path_filename = path_and_filename.with_name(new_filename)
+            shutil.copy(str(path_and_filename), str(new_path_filename))
+            file_obj = pathlib.Path.open(path_and_filename, 'w')
         else:  # Append
-            file_obj = open(path_and_filename, 'a')
-    else:  # Write if path doesn't exists
-        file_obj = open(path_and_filename, 'w')
+            file_obj = pathlib.Path.open(path_and_filename, 'a')
+    else:  # Write if is not an existing file
+        file_obj = pathlib.Path.open(path_and_filename, 'w')
 
     for line in content:
         if type(line).__name__ == "str":
