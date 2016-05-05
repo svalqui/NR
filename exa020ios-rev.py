@@ -31,6 +31,8 @@ filename_model_ios = "exa020ios-rev-model-to-ios.txt"
 path_and_file_model_ios = os.path.join(os.path.abspath(os.pardir), filename_model_ios)
 file_status_model_ios, model_ios_list = libfilesio.l_text_f(path_and_file_model_ios, True)
 
+log_list = []
+
 # 0 : Good file exist with data; 1: file empty; 2: file do not exists
 if file_status_devices == 0 and file_status_model_ios == 0:
     gs_UserName = getpass.getpass("Username: ")
@@ -43,18 +45,26 @@ if file_status_devices == 0 and file_status_model_ios == 0:
         model_dic[model_split[0]] = [model_split[0], model_split[1], model_split[2]]
 
     for device_name in devices_list:
-        print("\n\nConnecting to: ", device_name)
+        line_log = "\n\nConnecting to: " + device_name
+        print(line_log)
+        log_list.append(line_log)
         connected = False
         current_ios = ''
         try:
             switch1 = netdef.NetworkDevice(device_name, gs_UserName, gs_password, gs_EnablePass)
             connected = True
         except netmiko.ssh_exception.NetMikoTimeoutException:
-            print("Time out, Could NOT connect to: ", device_name)
+            line_log = "Time out, Could NOT connect to: " + device_name
+            print(line_log)
+            log_list.append(line_log)
         except ValueError:
-            print("Could NOT connect to: ", device_name, " Possible empty/unknown character in file")
+            line_log = "Could NOT connect to: " + device_name + " Possible empty/unknown character in file"
+            print(line_log)
+            log_list.append(line_log)
         except:
-            print("Error: ", sys.exc_info()[0])
+            line_log = "Error: " + sys.exc_info()[0]
+            print(line_log)
+            log_list.append(line_log)
 
         if connected:
             switch1.Device_Connection.enable()
@@ -65,14 +75,23 @@ if file_status_devices == 0 and file_status_model_ios == 0:
 
             for line in switch1.ShowVersionBrief:
                 print(line)
+                log_list.append(line)
                 if line.find("image file is") >= 0:  # Extracting the ios filename
                     current_ios = line.split(":")[1].strip('"')
                     if current_ios.find("/") >= 0:
                         current_ios = current_ios.split("/")[1]
-            print("Current IOS File : ", current_ios)
+            line_log = "Current IOS File : " + current_ios
+            print(line_log)
+            log_list.append(line_log)
 
-            print(switch1.SystemUpTime)
-            print("Device Model: ", switch1.ChassisModel)
+            line_log = switch1.SystemUpTime
+            print(line_log)
+            log_list.append(line_log)
+
+            line_log = "Device Model: " + switch1.ChassisModel
+            print(line_log)
+            log_list.append(line_log)
+
             print("\ngetting show file systems....")
             switch1.show_file_system()
             File_System = libnetconparser.show_fs_to_space_free(switch1.Show_File_System)
@@ -83,9 +102,15 @@ if file_status_devices == 0 and file_status_model_ios == 0:
                 ios_size_to_match = ios_to_review[2].strip()
 
                 if current_ios == ios_to_match:
-                    print("Switch : ", device_name, " Already running : ", ios_to_match)
+                    line_log = "Switch : " + device_name + " Already running : " + ios_to_match
+                    print(line_log)
+                    log_list.append(line_log)
+
                 else:
-                    print("FileSystem       Free Space in Bytes")
+                    line_log = "FileSystem       Free Space in Bytes"
+                    print(line_log)
+                    log_list.append(line_log)
+
                     for item in File_System:  # item[0] file system name, item[1] size in bytes
                         comment = ''
                         if int(item[1]) < int(ios_size_to_match):  # if space in file sys is less than ios size
@@ -93,11 +118,22 @@ if file_status_devices == 0 and file_status_model_ios == 0:
                         line = libnetconparser.format_str_space([(item[0], 'l', 15), (item[1], 'r', 15),
                                                                  (comment, 'r', 80)])
                         print(line)
+                        log_list.append(line)
             else:
-                print(switch1.ChassisModel, " Not found on file exa020ios-rev-model-to-ios.txt")
+
+                line_log = switch1.ChassisModel + " Not found on file exa020ios-rev-model-to-ios.txt"
+                print(line_log)
+                log_list.append(line_log)
 
             switch1.disconnect()
+
+    filename_log = "exa020ios-rev-log.txt"
+    path_and_file_log = os.path.join(os.path.abspath(os.pardir), filename_log)
+    libfilesio.w_text_file(path_and_file_log, log_list)
+
 else:
     print("File or files not found on parent directory")
     print("exa020ios-rev-devices.txt")
     print("exa020ios-rev-model-to-ios.tx")
+
+
