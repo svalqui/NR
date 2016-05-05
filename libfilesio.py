@@ -43,6 +43,7 @@ def w_text_file(path_and_filename, content, overwrite=False, create_copy=False, 
             date_time_now = datetime.datetime.now().strftime("-%Y%m%d-%H%M%S")
             file_suffix = path_and_filename.suffix
             file_stem = path_and_filename.stem
+
             new_filename = file_stem + date_time_now + file_suffix
             new_path_filename = path_and_filename.with_name(new_filename)
             shutil.copy(str(path_and_filename), str(new_path_filename))
