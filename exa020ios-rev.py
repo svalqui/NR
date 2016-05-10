@@ -1,18 +1,22 @@
 # An example series related to IOS upgrades
-# On this example we will connect to multiple switches to check there is space in the file system
+# On this example we will connect to multiple switches to check if there is space in the file system
 #  for an IOS upgrade
 #
 # Authors: Sergio Valqui
 # Created : 2016/04/
 # Modified : 2016/
 # file_status = 0  # 0 : Good file exist with data; 1: file empty; 2: file do not exists
-# this script need 2 files in the parent directory as follow:
+#
+# This script needs 2 files in the parent directory as follow:
 # "exa020ios-rev-devices.txt" ; text file containing the devices names, one per line.
 # "exa020ios-rev-model-to-ios.tx"; text file containing:switch model, ios name, ios size(in bytes); separate by comma,
 #  which ios you wish to install on each model as below
 #    WS-C3750X-24P, c3750e-ipbasek9-mz.150-2.SE9.bin, 20430848
 #
-# s2t54-advipservicesk9-mz.SPA.151-2.SY7.bin (118655448 bytes)
+# This script writes a log file in the parent directory
+# "exa020ios-rev-log.txt"; text file containing most print statements.
+#
+#  Reference : s2t54-advipservicesk9-mz.SPA.151-2.SY7.bin (118655448 bytes)
 
 
 import getpass
