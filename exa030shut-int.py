@@ -67,25 +67,23 @@ if file_status_devices == 0:
             for line in switch1.ShowVersionBrief:
                 print(line)
                 log_list.append(line)
-                if line.find("image file is") >= 0:  # Extracting the ios filename
-                    current_ios = line.split(":")[1].strip('"')
-                    if current_ios.find("/") >= 0:
-                        current_ios = current_ios.split("/")[1]
-            line_log = "Current IOS File : " + current_ios
-            print(line_log)
-            log_list.append(line_log)
 
-            line_log = switch1.SystemUpTime
-            print(line_log)
-            log_list.append(line_log)
+            print('Populating interfaces...')
+            switch1.populate_interfaces()
 
-            line_log = "Device Model: " + switch1.ChassisModel
-            print(line_log)
-            log_list.append(line_log)
+            for line_int_status in switch1.ShowInterfacesStatus:
+                if len(line_int_status) > 0:
+                    is_base_t = False
+                    is_used = False
+                    is_trunk = False
+                    is_admin_down = False
+                    is_old = False
 
-            print("\ngetting show file systems....")
-            switch1.show_file_system()
-            File_System = libnetconparser.show_fs_to_space_free(switch1.Show_File_System)
+                    interface_short = line_int_status.split()[0]
+                    if interface_short in switch1.Interfaces.keys():
+                        interface = interface_short
+
+
 
 
         switch1.disconnect()
