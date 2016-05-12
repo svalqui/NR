@@ -57,6 +57,7 @@ up_time_Short = libnetconparser.uptime_to_short(switch1.SystemUpTime)
 for line_int_status in switch1.ShowInterfacesStatus:
     if len(line_int_status) > 0:
         interface_short = line_int_status.split()[0]
+        base_t = False
         if interface_short in switch1.Interfaces.keys():
             interface = interface_short
             description = switch1.Interfaces[interface_short].InterfaceDescription
@@ -64,13 +65,15 @@ for line_int_status in switch1.ShowInterfacesStatus:
             vlan = switch1.Interfaces[interface_short].AccessModeVlan
             voice = switch1.Interfaces[interface_short].VoiceVlan
             inttype = switch1.Interfaces[interface_short].Type
-            if inttype == "10/100/1000BaseTX":
+            if inttype.find("10/100/1000BaseT") >= 0:
                 number_interfaces += 1
+                base_t = True
             packetsIn = switch1.Interfaces[interface_short].PacketsInput
             packetsOut = switch1.Interfaces[interface_short].PacketsOutput
             if packetsIn or packetsOut > 0:
                 used = 'Yes'
-                number_interface_used += 1
+                if base_t:
+                    number_interface_used += 1
             else:
                 used = 'No'
             lastclearing = switch1.Interfaces[interface_short].LastClearing
@@ -87,8 +90,8 @@ for line_int_status in switch1.ShowInterfacesStatus:
                                                      ])
 
             print(line)
-print("Number of interfaces 10/100/1000BaseTX: ", number_interfaces)
-print("Interfaces 10/100/1000BaseTX in use: ", number_interface_used)
+print("Number of interfaces 10/100/1000BaseT: ", number_interfaces)
+print("Interfaces 10/100/1000BaseT in use: ", number_interface_used)
 print("Percentage use: {:2.0%}".format(number_interface_used/number_interfaces))
 
 switch1.disconnect()
