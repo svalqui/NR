@@ -86,6 +86,7 @@ class NetworkDevice(object):
         self.VRF = {}
         self.ShowVlan = ''
         self.ListIntLonNam = []
+        self.MacAddress = {}
 
         """ testing using Netmiko as seems stable
         """
@@ -196,4 +197,8 @@ class NetworkDevice(object):
                 self.Interfaces[intkey].ShowInterfaceCapabilitiesPerInt = dicshowintcap[intholder.InterfaceName]
 
             intholder.load_interface_details()
+
+    def populate_MacAddress(self):
+        self.show_mac_address()
+        self.MacAddress = libnetconparser.show_mac_to_dictionary(self.ShowMacAddress)
 

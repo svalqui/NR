@@ -1,4 +1,4 @@
-# A library to work, process the output fo Network Devices an return a more workable structure.
+# A library to work, process the output of Network Devices, and return a more workable structure.
 #
 # Authors: Sergio Valqui
 # Created : 2015/11/08
@@ -148,6 +148,26 @@ def show_vlan_to_dictionary(show_vlan_output=''):
             if line_split[0].isnumeric():
                 show_vlan_dictionary[int(line_split[0])] = [line_split[0], line_split[1], "Vlan"+line_split[0]]
     return show_vlan_dictionary
+
+
+def show_mac_to_dictionary(show_mac_address=''):
+    """ from show mac address returns a dictionary, Indexed by Interface(short name) as per poutput.
+    Dictionary: [Int_name_short], List
+      List: (mac_address, Vlan_number_text)
+    :param show_mac_address:
+    :return: a dictionary of index int_name_short
+    """
+    show_mac_dictionary = {}
+    show_mac_list = cut_not_include(show_mac_address, "lan ", "Dummy", 1000000)
+    for line in show_mac_address[0]:
+        if len(line) > 0:
+            line_split = line.split()
+            if len(line_split) > 3:
+                if line_split[0].isnumeric():
+                    show_mac_dictionary[line_split[-1]] = [line_split[1], line_split[0]]
+                elif line_split[0].isnumeric():
+                    show_mac_dictionary[line_split[-1]] = [line_split[2], line_split[1]]
+    return show_mac_dictionary
 
 
 def show_interface_to_list(show_interface=''):
