@@ -198,7 +198,7 @@ class NetworkDevice(object):
 
             intholder.load_interface_details()
 
-    def populate_MacAddress(self):
+    def populate_mac_address(self):
         self.show_mac_address()
         self.MacAddress = libnetconparser.show_mac_to_dictionary(self.ShowMacAddress)
 
