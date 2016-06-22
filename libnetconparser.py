@@ -197,6 +197,7 @@ def int_name_to_int_short_name(interface_name=''):
     Vlan
     Loopback
     Tunnel
+    Group-Async
     :param interface_name:
     :return:
     """
@@ -217,6 +218,9 @@ def int_name_to_int_short_name(interface_name=''):
         interface_short_name = short_text + int_numbering
     elif interface_name.find('Tunnel') >= 0:
         int_numbering = interface_name[6:]
+        interface_short_name = short_text + int_numbering
+    elif interface_name.find('Group-Async') >= 0:
+        int_numbering = interface_name[11:]
         interface_short_name = short_text + int_numbering
     else:
         print('Interface, ', interface_name, ' not predefined on int_name_to_int_short_name')
