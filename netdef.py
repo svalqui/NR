@@ -83,6 +83,7 @@ class NetworkDevice(object):
         self.ShowInterfaces = []
         self.ShowInterfaceSwitchport = []
         self.ShowInterfaceCapabilities = []
+        self.ShowEtherchannelPort = []
         self.VRF = {}
         self.ShowVlan = ''
         self.ListIntLonNam = []
@@ -153,6 +154,10 @@ class NetworkDevice(object):
     def show_vlan(self):
         self.ShowVlan = self.send_command("sh vlan")
         self.ShowVlan = self.ShowVlan.splitlines()
+
+    def show_etherchannelport(self):
+        self.ShowEtherchannelPort = self.send_command("sh etherchannel port")
+        self.ShowEtherchannelPort = self.ShowEtherchannelPort.splitlines()
 
     def populate_vlans(self):
         """
