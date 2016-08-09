@@ -1,4 +1,4 @@
-# libnetrestapi library for interactions with REST api systems
+# libnetscrapr library for interactions with REST api systems
 #  Cisco Prime, Statseeker, Infoblox
 # Author: Sergio Valqui
 # Created : 2015/08/09
