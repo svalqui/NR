@@ -12,7 +12,7 @@ UserName = getpass.getpass("Username: ")
 password = getpass.getpass()
 url = input()
 
-page = requests.get(url, verify=False, auth=HTTPBasicAuth(gs_UserName, gs_password))
+page = requests.get(url, verify=False, auth=HTTPBasicAuth(UserName, password))
 print (page.status_code)
 print ("============")
 print(page.text)
