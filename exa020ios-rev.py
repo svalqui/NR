@@ -1,5 +1,5 @@
 # An example series related to IOS upgrades
-# On this example we will connect to multiple switches to check if there is space in the file system
+# On this examples we will connect to multiple switches to check if there is space in the file system
 #  for an IOS upgrade
 #
 # Authors: Sergio Valqui

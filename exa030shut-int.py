@@ -1,5 +1,5 @@
 # An example of how to shutdown interfaces that have been idle for more than 4 months.
-# On this example we will connect to multiple switches to check if the interfaces have been used in the
+# On this examples we will connect to multiple switches to check if the interfaces have been used in the
 #  last 4 months, by checking the bytes input and output, and the counters date.
 #
 # Authors: Sergio Valqui
