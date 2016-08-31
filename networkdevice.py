@@ -1,6 +1,8 @@
 # Network Device source class
-
-import interface
+# Authors: Sergio Valqui
+# Created : 2016/08/31
+# Modified : 2016/
+# to contain all common properties and functions for all network devices
 
 
 class NetworkDevice(object):

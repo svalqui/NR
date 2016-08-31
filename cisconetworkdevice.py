@@ -8,7 +8,7 @@ from lib import netconparser
 import ciscointerface
 
 
-class NetworkDevice(object):
+class CiscoNetworkDevice(object):
     """ Class container for all attributes and methods related to a Network Device
     """
     def __init__(self, device_name, user_name, user_password, enable_password, device_type='cisco_ios'):
@@ -130,7 +130,7 @@ class NetworkDevice(object):
         listshowintswi = netconparser.show_interface_switchport_to_list(self.ShowInterfaceSwitchport)
 
         for shintperint in listshowint:
-            swi_int = Interface()
+            swi_int = ciscointerface.CiscoInterface()
             swi_int.InterfaceName = shintperint[0].split()[0]
             swi_int.InterfaceShortName = netconparser.int_name_to_int_short_name(swi_int.InterfaceName)
             swi_int.ShowInterfacePerInt = shintperint

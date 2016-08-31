@@ -1,4 +1,9 @@
 # Interface Source Class
+# Authors: Sergio Valqui
+# Created : 2016/08/31
+# Modified : 2016/
+# to contain all common properties and functions for all interfaces
+
 
 class Interface(object):
     """Class container for all attributes and methods related to an Interface, they are part of NetworkDevice"""

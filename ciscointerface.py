@@ -7,7 +7,7 @@
 import interface
 
 
-class Interface(interface):
+class CiscoInterface(interface):
     """Class container for all attributes and methods related to an Interface, they are part of NetworkDevice"""
     def __init__(self):
         self.ShowInterfacePerInt = []
@@ -50,5 +50,3 @@ class Interface(interface):
         for line in self.ShowInterfaceCapabilitiesPerInt:
             if line.find('Type:') >= 0:
                 self.Type = line.split(":")[1].strip()
-
-
