@@ -6,7 +6,7 @@
 # Modified : 2016/08/17
 
 import netdef
-import libnetconparser
+from lib import netconparser
 
 
 def show_int_steroids(device_name, user_name, password, enable_pass):
@@ -36,9 +36,9 @@ def show_int_steroids(device_name, user_name, password, enable_pass):
     vlansordered = list(switch1.Vlans.keys())
     vlansordered.sort()
     for vlankey in vlansordered:
-        line = libnetconparser.format_str_space([(switch1.Vlans[vlankey][0], 'r', 7),
-                                                 (switch1.Vlans[vlankey][1], 'l', 32),
-                                                 (switch1.Vlans[vlankey][2], 'l', 11)])
+        line = netconparser.format_str_space([(switch1.Vlans[vlankey][0], 'r', 7),
+                                              (switch1.Vlans[vlankey][1], 'l', 32),
+                                              (switch1.Vlans[vlankey][2], 'l', 11)])
         print(line)
 
     # Working with interfaces details, getting details from interfaces and producing a report;
@@ -48,7 +48,7 @@ def show_int_steroids(device_name, user_name, password, enable_pass):
 
     number_interfaces = 0
     number_interface_used = 0
-    up_time_Short = libnetconparser.uptime_to_short(switch1.SystemUpTime)
+    up_time_Short = netconparser.uptime_to_short(switch1.SystemUpTime)
 
     for line_int_status in switch1.ShowInterfacesStatus:
         if len(line_int_status) > 0:
@@ -75,15 +75,15 @@ def show_int_steroids(device_name, user_name, password, enable_pass):
                 lastclearing = switch1.Interfaces[interface_short].LastClearing
                 if lastclearing == 'never':
                     lastclearing = up_time_Short
-                line = libnetconparser.format_str_space([(interface, 'l', 12),
-                                                         (description, 'l', 15),
-                                                         (status, 'r', 12),
-                                                         (vlan, 'r', 8),
-                                                         (voice, 'l', 8),
-                                                         (inttype, 'l', 20),
-                                                         (used, 'l', 4),
-                                                         (lastclearing, 'r', 15)
-                                                         ])
+                line = netconparser.format_str_space([(interface, 'l', 12),
+                                                      (description, 'l', 15),
+                                                      (status, 'r', 12),
+                                                      (vlan, 'r', 8),
+                                                      (voice, 'l', 8),
+                                                      (inttype, 'l', 20),
+                                                      (used, 'l', 4),
+                                                      (lastclearing, 'r', 15)
+                                                      ])
 
                 print(line)
     print("Number of interfaces 10/100/1000BaseT: ", number_interfaces)

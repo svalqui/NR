@@ -15,16 +15,17 @@
 #
 
 import getpass
-import netdef
-import libnetconparser
 import os
-import libfilesio
 import sys
+
 import netmiko
+
+import netdef
+from lib import filesio
 
 filename_devices = "exa030shut-int-devices.txt"  # file to be located in the parent directory away from dev
 path_and_file_devices = os.path.join(os.path.abspath(os.pardir), filename_devices)
-file_status_devices, devices_list = libfilesio.l_text_f(path_and_file_devices, True)
+file_status_devices, devices_list = filesio.l_text_f(path_and_file_devices, True)
 
 log_list = []
 
@@ -90,7 +91,7 @@ if file_status_devices == 0:
 
     filename_log = "exa030shut-int-log.txt"
     path_and_file_log = os.path.join(os.path.abspath(os.pardir), filename_log)
-    libfilesio.w_text_file(path_and_file_log, log_list)
+    filesio.w_text_file(path_and_file_log, log_list)
 
 else:
     print("File or files not found on parent directory")

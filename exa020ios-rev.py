@@ -20,20 +20,21 @@
 
 
 import getpass
-import netdef
-import libnetconparser
 import os
-import libfilesio
 import sys
+
 import netmiko
+
+import netdef
+from lib import filesio, netconparser
 
 filename_devices = "exa020ios-rev-devices.txt"  # file to be located in the parent directory away from dev
 path_and_file_devices = os.path.join(os.path.abspath(os.pardir), filename_devices)
-file_status_devices, devices_list = libfilesio.l_text_f(path_and_file_devices, True)
+file_status_devices, devices_list = filesio.l_text_f(path_and_file_devices, True)
 
 filename_model_ios = "exa020ios-rev-model-to-ios.txt"
 path_and_file_model_ios = os.path.join(os.path.abspath(os.pardir), filename_model_ios)
-file_status_model_ios, model_ios_list = libfilesio.l_text_f(path_and_file_model_ios, True)
+file_status_model_ios, model_ios_list = filesio.l_text_f(path_and_file_model_ios, True)
 
 log_list = []
 
@@ -98,7 +99,7 @@ if file_status_devices == 0 and file_status_model_ios == 0:
 
             print("\ngetting show file systems....")
             switch1.show_file_system()
-            File_System = libnetconparser.show_fs_to_space_free(switch1.Show_File_System)
+            File_System = netconparser.show_fs_to_space_free(switch1.Show_File_System)
 
             if switch1.ChassisModel in model_dic:
                 ios_to_review = model_dic[switch1.ChassisModel]
@@ -119,8 +120,8 @@ if file_status_devices == 0 and file_status_model_ios == 0:
                         comment = ''
                         if int(item[1]) < int(ios_size_to_match):  # if space in file sys is less than ios size
                             comment = "NO SPACE FOR: " + ios_to_match + " needs : " + ios_size_to_match + "  *****"
-                        line = libnetconparser.format_str_space([(item[0], 'l', 15), (item[1], 'r', 15),
-                                                                 (comment, 'r', 80)])
+                        line = netconparser.format_str_space([(item[0], 'l', 15), (item[1], 'r', 15),
+                                                              (comment, 'r', 80)])
                         print(line)
                         log_list.append(line)
             else:
@@ -133,7 +134,7 @@ if file_status_devices == 0 and file_status_model_ios == 0:
 
     filename_log = "exa020ios-rev-log.txt"
     path_and_file_log = os.path.join(os.path.abspath(os.pardir), filename_log)
-    libfilesio.w_text_file(path_and_file_log, log_list)
+    filesio.w_text_file(path_and_file_log, log_list)
 
 else:
     print("File or files not found on parent directory")
