@@ -8,7 +8,7 @@
 import netdef
 from lib import netconparser
 
-
+#
 # def show_int_steroids(device_name, user_name, password, enable_pass):
 #
 #     switch1 = netdef.NetworkDevice(device_name, user_name, password, enable_pass)

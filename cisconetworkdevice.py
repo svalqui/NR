@@ -192,7 +192,7 @@ class CiscoNetworkDevice(object):
 
         number_interfaces = 0
         number_interface_used = 0
-        up_time_Short = netconparser.uptime_to_short(self.SystemUpTime)
+        up_time_short = netconparser.uptime_to_short(self.SystemUpTime)
 
         for line_int_status in self.ShowInterfacesStatus:
             if len(line_int_status) > 0:
@@ -218,7 +218,7 @@ class CiscoNetworkDevice(object):
                         used = 'No'
                     lastclearing = self.Interfaces[interface_short].LastClearing
                     if lastclearing == 'never':
-                        lastclearing = up_time_Short
+                        lastclearing = up_time_short
                     line = netconparser.format_str_space([(interface, 'l', 12),
                                                           (description, 'l', 15),
                                                           (status, 'r', 12),
