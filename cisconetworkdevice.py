@@ -155,3 +155,83 @@ class CiscoNetworkDevice(object):
         self.show_mac_address()
         self.MacAddress = netconparser.show_mac_to_dictionary(self.ShowMacAddress)
 
+    def show_int_steroids(self):
+
+        # Working with the IOS version, getting it and presenting a brief.
+        print("getting sh ver...")
+        self.show_version()
+
+        for line in self.ShowVersionBrief:
+            print(line)
+
+        print(self.SystemUpTime)
+        print()
+
+        # for 6x00 platform.
+        self.show_module()
+        if len(self.ShowModule) > 0:
+            if self.ShowModule[0].find("^") < 0:
+                for line in self.ShowModule:
+                    print(line)
+
+        # Working with Vlans, getting them and presenting a brief.
+        print("Populating vlans...")
+        self.populate_vlans()
+        vlansordered = list(self.Vlans.keys())
+        vlansordered.sort()
+        for vlankey in vlansordered:
+            line = netconparser.format_str_space([(self.Vlans[vlankey][0], 'r', 7),
+                                                  (self.Vlans[vlankey][1], 'l', 32),
+                                                  (self.Vlans[vlankey][2], 'l', 11)])
+            print(line)
+
+        # Working with interfaces details, getting details from interfaces and producing a report;
+        # we will use 'show interface status' as a base and add fields to the default output.
+        print('Populating interfaces...')
+        self.populate_interfaces()
+
+        number_interfaces = 0
+        number_interface_used = 0
+        up_time_Short = netconparser.uptime_to_short(self.SystemUpTime)
+
+        for line_int_status in self.ShowInterfacesStatus:
+            if len(line_int_status) > 0:
+                interface_short = line_int_status.split()[0]
+                base_t = False
+                if interface_short in self.Interfaces.keys():
+                    interface = interface_short
+                    description = self.Interfaces[interface_short].InterfaceDescription
+                    status = self.Interfaces[interface_short].LineProtocol.split()[-1]
+                    vlan = self.Interfaces[interface_short].AccessModeVlan
+                    voice = self.Interfaces[interface_short].VoiceVlan
+                    inttype = self.Interfaces[interface_short].Type
+                    if inttype.find("10/100/1000BaseT") >= 0:
+                        number_interfaces += 1
+                        base_t = True
+                    packetsIn = self.Interfaces[interface_short].PacketsInput
+                    packetsOut = self.Interfaces[interface_short].PacketsOutput
+                    if packetsIn or packetsOut > 0:
+                        used = 'Yes'
+                        if base_t:
+                            number_interface_used += 1
+                    else:
+                        used = 'No'
+                    lastclearing = self.Interfaces[interface_short].LastClearing
+                    if lastclearing == 'never':
+                        lastclearing = up_time_Short
+                    line = netconparser.format_str_space([(interface, 'l', 12),
+                                                          (description, 'l', 15),
+                                                          (status, 'r', 12),
+                                                          (vlan, 'r', 8),
+                                                          (voice, 'l', 8),
+                                                          (inttype, 'l', 20),
+                                                          (used, 'l', 4),
+                                                          (lastclearing, 'r', 15)
+                                                          ])
+
+                    print(line)
+        print("Number of interfaces 10/100/1000BaseT: ", number_interfaces)
+        print("Interfaces 10/100/1000BaseT in use: ", number_interface_used)
+        print("Percentage use: {:2.0%}".format(number_interface_used/number_interfaces))
+
+        return
