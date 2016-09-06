@@ -6,12 +6,13 @@
 # Modified : 2016/08
 
 import getpass
-import netfun
+import cisconetworkdevice
 
-gs_DeviceName = input('DeviceName: ')
-gs_UserName = getpass.getpass("Username: ")
-gs_password = getpass.getpass()
-gs_EnablePass = getpass.getpass("Enabled Password: ")
+device_name = input('DeviceName: ')
+user_name = getpass.getpass("Username: ")
+password = getpass.getpass()
+enable_pass = getpass.getpass("Enabled Password: ")
 
-netfun.show_int_steroids(gs_DeviceName, gs_UserName, gs_password, gs_EnablePass)
+network_device_1 = cisconetworkdevice.CiscoNetworkDevice(device_name, user_name,password, enable_pass)
+network_device_1.show_int_steroids()
 

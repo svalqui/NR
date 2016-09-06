@@ -7,7 +7,7 @@
 import interface
 
 
-class CiscoInterface(interface):
+class CiscoInterface(interface.Interface):
     """Class container for all attributes and methods related to an Interface, they are part of NetworkDevice"""
     def __init__(self):
         self.ShowInterfacePerInt = []
