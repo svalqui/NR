@@ -233,5 +233,6 @@ class CiscoNetworkDevice(object):
         print("Number of interfaces 10/100/1000BaseT: ", number_interfaces)
         print("Interfaces 10/100/1000BaseT in use: ", number_interface_used)
         print("Percentage use: {:2.0%}".format(number_interface_used/number_interfaces))
+        print("\n\n\n")
 
         return
