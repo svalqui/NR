@@ -20,7 +20,7 @@ header_html = {"content-type": "text/html"}
 
 print("============")
 url = "https://pi.unimelb.net.au/webacs/api/v2/data/AccessPointDetails.json?.full=true&reachabilityStatus=UNREACHABLE" # check working
-#url = "https://pi.unimelb.net.au/webacs/api/v2/data/ClientSessions.json?.full=true&userName=svalqui" # Check Working
+#url = "https://pi.unimelb.net.au/webacs/api/v2/data/ClientSessions.json?.full=true&userName=" # Check Working
 #url = "https://pi.unimelb.net.au/webacs/api/v1/data/Alarms.json?.condition.value=AP_DISASSOCIATED&severity=MAJOR"
 #url = "https://pi.unimelb.net.au/webacs/api/v1/data/Alarms.json?.full=true"
 #url = "https://pi.unimelb.net.au/webacs/api/v2/data/AccessPointDetails/587698.json?.full=true" # Checked working
