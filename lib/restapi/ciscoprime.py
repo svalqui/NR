@@ -19,20 +19,61 @@ header_xml = {"content-type": "text/xml"}
 header_html = {"content-type": "text/html"}
 
 print("============")
-url = "https://pi.unimelb.net.au/webacs/api/v2/data/AccessPointDetails.json?.full=true&reachabilityStatus=UNREACHABLE" # check working
+
 #url = "https://pi.unimelb.net.au/webacs/api/v2/data/ClientSessions.json?.full=true&userName=" # Check Working
 #url = "https://pi.unimelb.net.au/webacs/api/v1/data/Alarms.json?.condition.value=AP_DISASSOCIATED&severity=MAJOR"
 #url = "https://pi.unimelb.net.au/webacs/api/v1/data/Alarms.json?.full=true"
 #url = "https://pi.unimelb.net.au/webacs/api/v2/data/AccessPointDetails/587698.json?.full=true" # Checked working
 
-r = requests.get(url, headers=header_json, verify=False, auth=HTTPBasicAuth(gs_UserName, gs_password))
-print("Querying :  ", url)
-print(r.status_code)
-##print ("============")
-##print(r.text)
-print("#########################")
-decoded = json.loads(r.text)
-print("decoded TYPE   ", type(decoded))
+# Pagination = 99
+
+
+def read_page(url, first_result=0, max_result=99, show=False):
+    url = url + "&.maxResults=" + str(max_result) + "&.firstResult=" + str(first_result)
+    page = requests.get(url, headers=header_json, verify=False, auth=HTTPBasicAuth(gs_UserName, gs_password))
+    if show:
+        print("Querying :  ", url)
+        print(page.status_code)
+    page_decoded = json.loads(page.text)
+    return page_decoded
+
+
+def read_unreachable():
+    url = "https://pi.unimelb.net.au/webacs/api/v2/data/AccessPointDetails.json?.full=true&reachabilityStatus=UNREACHABLE"
+    list_content = []
+    reach_end = False
+    page_counter = 0
+    first_result = 0
+    max_result = 99
+    while not reach_end:
+        current_page = read_page(url, first_result, max_result)
+        list_content.append(current_page)
+        page_counter = current_page['queryResponse']["@count"]
+        if current_page['queryResponse']["@last"] < page_counter:
+            first_result += 100
+    return list_content
+
+
+print(decoded['queryResponse']["@first"])
+print(decoded)
+
+
+
+for i in decoded['queryResponse']['entity']:
+    #print(i['@url'])
+    print(i['accessPointDetailsDTO']['name'])
+    if 'cdpNeighbors' in i['accessPointDetailsDTO'] :
+        #print(type(i['accessPointDetailsDTO']['cdpNeighbors']))
+        for j in i['accessPointDetailsDTO']['cdpNeighbors'].keys():
+            #print(type(i['accessPointDetailsDTO']['cdpNeighbors'][j]))
+            for l in i['accessPointDetailsDTO']['cdpNeighbors'][j]:
+                print(l["neighborName"])
+                print(l["neighborPort"])
+                print()
+    else:
+        print("No cdpNeighbors on this device\n")
+
+
 
 
 def navigate(json_loads, indent=""):
@@ -102,23 +143,4 @@ def navigate(json_loads, indent=""):
 
     return
 
-#navigate(decoded)
-print("\n\n\n ########## \n\n\n")
 
-print(decoded['queryResponse']["@first"])
-print(decoded['queryResponse']["@last"])
-print(decoded['queryResponse']["@count"])
-
-for i in decoded['queryResponse']['entity']:
-    print(i['@url'])
-    print(i['accessPointDetailsDTO']['name'])
-    if 'cdpNeighbors' in i['accessPointDetailsDTO'] :
-        #print(type(i['accessPointDetailsDTO']['cdpNeighbors']))
-        for j in i['accessPointDetailsDTO']['cdpNeighbors'].keys():
-            #print(type(i['accessPointDetailsDTO']['cdpNeighbors'][j]))
-            for l in i['accessPointDetailsDTO']['cdpNeighbors'][j]:
-                print(l["neighborName"])
-                print(l["neighborPort"])
-                print()
-    else:
-        print("No cdpNeighbors on this device\n")
