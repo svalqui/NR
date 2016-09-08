@@ -155,6 +155,15 @@ class CiscoNetworkDevice(object):
         self.show_mac_address()
         self.MacAddress = netconparser.show_mac_to_dictionary(self.ShowMacAddress)
 
+    def reset_interfaces(self, list_interfaces):
+        self.send_command("conf t")
+        for item in list_interfaces:
+            self.send_command("int "+item)
+            self.send_command("shutdown")
+            self.send_command("no shutdown")
+        self.send_command("exit")
+        return
+
     def show_int_steroids(self):
 
         # Working with the IOS version, getting it and presenting a brief.
