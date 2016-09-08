@@ -10,7 +10,7 @@ import getpass
 import requests
 import json
 from requests.auth import HTTPBasicAuth
-import lib.restapi
+from lib import restapi
 
 gs_UserName = getpass.getpass("Username: ")
 gs_password = getpass.getpass()
@@ -25,11 +25,10 @@ print("============")
 #url = "https://pi.unimelb.net.au/webacs/api/v1/data/Alarms.json?.condition.value=AP_DISASSOCIATED&severity=MAJOR"
 #url = "https://pi.unimelb.net.au/webacs/api/v1/data/Alarms.json?.full=true"
 #url = "https://pi.unimelb.net.au/webacs/api/v2/data/AccessPointDetails/587698.json?.full=true" # Checked working
-
 # Pagination = 99
 
 
-class CiscoPrimeApi(lib.restapi.RestApi):
+class CiscoPrimeApi():
     def __init__(self):
         self.user_name = ""
         self.password = ""
