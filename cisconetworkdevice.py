@@ -6,6 +6,7 @@
 
 from lib import netconparser
 import ciscointerface
+import time
 
 
 class CiscoNetworkDevice(object):
@@ -36,6 +37,7 @@ class CiscoNetworkDevice(object):
         self.ShowVlan = ''
         self.ListIntLonNam = []
         self.MacAddress = {}
+        self.list_commands = []a =
 
         """ testing using Netmiko as seems stable
         """
@@ -51,6 +53,7 @@ class CiscoNetworkDevice(object):
         self.Device_Connection = ConnectHandler(**self.Cisco_Device)
 
     def send_command(self, command):
+        time.sleep(0.1)
         output = self.Device_Connection.send_command(command)
         return output
 
@@ -155,13 +158,22 @@ class CiscoNetworkDevice(object):
         self.show_mac_address()
         self.MacAddress = netconparser.show_mac_to_dictionary(self.ShowMacAddress)
 
-    def reset_interfaces(self, list_interfaces):
+    def configure_interfaces(self, list_interfaces, list_commands):
         self.send_command("conf t")
-        for item in list_interfaces:
-            self.send_command("int "+item)
-            self.send_command("shutdown")
-            self.send_command("no shutdown")
+        for interface in list_interfaces:
+            self.send_command("int "+interface)
+            for command in list_commands:
+                self.send_command(command)
         self.send_command("exit")
+
+    def reset_interfaces(self, list_interfaces):
+        self.list_commands = ["shutdown", "no shutdown"]
+        self.configure_interfaces(list_interfaces,self.list_commands)
+        return
+
+    def disable_interfaces(self, list_interfaces):
+        self.list_commands = ["shutdown"]
+        self.configure_interfaces(list_interfaces,self.list_commands)
         return
 
     def show_int_steroids(self):
