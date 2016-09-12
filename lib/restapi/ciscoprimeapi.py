@@ -36,6 +36,7 @@ class CiscoPrimeApi(lib.restapimaster.RestApi):
 
     def read_page(self, url, show=True):
         self.url_paged = url
+        print("read_page reading ...",self.url_paged)
         self.page = requests.get(self.url_paged, headers=self.header_json, verify=False,
                                  auth=HTTPBasicAuth(self.user_name, self.password))
         time.sleep(0.1)
@@ -46,18 +47,24 @@ class CiscoPrimeApi(lib.restapimaster.RestApi):
         return self.page_decoded
 
     def page_handler(self, url):
-        self.urlbase = url
+        # self.urlbase = url
         self.reach_page_end = False
         self.page_counter = 0
         self.first_result = 0
         self.max_result = 99
+        self.url_paged = ""
+        self.list_content = []
+        print("page_handler initiating while")
         while not self.reach_page_end:
-            self.url_paged = self.urlbase + "&.maxResults=" + str(self.max_result) + \
+            self.url_paged = url + "&.maxResults=" + str(self.max_result) + \
                              "&.firstResult=" + str(self.first_result)
+            print("requesting current page  ", self.url_paged)
             self.current_page = self.read_page(self.url_paged)
             # self.navigate_json(self.current_page)
             self.list_content.append(self.current_page)
             self.page_counter = self.current_page['queryResponse']["@count"]
+            print("page_counter", self.page_counter)
+            print("returning last...", self.current_page['queryResponse']["@last"])
             if self.current_page['queryResponse']["@last"] > self.page_counter:
                 self.first_result += 100
             else:
@@ -67,14 +74,17 @@ class CiscoPrimeApi(lib.restapimaster.RestApi):
     def read_unreachable(self):
         self.urlbase = "https://pi.unimelb.net.au/webacs/api/v2/data/AccessPointDetails.json?.full=true" \
                    "&reachabilityStatus=UNREACHABLE"
+        print("calling page_handler")
         self.list_content = self.page_handler(self.urlbase)
-        return self.list_content
+        return
     # print(decoded['queryResponse']["@first"])
 
     def list_unreachable_neighbor(self):
         list_ap_neighbor = []
         list_ap_no_neighbor = []
-        self.list_content = self.read_unreachable()
+        print("calling read_unreachable...")
+        self.read_unreachable()
+        print("received unreachable")
         for item in self.list_content:
             for entity in item['queryResponse']['entity']:
                 # print(i['@url'])

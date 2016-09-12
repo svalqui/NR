@@ -37,7 +37,7 @@ class CiscoNetworkDevice(object):
         self.ShowVlan = ''
         self.ListIntLonNam = []
         self.MacAddress = {}
-        self.list_commands = []a =
+        self.list_commands = []
 
         """ testing using Netmiko as seems stable
         """
@@ -166,9 +166,11 @@ class CiscoNetworkDevice(object):
                 self.send_command(command)
         self.send_command("exit")
 
-    def reset_interfaces(self, list_interfaces):
+    def reset_interfaces(self, list_interfaces, debug=True):
         self.list_commands = ["shutdown", "no shutdown"]
         self.configure_interfaces(list_interfaces,self.list_commands)
+        if debug:
+            print("reset :", list_interfaces)
         return
 
     def disable_interfaces(self, list_interfaces):
