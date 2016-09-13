@@ -34,7 +34,7 @@ class CiscoPrimeApi(lib.restapimaster.RestApi):
         self.max_result = 0
         self.current_page = ""
 
-    def read_page(self, url, debug=True):
+    def read_page(self, url, debug=False):
         self.url_paged = url
         if debug:
             print("read_page reading ...",self.url_paged)
@@ -47,7 +47,7 @@ class CiscoPrimeApi(lib.restapimaster.RestApi):
         self.page_decoded = json.loads(self.page.text)
         return self.page_decoded
 
-    def page_handler(self, url, debug=True):
+    def page_handler(self, url, debug=False):
         self.reach_page_end = False
         self.page_counter = 0
         self.first_result = 0
@@ -74,7 +74,7 @@ class CiscoPrimeApi(lib.restapimaster.RestApi):
                 self.reach_page_end = True
         return self.list_content
 
-    def read_unreachable(self, debug=True):
+    def read_unreachable(self, debug=False):
         self.urlbase = "https://pi.unimelb.net.au/webacs/api/v2/data/AccessPointDetails.json?.full=true" \
                    "&reachabilityStatus=UNREACHABLE"
         if debug:
@@ -82,7 +82,7 @@ class CiscoPrimeApi(lib.restapimaster.RestApi):
         self.list_content = self.page_handler(self.urlbase)
         return
 
-    def list_unreachable_neighbors(self, debug=True):
+    def list_unreachable_neighbors(self, debug=False):
         list_ap_neighbor = []
         list_ap_no_neighbor = []
         if debug:
