@@ -34,73 +34,81 @@ class CiscoPrimeApi(lib.restapimaster.RestApi):
         self.max_result = 0
         self.current_page = ""
 
-    def read_page(self, url, show=True):
+    def read_page(self, url, debug=True):
         self.url_paged = url
-        print("read_page reading ...",self.url_paged)
+        if debug:
+            print("read_page reading ...",self.url_paged)
         self.page = requests.get(self.url_paged, headers=self.header_json, verify=False,
                                  auth=HTTPBasicAuth(self.user_name, self.password))
         time.sleep(0.1)
-        if show:
+        if debug:
             print("Querying :  ", self.url_paged)
             print(self.page.status_code)
         self.page_decoded = json.loads(self.page.text)
         return self.page_decoded
 
-    def page_handler(self, url):
-        # self.urlbase = url
+    def page_handler(self, url, debug=True):
         self.reach_page_end = False
         self.page_counter = 0
         self.first_result = 0
         self.max_result = 99
         self.url_paged = ""
         self.list_content = []
-        print("page_handler initiating while")
+        if debug:
+            print("page_handler initiating while")
         while not self.reach_page_end:
             self.url_paged = url + "&.maxResults=" + str(self.max_result) + \
                              "&.firstResult=" + str(self.first_result)
-            print("requesting current page  ", self.url_paged)
+            if debug:
+                print("requesting current page  ", self.url_paged)
             self.current_page = self.read_page(self.url_paged)
             # self.navigate_json(self.current_page)
             self.list_content.append(self.current_page)
             self.page_counter = self.current_page['queryResponse']["@count"]
-            print("page_counter", self.page_counter)
-            print("returning last...", self.current_page['queryResponse']["@last"])
+            if debug:
+                print("page_counter", self.page_counter)
+                print("returning last...", self.current_page['queryResponse']["@last"])
             if self.current_page['queryResponse']["@last"] > self.page_counter:
                 self.first_result += 100
             else:
                 self.reach_page_end = True
         return self.list_content
 
-    def read_unreachable(self):
+    def read_unreachable(self, debug=True):
         self.urlbase = "https://pi.unimelb.net.au/webacs/api/v2/data/AccessPointDetails.json?.full=true" \
                    "&reachabilityStatus=UNREACHABLE"
-        print("calling page_handler")
+        if debug:
+            print("calling page_handler")
         self.list_content = self.page_handler(self.urlbase)
         return
-    # print(decoded['queryResponse']["@first"])
 
-    def list_unreachable_neighbor(self):
+    def list_unreachable_neighbors(self, debug=True):
         list_ap_neighbor = []
         list_ap_no_neighbor = []
-        print("calling read_unreachable...")
+        if debug:
+            print("calling read_unreachable...")
         self.read_unreachable()
-        print("received unreachable")
+        if debug:
+            print("received unreachable")
         for item in self.list_content:
             for entity in item['queryResponse']['entity']:
                 # print(i['@url'])
-                print(entity['accessPointDetailsDTO']['name'])
+                if debug:
+                    print(entity['accessPointDetailsDTO']['name'])
                 if 'cdpNeighbors' in entity['accessPointDetailsDTO'] :
                     # print(type(i['accessPointDetailsDTO']['cdpNeighbors']))
                     for neighbor in entity['accessPointDetailsDTO']['cdpNeighbors'].keys():
                         # print(type(i['accessPointDetailsDTO']['cdpNeighbors'][j]))
                         for detail in entity['accessPointDetailsDTO']['cdpNeighbors'][neighbor]:
-                            print(detail["neighborName"])
-                            print(detail["neighborPort"])
-                            print()
+                            if debug:
+                                print(detail["neighborName"])
+                                print(detail["neighborPort"])
+                                print()
                             list_ap_neighbor.append([entity['accessPointDetailsDTO']['name'], detail["neighborName"],
                                                      detail["neighborPort"]])
                 else:
-                    print("No cdpNeighbors on this device\n")
+                    if debug:
+                        print("No cdpNeighbors on this device\n")
                     list_ap_no_neighbor.append(entity['accessPointDetailsDTO']['name'])
         return list_ap_neighbor, list_ap_no_neighbor
 

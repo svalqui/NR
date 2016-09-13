@@ -19,7 +19,7 @@ class_cisco_prime = cpriapi.CiscoPrimeApi(user_name, password)
 holder = class_cisco_prime.read_unreachable()
 print(holder)
 
-list_ap_cdp, list_ap_no_cdp = class_cisco_prime.list_unreachable_neighbor()
+list_ap_cdp, list_ap_no_cdp = class_cisco_prime.list_unreachable_neighbors()
 for item in list_ap_cdp:
     print(item)
 print("\n\n#####\n\n")
