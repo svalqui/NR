@@ -20,8 +20,8 @@ import sys
 
 import netmiko
 
-import netdef
 from lib import filesio
+from networktangents import netdef
 
 filename_devices = "exa030shut-int-devices.txt"  # file to be located in the parent directory away from dev
 path_and_file_devices = os.path.join(os.path.abspath(os.pardir), filename_devices)

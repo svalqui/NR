@@ -4,9 +4,10 @@
 # Created : 2015/10/08
 # Modified : 2016/
 
-from lib import netconparser
-import ciscointerface
 import time
+
+from lib import netconparser
+from networktangents import ciscointerface
 
 
 class CiscoNetworkDevice(object):

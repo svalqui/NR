@@ -1,11 +1,11 @@
 #!/usr/bin/python3
 # -*- coding: UTF-8 -*-# enable debugging
-import cgitb
 import cgi
-import sys
+import cgitb
 import datetime
-import cisconetworkdevice
+import sys
 
+from networktangents import cisconetworkdevice
 
 date_format = "%a %b %d %H:%M:%S %Y"
 cgitb.enable()

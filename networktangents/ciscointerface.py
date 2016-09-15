@@ -4,7 +4,7 @@
 # Created : 2015/10/08
 # Modified : 2016/
 
-import interface
+from networktangents import interface
 
 
 class CiscoInterface(interface.Interface):

@@ -1,10 +1,10 @@
 #!/usr/bin/python3
 # -*- coding: UTF-8 -*-# enable debugging
-import cgitb
 import cgi
-import sys
+import cgitb
 import datetime
-import cisconetworkdevice as cisnetdev
+import sys
+
 import lib.restapi.ciscoprimeapi as cispriapi
 
 date_format = "%a %b %d %H:%M:%S %Y"
