@@ -169,14 +169,9 @@ class CiscoNetworkDevice(object):
         for interface in list_interfaces:
             if debug:
                 print("int "+interface)
-            self.send_command("int "+interface)
-            for command in list_commands:
-                if debug:
-                    print(command)
-                self.send_command(command)
-        self.send_command("exit")  # exit Interface configuration
-        if debug:
-            print("exit from int config")
+            self.Device_Connection.send_config_set(["int "+interface])
+            self.Device_Connection.send_config_set(list_commands)
+        self.Device_Connection.exit_config_mode()
 
     def reset_interfaces(self, list_interfaces, debug=True):
         self.list_commands = ["shutdown", "no shutdown"]
@@ -187,7 +182,7 @@ class CiscoNetworkDevice(object):
 
     def disable_interfaces(self, list_interfaces):
         self.list_commands = ["shutdown"]
-        self.configure_interfaces(list_interfaces,self.list_commands)
+        self.configure_interfaces(list_interfaces, self.list_commands)
         return
 
     def show_int_steroids(self):
