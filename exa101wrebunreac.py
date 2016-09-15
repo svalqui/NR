@@ -33,7 +33,7 @@ for item in list_ap_cdp:
 print("ready for resetting:")
 
 for item in list_devices:
-    print("  ", item, " :",dict_devices_interfaces[item])
+    print("  ", item, " :", dict_devices_interfaces[item])
 
 enable_password = getpass.getpass("Enable Password :")
 

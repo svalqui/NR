@@ -55,7 +55,7 @@ class CiscoNetworkDevice(object):
 
     def send_command(self, command):
         time.sleep(0.1)
-        output = self.Device_Connection.send_command(command, delay_factor=.3)
+        output = self.Device_Connection.send_command(command, delay_factor=.2)
         return output
 
     def disconnect(self):
@@ -162,7 +162,8 @@ class CiscoNetworkDevice(object):
     def configure_interfaces(self, list_interfaces, list_commands, debug=True):
         if debug:
             print("")
-        self.send_command("conf t")
+        self.Device_Connection.enable()
+        self.Device_Connection.config_mode()
         if debug:
             print("in conf t mode")
         for interface in list_interfaces:
