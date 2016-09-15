@@ -159,17 +159,27 @@ class CiscoNetworkDevice(object):
         self.show_mac_address()
         self.MacAddress = netconparser.show_mac_to_dictionary(self.ShowMacAddress)
 
-    def configure_interfaces(self, list_interfaces, list_commands):
+    def configure_interfaces(self, list_interfaces, list_commands, debug=True):
+        if debug:
+            print("")
         self.send_command("conf t")
+        if debug:
+            print("in conf t mode")
         for interface in list_interfaces:
+            if debug:
+                print("int "+interface)
             self.send_command("int "+interface)
             for command in list_commands:
+                if debug:
+                    print(command)
                 self.send_command(command)
-        self.send_command("exit")
+        self.send_command("exit")  # exit Interface configuration
+        if debug:
+            print("exit from int config")
 
     def reset_interfaces(self, list_interfaces, debug=True):
         self.list_commands = ["shutdown", "no shutdown"]
-        self.configure_interfaces(list_interfaces,self.list_commands)
+        self.configure_interfaces(list_interfaces, self.list_commands)
         if debug:
             print("reset :", list_interfaces)
         return

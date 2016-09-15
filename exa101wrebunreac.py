@@ -7,6 +7,7 @@
 
 import getpass
 import lib.restapi.ciscoprimeapi as cpriapi
+from networktangents import cisconetworkdevice
 
 user_name = getpass.getpass("Username: ")
 password = getpass.getpass()
@@ -33,3 +34,14 @@ print("ready for resetting:")
 
 for item in list_devices:
     print("  ", item, " :",dict_devices_interfaces[item])
+
+enable_password = getpass.getpass("Enable Password :")
+
+for item in list_devices:
+    print("Connecting to :", item)
+    network_device = cisconetworkdevice.CiscoNetworkDevice(item, user_name, password, enable_password)
+    print("Resetting :", dict_devices_interfaces[item])
+    network_device.reset_interfaces(dict_devices_interfaces[item])
+    network_device.disconnect()
+    print("  finished with: ", item)
+
