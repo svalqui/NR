@@ -10,6 +10,7 @@ from networktangents import interface
 class CiscoInterface(interface.Interface):
     """Class container for all attributes and methods related to an Interface, they are part of NetworkDevice"""
     def __init__(self):
+        super(CiscoInterface, self).__init__()
         self.ShowInterfacePerInt = []
         self.ShowInterfaceSwitchportPerInt = []
         self.ShowRunningConfigurationPerInt = []

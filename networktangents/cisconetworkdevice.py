@@ -55,7 +55,7 @@ class CiscoNetworkDevice(object):
 
     def send_command(self, command):
         time.sleep(0.1)
-        output = self.Device_Connection.send_command(command)
+        output = self.Device_Connection.send_command(command, delay_factor=.3)
         return output
 
     def disconnect(self):
@@ -224,6 +224,7 @@ class CiscoNetworkDevice(object):
                 base_t = False
                 if interface_short in self.Interfaces.keys():
                     interface = interface_short
+                    # print(interface_short)
                     description = self.Interfaces[interface_short].InterfaceDescription
                     status = self.Interfaces[interface_short].LineProtocol.split()[-1]
                     vlan = self.Interfaces[interface_short].AccessModeVlan
