@@ -161,11 +161,11 @@ class CiscoNetworkDevice(object):
 
     def configure_interfaces(self, list_interfaces, list_commands, debug=True):
         if debug:
-            print("")
+            pass
         self.Device_Connection.enable()
         self.Device_Connection.config_mode()
         if debug:
-            print("in conf t mode")
+            print("in \"conf t\" mode")
         for interface in list_interfaces:
             if debug:
                 print("int "+interface)

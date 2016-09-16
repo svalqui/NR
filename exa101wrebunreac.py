@@ -39,9 +39,20 @@ enable_password = getpass.getpass("Enable Password :")
 
 for item in list_devices:
     print("Connecting to :", item)
-    network_device = cisconetworkdevice.CiscoNetworkDevice(item, user_name, password, enable_password)
-    print("Resetting :", dict_devices_interfaces[item])
-    network_device.reset_interfaces(dict_devices_interfaces[item])
-    network_device.disconnect()
-    print("  finished with: ", item)
+
+    try:
+        network_device = cisconetworkdevice.CiscoNetworkDevice(item, user_name, password, enable_password)
+        connected = True
+    except ValueError:
+        line_log = "Could NOT connect to: " + network_device + " Possible empty/unknown character in file"
+        print(line_log)
+    except:
+        line_log = "Error: " + sys.exc_info()[0]
+        print(line_log)
+
+    if connected:
+        print("Resetting :", dict_devices_interfaces[item])
+        network_device.reset_interfaces(dict_devices_interfaces[item])
+        network_device.disconnect()
+        print("  finished with: ", item, "\n")
 
