@@ -156,6 +156,18 @@ def show_mac_to_dictionary(show_mac_address=''):
       List: (mac_address, Vlan_number_text)
     :param show_mac_address:
     :return: a dictionary of index int_name_short
+
+    vlan   mac address     type    learn     age              ports
+    ------+----------------+--------+-----+----------+--------------------------
+    2123  0008.aaaa.aaaa   dynamic  Yes        170   Po7
+    *  345  0100.eeee.ffff    static  Yes          -   Po1,Po3,Po7,Po8,Po9,Router
+
+    Vlan    Mac Address       Type        Ports
+    ----    -----------       --------    -----
+     All    0100.0ccc.cccc    STATIC      CPU
+     All    0100.0ccc.cccd    STATIC      CPU
+     All    0100.0ccc.ccce    STATIC      CPU
+
     """
     show_mac_dictionary = {}
     show_mac_list = cut_not_include(show_mac_address, "lan ", "Dummy", 1000000)
