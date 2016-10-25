@@ -16,6 +16,7 @@ class Interface(object):
         self.InputErrors = ''
         self.OutputErrors = ''
         self.Type = ''
+        self.ListMacAddress = []
 
     def load_interface_details(self):
         """

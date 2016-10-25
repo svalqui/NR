@@ -170,15 +170,25 @@ def show_mac_to_dictionary(show_mac_address=''):
 
     """
     show_mac_dictionary = {}
-    for line in show_mac_address[0]:
+    for line in show_mac_address:
         if len(line) > 0:
             line_split = line.split()
             if len(line_split) > 3:
-                if line_split[-1].find(",") < 0 :
+                if line_split[-1].find(",") < 0:  # doesn't find multiple ports entry
                     if line_split[0].isnumeric():
-                        show_mac_dictionary[line_split[-1]] = [line_split[1], line_split[0]]
-                    elif line_split[0] == "*":
-                        show_mac_dictionary[line_split[-1]] = [line_split[2], line_split[1]]
+                        if line_split[-1] in show_mac_dictionary.keys():
+                            if not [line_split[1], line_split[0]] in show_mac_dictionary[line_split[-1]]:
+                                show_mac_dictionary[line_split[-1]].append([line_split[1], line_split[0]])
+                        else:
+                            show_mac_dictionary[line_split[-1]] = [line_split[1], line_split[0]]
+
+                    elif line_split[0] in ("R", "S", "D" "*") and line_split[1].isnumeric():
+                        if line_split[-1] in show_mac_dictionary.keys():
+                            if not [line_split[2], line_split[1]] in show_mac_dictionary[line_split[-1]]:
+                                show_mac_dictionary[line_split[-1]].append([line_split[2], line_split[1]])
+                        else:
+                            show_mac_dictionary[line_split[-1]] = [line_split[2], line_split[1]]
+
     return show_mac_dictionary
 
 
@@ -210,6 +220,7 @@ def int_name_to_int_short_name(interface_name=''):
     Loopback
     Tunnel
     Group-Async
+    mgmt
     :param interface_name:
     :return:
     """
@@ -234,6 +245,8 @@ def int_name_to_int_short_name(interface_name=''):
     elif interface_name.find('Group-Async') >= 0:
         int_numbering = interface_name[11:]
         interface_short_name = short_text + int_numbering
+    elif interface_name.find('mgmt') >= 0:
+        interface_short_name = interface_name
     else:
         print('Interface, ', interface_name, ' not predefined on int_name_to_int_short_name')
 
