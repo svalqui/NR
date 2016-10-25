@@ -20,6 +20,7 @@ class CiscoInterface(interface.Interface):
         self.AdministrativeMode = ''
         self.AccessModeVlan = ''
         self.VoiceVlan = ''
+        self.MacAddress = []
 
     def load_interface_details(self):
         """

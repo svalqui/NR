@@ -118,6 +118,10 @@ class CiscoNetworkDevice(object):
         self.show_vlan()
         self.Vlans = netconparser.show_vlan_to_dictionary(self.ShowVlan)
 
+    def populate_mac_address(self):
+        self.show_mac_address()
+        self.MacAddress = netconparser.show_mac_to_dictionary(self.ShowMacAddress)
+
     def populate_interfaces(self):
         """
         runs 'sh int status', 'sh int', 'sh int switchport', 'sh int capabilities';
@@ -133,17 +137,19 @@ class CiscoNetworkDevice(object):
         self.show_int_switchport()
         listshowintswi = netconparser.show_interface_switchport_to_list(self.ShowInterfaceSwitchport)
 
-        for shintperint in listshowint:
+        self.populate_mac_address()
+
+        for line_show_int in listshowint:
             swi_int = ciscointerface.CiscoInterface()
-            swi_int.InterfaceName = shintperint[0].split()[0]
+            swi_int.InterfaceName = line_show_int[0].split()[0]
             swi_int.InterfaceShortName = netconparser.int_name_to_int_short_name(swi_int.InterfaceName)
-            swi_int.ShowInterfacePerInt = shintperint
+            swi_int.ShowInterfacePerInt = line_show_int
             self.Interfaces[swi_int.InterfaceShortName] = swi_int
             self.ListIntLonNam.append(swi_int.InterfaceName)
 
-        for shintswiperint in listshowintswi:
-            intshortname = shintswiperint[0].split(":")[1].strip()
-            self.Interfaces[intshortname].ShowInterfaceSwitchportPerInt = shintswiperint
+        for line_show_int_sw in listshowintswi:
+            intshortname = line_show_int_sw[0].split(":")[1].strip()
+            self.Interfaces[intshortname].ShowInterfaceSwitchportPerInt = line_show_int_sw
 
         self.show_int_capabilities()
         dicshowintcap = netconparser.cut_include_from_list(self.ShowInterfaceCapabilities, self.ListIntLonNam)
@@ -152,12 +158,12 @@ class CiscoNetworkDevice(object):
             intholder = self.Interfaces[intkey]
             if intholder.InterfaceName in dicshowintcap.keys():
                 self.Interfaces[intkey].ShowInterfaceCapabilitiesPerInt = dicshowintcap[intholder.InterfaceName]
+                self.Interfaces[intkey].MacAddress = self.MacAddress
+
 
             intholder.load_interface_details()
 
-    def populate_mac_address(self):
-        self.show_mac_address()
-        self.MacAddress = netconparser.show_mac_to_dictionary(self.ShowMacAddress)
+
 
     def configure_interfaces(self, list_interfaces, list_commands, debug=True):
         if debug:

@@ -153,7 +153,7 @@ def show_vlan_to_dictionary(show_vlan_output=''):
 def show_mac_to_dictionary(show_mac_address=''):
     """ from show mac address returns a dictionary, Indexed by Interface(short name) as per poutput.
     Dictionary: [Int_name_short], List
-      List: (mac_address, Vlan_number_text)
+      List: (mac_address, Vlan_number_text). (('0100.0ccc.cccc','345'),('0100.0ccc.cccc','345'),(,),...)
     :param show_mac_address:
     :return: a dictionary of index int_name_short
 
