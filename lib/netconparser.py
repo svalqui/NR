@@ -170,15 +170,15 @@ def show_mac_to_dictionary(show_mac_address=''):
 
     """
     show_mac_dictionary = {}
-    show_mac_list = cut_not_include(show_mac_address, "lan ", "Dummy", 1000000)
     for line in show_mac_address[0]:
         if len(line) > 0:
             line_split = line.split()
             if len(line_split) > 3:
-                if line_split[0].isnumeric():
-                    show_mac_dictionary[line_split[-1]] = [line_split[1], line_split[0]]
-                elif line_split[0].isnumeric():
-                    show_mac_dictionary[line_split[-1]] = [line_split[2], line_split[1]]
+                if line_split[-1].find(",") < 0 :
+                    if line_split[0].isnumeric():
+                        show_mac_dictionary[line_split[-1]] = [line_split[1], line_split[0]]
+                    elif line_split[0] == "*":
+                        show_mac_dictionary[line_split[-1]] = [line_split[2], line_split[1]]
     return show_mac_dictionary
 
 
