@@ -180,14 +180,16 @@ def show_mac_to_dictionary(show_mac_address=''):
                             if not [line_split[1], line_split[0]] in show_mac_dictionary[line_split[-1]]:
                                 show_mac_dictionary[line_split[-1]].append([line_split[1], line_split[0]])
                         else:
-                            show_mac_dictionary[line_split[-1]] = [line_split[1], line_split[0]]
+                            show_mac_dictionary[line_split[-1]] = []
+                            show_mac_dictionary[line_split[-1]].append([line_split[1], line_split[0]])
 
                     elif line_split[0] in ("R", "S", "D" "*") and line_split[1].isnumeric():
                         if line_split[-1] in show_mac_dictionary.keys():
                             if not [line_split[2], line_split[1]] in show_mac_dictionary[line_split[-1]]:
                                 show_mac_dictionary[line_split[-1]].append([line_split[2], line_split[1]])
                         else:
-                            show_mac_dictionary[line_split[-1]] = [line_split[2], line_split[1]]
+                            show_mac_dictionary[line_split[-1]] = []
+                            show_mac_dictionary[line_split[-1]].append([line_split[2], line_split[1]])
 
     return show_mac_dictionary
 
