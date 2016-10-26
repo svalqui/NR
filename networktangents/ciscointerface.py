@@ -43,7 +43,7 @@ class CiscoInterface(interface.Interface):
 
         for line in self.ShowInterfaceSwitchportPerInt:
             if line.find('Administrative Mode:') >= 0:
-                self.AdministrativeMode = line[19:]
+                self.AdministrativeMode = line[20:].strip()
             elif line.find('Access Mode VLAN:') >= 0:
                 self.AccessModeVlan = line.split()[3]
             elif line.find('Voice VLAN:') >= 0:

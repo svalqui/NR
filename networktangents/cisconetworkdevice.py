@@ -120,9 +120,9 @@ class CiscoNetworkDevice(object):
 
     def populate_mac_address(self):
         self.show_mac_address()
-        print("calling show mac add to dic")
+        # print("calling show mac add to dic")
         self.MacAddress = netconparser.show_mac_to_dictionary(self.ShowMacAddress)
-        print(self.MacAddress)
+        # print("\n\n\n", self.MacAddress, "\n\n\n")
 
     def populate_interfaces(self):
         """
@@ -140,10 +140,10 @@ class CiscoNetworkDevice(object):
         self.show_int_switchport()
         listshowintswi = netconparser.show_interface_switchport_to_list(self.ShowInterfaceSwitchport)
 
-        print("calling populate mac add")
+        # print("calling populate mac add")
         self.populate_mac_address()
 
-        for show_int_per_int in listshowint:
+        for show_int_per_int in listshowint:  # through "sh interface" per interface
             swi_int = ciscointerface.CiscoInterface()
             swi_int.InterfaceName = show_int_per_int[0].split()[0]
             swi_int.InterfaceShortName = netconparser.int_name_to_int_short_name(swi_int.InterfaceName)
@@ -151,20 +151,20 @@ class CiscoNetworkDevice(object):
             self.Interfaces[swi_int.InterfaceShortName] = swi_int
             self.ListIntLonNam.append(swi_int.InterfaceName)
 
-        for show_int_sw_per_int in listshowintswi:
+        for show_int_sw_per_int in listshowintswi:  # through "sh interface switch" per interface
             intshortname = show_int_sw_per_int[0].split(":")[1].strip()
             self.Interfaces[intshortname].ShowInterfaceSwitchportPerInt = show_int_sw_per_int
 
         self.show_int_capabilities()
         dicshowintcap = netconparser.cut_include_from_list(self.ShowInterfaceCapabilities, self.ListIntLonNam)
 
-        for intkey in self.Interfaces.keys():
-            intholder = self.Interfaces[intkey]
-            if intholder.InterfaceName in dicshowintcap.keys():
-                self.Interfaces[intkey].ShowInterfaceCapabilitiesPerInt = dicshowintcap[intholder.InterfaceName]
-                if intkey in self.MacAddress.keys():
-                    self.Interfaces[intkey].ListMacAddress = self.MacAddress[intkey]
-            intholder.load_interface_details()
+        for key_int in self.Interfaces.keys():  # through all interfaces, key Interface_short_name
+            int_holder = self.Interfaces[key_int]
+            if int_holder.InterfaceName in dicshowintcap.keys():
+                self.Interfaces[key_int].ShowInterfaceCapabilitiesPerInt = dicshowintcap[int_holder.InterfaceName]
+                if key_int in self.MacAddress.keys():
+                    self.Interfaces[key_int].ListMacAddress = self.MacAddress[key_int]
+            int_holder.load_interface_details()
 
     def configure_interfaces(self, list_interfaces, list_commands, debug=True):
         if debug:
@@ -232,6 +232,7 @@ class CiscoNetworkDevice(object):
         up_time_short = netconparser.uptime_to_short(self.SystemUpTime)
 
         for line_int_status in self.ShowInterfacesStatus:
+            vlan = ""
             if len(line_int_status) > 0:
                 interface_short = line_int_status.split()[0]
                 base_t = False
@@ -240,10 +241,14 @@ class CiscoNetworkDevice(object):
                     # print(interface_short)
                     description = self.Interfaces[interface_short].InterfaceDescription
                     status = self.Interfaces[interface_short].LineProtocol.split()[-1]
-                    vlan = self.Interfaces[interface_short].AccessModeVlan
+                    if self.Interfaces[interface_short].AdministrativeMode == "trunk":
+                        vlan = "trunk"
+                    elif self.Interfaces[interface_short].AdministrativeMode == "routed":
+                        vlan = "routed"
+                    else:
+                        vlan = self.Interfaces[interface_short].AccessModeVlan
                     voice = self.Interfaces[interface_short].VoiceVlan
                     inttype = self.Interfaces[interface_short].Type
-                    macs = str(self.Interfaces[interface_short].ListMacAddress)
                     if inttype.find("10/100/1000BaseT") >= 0:
                         number_interfaces += 1
                         base_t = True
@@ -265,14 +270,23 @@ class CiscoNetworkDevice(object):
                                                           (voice, 'l', 8),
                                                           (inttype, 'l', 20),
                                                           (used, 'l', 4),
-                                                          (lastclearing, 'r', 15),
-                                                          (macs, 'r', 30)
+                                                          (lastclearing, 'r', 15)
                                                           ])
 
                     print(line)
+
+                    if len(self.Interfaces[interface_short].ListMacAddress) > 0:
+                        for mac_entry in self.Interfaces[interface_short].ListMacAddress:
+                            line = netconparser.format_str_space([(' ', 'r', 65),
+                                                                  (str(mac_entry), 'l', 30)
+                                                                  ])
+                            # print(mac_entry)
+                            print(line)
+
         print("Number of interfaces 10/100/1000BaseT: ", number_interfaces)
         print("Interfaces 10/100/1000BaseT in use: ", number_interface_used)
-        print("Percentage use: {:2.0%}".format(number_interface_used/number_interfaces))
-        print("\n\n\n")
+        print("Percentage use of 10/100/1000BaseT: {:2.0%}".format(number_interface_used/number_interfaces))
+        print("\nFinished with: ", self.DeviceName)
+        print("\n\n")
 
         return
