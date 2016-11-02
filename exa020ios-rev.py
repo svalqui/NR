@@ -26,7 +26,7 @@ import sys
 import netmiko
 
 from lib import filesio, netconparser
-from networktangents import netdef
+from networktangents import cisconetworkdevice
 
 filename_devices = "exa020ios-rev-devices.txt"  # file to be located in the parent directory away from dev
 path_and_file_devices = os.path.join(os.path.abspath(os.pardir), filename_devices)
@@ -56,7 +56,7 @@ if file_status_devices == 0 and file_status_model_ios == 0:
         connected = False
         current_ios = ''
         try:
-            switch1 = netdef.NetworkDevice(device_name, gs_UserName, gs_password, gs_EnablePass)
+            switch1 = cisconetworkdevice.CiscoNetworkDevice(device_name, gs_UserName, gs_password, gs_EnablePass)
             connected = True
         except netmiko.ssh_exception.NetMikoTimeoutException:
             line_log = "Time out, Could NOT connect to: " + device_name
