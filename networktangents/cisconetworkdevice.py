@@ -192,8 +192,7 @@ class CiscoNetworkDevice(object):
         self.configure_interfaces(list_interfaces, self.list_commands)
         return
 
-    def show_int_steroids(self):
-
+    def display_sh_ver_brief(self):
         # Working with the IOS version, getting it and presenting a brief.
         print("getting sh ver...")
         self.show_version()
@@ -204,6 +203,7 @@ class CiscoNetworkDevice(object):
         print(self.SystemUpTime)
         print()
 
+    def display_sh_modules(self):
         # for 6x00 platform.
         self.show_module()
         if len(self.ShowModule) > 0:
@@ -211,6 +211,7 @@ class CiscoNetworkDevice(object):
                 for line in self.ShowModule:
                     print(line)
 
+    def display_sh_vlan_brief(self):
         # Working with Vlans, getting them and presenting a brief.
         print("Populating vlans...")
         self.populate_vlans()
@@ -221,6 +222,11 @@ class CiscoNetworkDevice(object):
                                                   (self.Vlans[vlankey][1], 'l', 32),
                                                   (self.Vlans[vlankey][2], 'l', 11)])
             print(line)
+
+    def show_int_steroids(self):
+        self.display_sh_ver_brief()
+        self.display_sh_modules()
+        self.display_sh_vlan_brief()
 
         # Working with interfaces details, getting details from interfaces and producing a report;
         # we will use 'show interface status' as a base and add fields to the default output.
