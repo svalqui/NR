@@ -175,7 +175,7 @@ class CiscoPrimeApi(lib.restapimaster.RestApi):
 #           @id - D_Content : int Value : 587941
 #           locationHeirarchy - D_Content : str Value : Root Area
 #           macAddress - D_Content : str Value : 00:00:00:00:12:34
-#           @displayName - D_Content : str Value : 587941
+#           @displayName - D_Content : str Value : 587
 #           model - D_Content : str Value : AIR-CAP3602I-N-K9
 #           softwareVersion - D_Content : str Value : 8.1.131.0
 #           ethernetMac - D_Content : str Value : 00:00:00:00:00:18
@@ -185,7 +185,7 @@ class CiscoPrimeApi(lib.restapimaster.RestApi):
 #           type - D_Content : str Value : UnifiedAp
 #           status - D_Content : str Value : CLEARED
 #           ipAddress - D_Content : str Value : 10.1.1.78
-#       @url - D_Content : str Value : https://pi.unimelb.net.au/webacs/api/v2/data/AccessPointDetails/587941
+#       @url - D_Content : str Value : https://pi.uni.net.au/webacs/api/v2/data/AccessPointDetails/587
 #       @dtoType - D_Content : str Value : accessPointDetailsDTO
 #       @type - D_Content : str Value : AccessPointDetails
 #     - L-Content : dict found on list resending
