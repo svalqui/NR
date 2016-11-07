@@ -39,6 +39,29 @@ class QueryMac(lib.restapimaster.RestApi):
         self.mac_manufacturer = self.read_page(mac)
         return self.mac_manufacturer
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# self.urlbase = "http://www.macvendorlookup.com/api/v2/"
+
+
+
+
+
 # - L-Content : list here
 # - L-Content : dict found on list resending
 # country - D_Content : str Value : UNITED STATES
