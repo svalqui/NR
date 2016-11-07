@@ -18,7 +18,7 @@ class QueryMac(lib.restapimaster.RestApi):
         self.current_page = ""
         self.mac_manufacturer = ""
 
-    def read_page(self, mac="", debug=False):
+    def read_page(self, mac="", debug=True):
         self.url_queried = self.urlbase + mac
         if debug:
             print("reading ...", self.url_queried)
@@ -27,21 +27,23 @@ class QueryMac(lib.restapimaster.RestApi):
         if debug:
             print("Querying :  ", self.url_queried)
             print(self.page.status_code)
-        self.page_decoded = json.loads(self.page.text)
+        if self.page.status_code == 200:
+            self.page_decoded = json.loads(self.page.text)
+        else:
+            self.page_decoded = ""
         return self.page_decoded
 
     def mac_company(self, mac="", debug=False):
         self.mac_manufacturer = ""
         self.read_page(mac)
         if len(self.page_decoded) > 0 :
-            if "country" in self.page_decoded[0]:
-                self.mac_manufacturer = self.page_decoded[0]["country"]
+            if "company" in self.page_decoded[0]:
+                self.mac_manufacturer = self.page_decoded[0]["company"]
             else:
                 self.mac_manufacturer = "MAC Manufacturer not found on http://www.macvendorlookup.com"
         else:
             self.mac_manufacturer = "No response from http://www.macvendorlookup.com"
         return
-
 
 
 # - L-Content : list here
