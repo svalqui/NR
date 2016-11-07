@@ -8,6 +8,7 @@ import time
 
 from lib import netconparser
 from networktangents import ciscointerface
+from lib.restapi.maclookapi import QueryMac
 
 
 class CiscoNetworkDevice(object):
@@ -281,10 +282,13 @@ class CiscoNetworkDevice(object):
 
                     print(line)
 
-                    if len(self.Interfaces[interface_short].ListMacAddress) > 0:
+                    if len(self.Interfaces[interface_short].ListMacAddress) > 0 and \
+                                    self.Interfaces[interface_short].AdministrativeMode == "static access":
                         for mac_entry in self.Interfaces[interface_short].ListMacAddress:
+                            mac_vendor = QueryMac().mac_company(str(mac_entry))
                             line = netconparser.format_str_space([(' ', 'r', 65),
-                                                                  (str(mac_entry), 'l', 30)
+                                                                  (str(mac_entry), 'l', 30),
+                                                                  (mac_vendor, 'l', 20)
                                                                   ])
                             # print(mac_entry)
                             print(line)
