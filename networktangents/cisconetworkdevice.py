@@ -285,6 +285,81 @@ class CiscoNetworkDevice(object):
                     if len(self.Interfaces[interface_short].ListMacAddress) > 0 and \
                                     self.Interfaces[interface_short].AdministrativeMode == "static access":
                         for mac_entry in self.Interfaces[interface_short].ListMacAddress:
+                            line = netconparser.format_str_space([(' ', 'r', 65),
+                                                                  (str(mac_entry), 'l', 30)
+                                                                  ])
+                            # print(mac_entry)
+                            print(line)
+
+        print("Number of interfaces 10/100/1000BaseT: ", number_interfaces)
+        print("Interfaces 10/100/1000BaseT in use: ", number_interface_used)
+        print("Percentage use of 10/100/1000BaseT: {:2.0%}".format(number_interface_used/number_interfaces))
+        print("\nFinished with: ", self.DeviceName)
+        print("\n\n")
+
+        return
+
+    def show_int_steroids_b(self):
+        self.display_sh_ver_brief()
+        self.display_sh_modules()
+        self.display_sh_vlan_brief()
+
+        # Working with interfaces details, getting details from interfaces and producing a report;
+        # we will use 'show interface status' as a base and add fields to the default output.
+        print('Populating interfaces...')
+        self.populate_interfaces()
+
+        number_interfaces = 0
+        number_interface_used = 0
+        up_time_short = netconparser.uptime_to_short(self.SystemUpTime)
+
+        for line_int_status in self.ShowInterfacesStatus:
+            vlan = ""
+            if len(line_int_status) > 0:
+                interface_short = line_int_status.split()[0]
+                base_t = False
+                if interface_short in self.Interfaces.keys():
+                    interface = interface_short
+                    # print(interface_short)
+                    description = self.Interfaces[interface_short].InterfaceDescription
+                    status = self.Interfaces[interface_short].LineProtocol.split()[-1]
+                    if self.Interfaces[interface_short].AdministrativeMode == "trunk":
+                        vlan = "trunk"
+                    elif self.Interfaces[interface_short].AdministrativeMode == "routed":
+                        vlan = "routed"
+                    else:
+                        vlan = self.Interfaces[interface_short].AccessModeVlan
+                    voice = self.Interfaces[interface_short].VoiceVlan
+                    inttype = self.Interfaces[interface_short].Type
+                    if inttype.find("10/100/1000BaseT") >= 0:
+                        number_interfaces += 1
+                        base_t = True
+                    packetsIn = self.Interfaces[interface_short].PacketsInput
+                    packetsOut = self.Interfaces[interface_short].PacketsOutput
+                    if packetsIn or packetsOut > 0:
+                        used = 'Yes'
+                        if base_t:
+                            number_interface_used += 1
+                    else:
+                        used = 'No'
+                    lastclearing = self.Interfaces[interface_short].LastClearing
+                    if lastclearing == 'never':
+                        lastclearing = up_time_short
+                    line = netconparser.format_str_space([(interface, 'l', 12),
+                                                          (description, 'l', 15),
+                                                          (status, 'r', 12),
+                                                          (vlan, 'r', 8),
+                                                          (voice, 'l', 8),
+                                                          (inttype, 'l', 20),
+                                                          (used, 'l', 4),
+                                                          (lastclearing, 'r', 15)
+                                                          ])
+
+                    print(line)
+
+                    if len(self.Interfaces[interface_short].ListMacAddress) > 0 and \
+                                    self.Interfaces[interface_short].AdministrativeMode == "static access":
+                        for mac_entry in self.Interfaces[interface_short].ListMacAddress:
                             mac_vendor = QueryMac().mac_company(str(mac_entry))
                             line = netconparser.format_str_space([(' ', 'r', 65),
                                                                   (str(mac_entry), 'l', 30),
