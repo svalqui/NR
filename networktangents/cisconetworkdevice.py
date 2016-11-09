@@ -299,7 +299,7 @@ class CiscoNetworkDevice(object):
 
         return
 
-    def show_int_steroids_b(self):
+    def show_int_steroids_adv(self):
         self.display_sh_ver_brief()
         self.display_sh_modules()
         self.display_sh_vlan_brief()
