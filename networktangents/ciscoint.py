@@ -4,13 +4,14 @@
 # Created : 2015/10/08
 # Modified : 2016/
 
-from networktangents import interface
+#from networktangents import interface
+import networktangents
 
 
-class CiscoInterface(interface.Interface):
+class Interface(networktangents.Interface):
     """Class container for all attributes and methods related to an Interface, they are part of NetworkDevice"""
     def __init__(self):
-        super(CiscoInterface, self).__init__()
+        super(Interface, self).__init__()
         self.ShowInterfacePerInt = []
         self.ShowInterfaceSwitchportPerInt = []
         self.ShowRunningConfigurationPerInt = []
@@ -20,7 +21,6 @@ class CiscoInterface(interface.Interface):
         self.AdministrativeMode = ''
         self.AccessModeVlan = ''
         self.VoiceVlan = ''
-
 
     def load_interface_details(self):
         """

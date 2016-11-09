@@ -5,16 +5,18 @@
 # Modified : 2016/
 
 import time
+import networktangents
 
 from lib import netconparser
-from networktangents import ciscointerface
+from networktangents import ciscoint
 from lib.restapi.maclookapi import QueryMac
 
 
-class CiscoNetworkDevice(object):
+class Device(networktangents.NetworkDevice):
     """ Class container for all attributes and methods related to a Network Device
     """
     def __init__(self, device_name, user_name, user_password, enable_password, device_type='cisco_ios'):
+        super(Device, self).__init__()
         self.DeviceName = device_name
         self.UserName = user_name
         self.UPassword = user_password
@@ -145,7 +147,7 @@ class CiscoNetworkDevice(object):
         self.populate_mac_address()
 
         for show_int_per_int in listshowint:  # through "sh interface" per interface
-            swi_int = ciscointerface.CiscoInterface()
+            swi_int = ciscoint.Interface()
             swi_int.InterfaceName = show_int_per_int[0].split()[0]
             swi_int.InterfaceShortName = netconparser.int_name_to_int_short_name(swi_int.InterfaceName)
             swi_int.ShowInterfacePerInt = show_int_per_int

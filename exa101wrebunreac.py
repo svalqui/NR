@@ -7,7 +7,7 @@
 
 import getpass
 import lib.restapi.ciscoprimeapi as cpriapi
-from networktangents import cisconetworkdevice
+from networktangents import cisconet
 import sys
 
 user_name = getpass.getpass("Username: ")
@@ -45,7 +45,7 @@ for item in list_devices:
     connected = False
 
     try:
-        network_device = cisconetworkdevice.CiscoNetworkDevice(item, user_name, password, enable_password)
+        network_device = cisconet.Device(item, user_name, password, enable_password)
         connected = True
     except ValueError:
         line_log = "Could NOT connect to: " + network_device + " Possible empty/unknown character in file"

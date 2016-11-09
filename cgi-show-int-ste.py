@@ -5,7 +5,7 @@ import cgitb
 import datetime
 import sys
 
-from networktangents import cisconetworkdevice
+from networktangents import cisconet
 
 date_format = "%a %b %d %H:%M:%S %Y"
 cgitb.enable()
@@ -16,7 +16,7 @@ network_device = form.getvalue('networkdevice')
 enable_password = form.getvalue('enablepassword')
 print("Content-Type: text/html;charset=utf-8\n")
 print("<pre>")
-device1 = cisconetworkdevice.CiscoNetworkDevice(network_device, user, password, enable_password)
+device1 = cisconet.Device(network_device, user, password, enable_password)
 device1.show_int_steroids()
 print("---")
 print(datetime.datetime.today().strftime(date_format))
