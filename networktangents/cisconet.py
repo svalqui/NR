@@ -16,7 +16,7 @@ class Device(networktangents.NetworkDevice):
     """ Class container for all attributes and methods related to a Network Device
     """
     def __init__(self, device_name, user_name, user_password, enable_password, device_type='cisco_ios'):
-        super(Device, self).__init__()
+        super(Device, self).__init__(device_name, user_name, user_password, enable_password, device_type)
         self.DeviceName = device_name
         self.UserName = user_name
         self.UPassword = user_password
@@ -374,6 +374,6 @@ class Device(networktangents.NetworkDevice):
         print("Interfaces 10/100/1000BaseT in use: ", number_interface_used)
         print("Percentage use of 10/100/1000BaseT: {:2.0%}".format(number_interface_used/number_interfaces))
         print("\nFinished with: ", self.DeviceName)
-        print("\n\n")
+        print("\n")
 
         return

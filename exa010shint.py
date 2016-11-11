@@ -6,7 +6,7 @@
 # Modified : 2016/11
 
 import getpass
-
+from datetime import datetime
 from networktangents import cisconet
 
 device_name = input('DeviceName: ')
@@ -16,4 +16,6 @@ enable_pass = getpass.getpass("Enabled Password: ")
 
 network_device_1 = cisconet.Device(device_name, user_name, password, enable_pass)
 network_device_1.show_int_steroids()
+print(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+
 
