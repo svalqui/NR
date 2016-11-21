@@ -387,7 +387,7 @@ def show_fs_to_space_free(sh_file_systems, debug=False):
             if line[0] != "*" and line.find(master_id) >= 0:
                 line_split = line.split()
                 for string in line_split:
-                    if string.find(master_id)>= 0:
+                    if string.find(master_id) >= 0:
                         other_fs = string
                 other_fs_size = line_split[1]
                 file_systems_free_space += ((other_fs, other_fs_size),)

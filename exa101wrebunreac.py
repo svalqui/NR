@@ -24,28 +24,28 @@ list_devices = []
 dict_devices_interfaces = {}
 
 print("ready for resetting:")
-for item in list_ap_cdp:
-    print(item)
-    if item[1] not in list_devices:
-        list_devices.append(item[1])
+for device_name in list_ap_cdp:
+    print(device_name)
+    if device_name[1] not in list_devices:
+        list_devices.append(device_name[1])
     list_devices.sort()
-    if item[1] not in dict_devices_interfaces:
-        dict_devices_interfaces[item[1]] = []
-    dict_devices_interfaces[item[1]].append(item[2])
+    if device_name[1] not in dict_devices_interfaces:
+        dict_devices_interfaces[device_name[1]] = []
+    dict_devices_interfaces[device_name[1]].append(device_name[2])
 
 print()
 
-for item in list_devices:
-    print("  ", item, " :", dict_devices_interfaces[item])
+for device_name in list_devices:
+    print("  ", device_name, " :", dict_devices_interfaces[device_name])
 
 enable_password = getpass.getpass("Enable Password :")
 
-for item in list_devices:
-    print("Connecting to :", item)
+for device_name in list_devices:
+    print("Connecting to :", device_name)
     connected = False
 
     try:
-        network_device = cisconet.Device(item, user_name, password, enable_password)
+        network_device = cisconet.Device(device_name, user_name, password, enable_password)
         connected = True
     except ValueError:
         line_log = "Could NOT connect to: " + network_device + " Possible empty/unknown character in file"
@@ -57,9 +57,9 @@ for item in list_devices:
         print(line_log, sys.exc_info()[2], "\n")
 
     if connected:
-        print("Resetting :", dict_devices_interfaces[item])
-        network_device.reset_interfaces(dict_devices_interfaces[item])
+        print("Resetting :", dict_devices_interfaces[device_name])
+        network_device.reset_interfaces(dict_devices_interfaces[device_name])
         network_device.disconnect()
-        print("  finished with: ", item, "\n")
+        print("  finished with: ", device_name, "\n")
 
 
