@@ -52,7 +52,7 @@ if file_status_devices == 0 and file_status_model_ios == 0:
         connected = False
         current_ios = ''
         try:
-            switch1 = cisconet.Device(device_name, UserName, password, EnablePass)
+            host = cisconet.Device(device_name, UserName, password, EnablePass)
             connected = True
         except netmiko.ssh_exception.NetMikoTimeoutException:
             line_log = "Time out, Could NOT connect to: " + device_name
@@ -68,13 +68,13 @@ if file_status_devices == 0 and file_status_model_ios == 0:
             log_list.append(line_log)
 
         if connected:
-            switch1.Device_Connection.enable()
+            host.Device_Connection.enable()
 
             # Working with the IOS version, getting it and presenting a brief.
             print("getting sh ver...")
-            switch1.show_version()
+            host.show_version()
 
-            for line in switch1.ShowVersionBrief:
+            for line in host.ShowVersionBrief:
                 print(line)
                 log_list.append(line)
                 if line.find("image file is") >= 0:  # Extracting the ios filename
@@ -85,22 +85,22 @@ if file_status_devices == 0 and file_status_model_ios == 0:
             print(line_log)
             log_list.append(line_log)
 
-            line_log = switch1.SystemUpTime
+            line_log = host.SystemUpTime
             print(line_log)
             log_list.append(line_log)
 
-            line_log = "Device Model: " + switch1.ChassisModel
+            line_log = "Device Model: " + host.ChassisModel
             print(line_log)
             log_list.append(line_log)
 
             print("\ngetting show file systems....")
-            switch1.show_file_system()
-            FS_list = netconparser.show_fs_to_space_free(switch1.Show_File_System)
+            host.show_file_system()
+            FS_list = netconparser.show_fs_to_space_free(host.Show_File_System)
 
-            if switch1.ChassisModel in model_dic:
-                ios_to_review = model_dic[switch1.ChassisModel]
-                ios_to_match = ios_to_review[1].strip()
-                ios_size_to_match = ios_to_review[2].strip()
+            if host.ChassisModel in model_dic:
+                ios_to_copy = model_dic[host.ChassisModel]
+                ios_to_match = ios_to_copy[1].strip()
+                ios_size_to_match = ios_to_copy[2].strip()
 
                 if current_ios == ios_to_match:  # if the ios already on device and running
                     line_log = "Switch : " + device_name + " Already running : " + ios_to_match
@@ -126,13 +126,17 @@ if file_status_devices == 0 and file_status_model_ios == 0:
                                                                   (comment, 'r', 80)])
                             print(line)
                             log_list.append(line)
+                            copy_text = "copy tftp://" + tftp_ip + "/" + ios_to_copy + " " + file_system
+                            print(copy_text)
+                            host.send_command(copy_text)
+                            print("Copied, ", ios_to_copy, " to ", file_system, " on ", device_name)
 
             else:  # Devices Chassis Model not listed in the file
-                line_log = switch1.ChassisModel + " Not found on file exa021ios-cp-tftp-ios.txt"
+                line_log = host.ChassisModel + " Not found on file exa021ios-cp-tftp-ios.txt"
                 print(line_log)
                 log_list.append(line_log)
 
-            switch1.disconnect()
+            host.disconnect()
 
     filename_log = "exa021ios-rev-log.txt"
     path_and_file_log = os.path.join(os.path.abspath(os.pardir), filename_log)
