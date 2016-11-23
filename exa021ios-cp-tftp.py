@@ -22,6 +22,7 @@ import sys
 
 from lib import filesio, netconparser
 from networktangents import cisconet
+from datetime import datetime
 
 filename_devices = "exa021ios-cp-tftp-devices.txt"  # file to be located in the parent directory away from dev
 path_and_file_devices = os.path.join(os.path.abspath(os.pardir), filename_devices)
@@ -126,7 +127,7 @@ if file_status_devices == 0 and file_status_model_ios == 0:
                                                                   (comment, 'r', 80)])
                             print(line)
                             log_list.append(line)
-                            copy_text = "copy tftp://" + tftp_ip + "/" + ios_to_copy + " " + file_system
+                            copy_text = "copy tftp://" + tftp_ip + "/" + ios_to_match + " " + file_system[0]
                             print(copy_text)
                             host.send_command(copy_text)
                             print("Copied, ", ios_to_copy, " to ", file_system, " on ", device_name)
@@ -138,7 +139,7 @@ if file_status_devices == 0 and file_status_model_ios == 0:
 
             host.disconnect()
 
-    filename_log = "exa021ios-rev-log.txt"
+    filename_log = "exa021ios-rev-log-" + datetime.now().strftime('%Y-%m-%d-%H-%M-%S') + ".txt"
     path_and_file_log = os.path.join(os.path.abspath(os.pardir), filename_log)
     filesio.w_text_file(path_and_file_log, log_list)
 
