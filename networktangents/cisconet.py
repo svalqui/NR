@@ -295,6 +295,7 @@ class Device(networktangents.NetworkDevice):
 
         print("Number of interfaces 10/100/1000BaseT: ", number_interfaces)
         print("Interfaces 10/100/1000BaseT in use: ", number_interface_used)
+        print("Interfaces 10/100/1000BaseT spare: ", number_interfaces - number_interface_used)
         print("Percentage use of 10/100/1000BaseT: {:2.0%}".format(number_interface_used/number_interfaces))
         print("\nFinished with: ", self.DeviceName)
         print("\n\n")
@@ -372,6 +373,7 @@ class Device(networktangents.NetworkDevice):
 
         print("Number of interfaces 10/100/1000BaseT: ", number_interfaces)
         print("Interfaces 10/100/1000BaseT in use: ", number_interface_used)
+        print("Percentage use of 10/100/1000BaseT: {:2.0%}".format(number_interface_used/number_interfaces))
         print("Percentage use of 10/100/1000BaseT: {:2.0%}".format(number_interface_used/number_interfaces))
         print("\nFinished with: ", self.DeviceName)
         print("\n")
