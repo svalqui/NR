@@ -55,7 +55,7 @@ if file_status_devices == 0 and file_status_model_ios == 0:
         try:
             host = cisconet.Device(device_name, UserName, password, EnablePass)
             connected = True
-        except netmiko.ssh_exception.NetMikoTimeoutException:
+        except host.ssh_exception.NetMikoTimeoutException:
             line_log = "Time out, Could NOT connect to: " + device_name
             print(line_log)
             log_list.append(line_log)
@@ -64,7 +64,7 @@ if file_status_devices == 0 and file_status_model_ios == 0:
             print(line_log)
             log_list.append(line_log)
         except:
-            line_log = "Error: " + sys.exc_info()[0]
+            line_log = "Error: " + str(sys.exc_info()[0])
             print(line_log)
             log_list.append(line_log)
 
