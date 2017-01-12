@@ -2,6 +2,8 @@
 # Created : 2016/09
 # Modified : 2016/11
 # Master REST api class to contain all common properties and functions for REST api
+# Note 2017
+#  might need to be moved to sysad as is of more general use
 
 
 class RestApi(object):

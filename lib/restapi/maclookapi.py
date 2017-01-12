@@ -1,5 +1,8 @@
 #
 # http://www.macvendorlookup.com/api/v2/{MAC_Address}
+# note 2017
+# copied to sysad as is of more general use, should be removed from here later when sysad matures
+
 
 import requests
 import lib.restapimaster
