@@ -214,6 +214,11 @@ def show_interface_switchport_to_list(show_interface_switchport=''):
     return show_interface_switchport_list
 
 
+def show_vrf_to_dictionary(show_ip_vrf=''):
+    show_vrf = {}
+    return show_vrf
+
+
 def int_name_to_int_short_name(interface_name=''):
     """From interface name returns the short name of the interface
     Ethernet

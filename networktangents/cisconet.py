@@ -37,6 +37,7 @@ class Device(networktangents.NetworkDevice):
         self.ShowInterfaceSwitchport = []
         self.ShowInterfaceCapabilities = []
         self.ShowEtherchannelPort = []
+        self.ShowVRF = []
         self.VRF = {}
         self.ShowVlan = ''
         self.ListIntLonNam = []
@@ -59,60 +60,52 @@ class Device(networktangents.NetworkDevice):
     def send_command(self, command):
         time.sleep(0.1)
         output = self.Device_Connection.send_command(command, delay_factor=.2)
-        return output
+        return output.splitlines()
 
     def disconnect(self):
         self.Device_Connection.disconnect()
 
     def show_version(self):
         self.ShowVersion = self.send_command("sh ver")
-        self.ShowVersion = self.ShowVersion.splitlines()
         self.SystemUpTime = netconparser.line_from_text("uptime is", self.ShowVersion)
         self.ShowVersionBrief = netconparser.show_ver_brief(self.ShowVersion)
         self.ChassisModel = netconparser.show_ver_model(self.ShowVersionBrief)
 
     def show_file_system(self):
         self.Show_File_System = self.send_command("show file systems")
-        self.Show_File_System = self.Show_File_System.splitlines()
 
     def show_module(self):
         self.ShowModule = self.send_command("sh module")
-        self.ShowModule = self.ShowModule.splitlines()
 
     def show_running(self):
         self.ShowRunning = self.send_command("sh run")
 
     def show_cdp_nei_det(self):
         self.ShowCdpNeiDet = self.send_command("show cdp nei det")
-        self.ShowCdpNeiDet = self.ShowCdpNeiDet.splitlines()
 
     def show_mac_address(self):
         self.ShowMacAddress = self.send_command("show mac address")
-        self.ShowMacAddress = self.ShowMacAddress.splitlines()
 
     def show_int(self):
         self.ShowInterfaces = self.send_command("show interfaces")
-        self.ShowInterfaces = self.ShowInterfaces.splitlines()
 
     def show_int_status(self):
         self.ShowInterfacesStatus = self.send_command("sh int status")
-        self.ShowInterfacesStatus = self.ShowInterfacesStatus.splitlines()
 
     def show_int_switchport(self):
         self.ShowInterfaceSwitchport = self.send_command("sh int switchport")
-        self.ShowInterfaceSwitchport = self.ShowInterfaceSwitchport.splitlines()
 
     def show_int_capabilities(self):
         self.ShowInterfaceCapabilities = self.send_command("sh int capabilities ")
-        self.ShowInterfaceCapabilities = self.ShowInterfaceCapabilities.splitlines()
 
     def show_vlan(self):
         self.ShowVlan = self.send_command("sh vlan")
-        self.ShowVlan = self.ShowVlan.splitlines()
+
+    def show_vrf(self):
+        self.ShowVRF = self.send_command("sh ip vrf")
 
     def show_etherchannelport(self):
         self.ShowEtherchannelPort = self.send_command("sh etherchannel port")
-        self.ShowEtherchannelPort = self.ShowEtherchannelPort.splitlines()
 
     def populate_vlans(self):
         """
@@ -126,6 +119,13 @@ class Device(networktangents.NetworkDevice):
         # print("calling show mac add to dic")
         self.MacAddress = netconparser.show_mac_to_dictionary(self.ShowMacAddress)
         # print("\n\n\n", self.MacAddress, "\n\n\n")
+
+    def populate_vrf(self):
+        """
+        :return: {vrf_id_int}: [Vrfnumber_str, Vrfname, composite]
+        """
+        self.show_vrf()
+        self.VRF = netconparser.show_vrf_to_dictionary(self.ShowVRF)
 
     def populate_interfaces(self):
         """
