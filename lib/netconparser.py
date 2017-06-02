@@ -215,6 +215,21 @@ def show_interface_switchport_to_list(show_interface_switchport=''):
 
 
 def show_vrf_to_dictionary(show_ip_vrf=''):
+    """
+    Nuts#sh ip vrf
+    Name                             Default RD            Interfaces
+    VPN-ONE                          110:5133               Vl1230
+                                                            Vl1234
+                                                            Tu0
+                                                            Tu12
+    VPN-TWO                         120:5133              Vl1910
+                                                            Tu11
+                                                            Tu23
+    Nuts#
+
+    :param show_ip_vrf:
+    :return:
+    """
     show_vrf = {}
     return show_vrf
 
