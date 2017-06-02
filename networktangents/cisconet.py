@@ -38,6 +38,8 @@ class Device(networktangents.NetworkDevice):
         self.ShowInterfaceCapabilities = []
         self.ShowEtherchannelPort = []
         self.ShowVRF = []
+        self.ShowIPRoute = []
+        self.ShowIPRouteVrf = []
         self.VRF = {}
         self.ShowVlan = ''
         self.ListIntLonNam = []

@@ -151,11 +151,12 @@ def show_vlan_to_dictionary(show_vlan_output=''):
 
 
 def show_mac_to_dictionary(show_mac_address=''):
-    """ from show mac address returns a dictionary, Indexed by Interface(short name) as per poutput.
+    """ from show mac address returns a dictionary, Indexed by Interface(short name) as per output.
     Dictionary: [Int_name_short], List
       List: (mac_address, Vlan_number_text). (('0100.0ccc.cccc','345'),('0100.0ccc.cccc','345'),(,),...)
     :param show_mac_address:
     :return: a dictionary of index int_name_short
+             show_mac_dictionary[vlan]: [[mac_add, vlan_num], [mac_add, vlan_num],... ]
 
     vlan   mac address     type    learn     age              ports
     ------+----------------+--------+-----+----------+--------------------------
@@ -228,9 +229,21 @@ def show_vrf_to_dictionary(show_ip_vrf=''):
     Nuts#
 
     :param show_ip_vrf:
-    :return:
+    :return: a dictionary of index vrf: Dic[vrf]: [RD, [Interfaces]]
     """
+    vrf_name = ''
     show_vrf = {}
+    vrf_interface_list = []
+    for line in show_ip_vrf:
+        line_split = line.split()
+        if len(line_split) > 1 and line_split[1].find(':') > 0 :
+            vrf_name = line_split[0].strip()
+            vrf_rd = line_split[1]
+            vrf_interface_list.append(line_split[2])
+            show_vrf[vrf_name] = [vrf_rd, [vrf_interface_list]]
+        elif len(line_split) == 1:
+            show_vrf[vrf_name][1].append(line_split[0])
+
     return show_vrf
 
 

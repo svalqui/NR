@@ -1,14 +1,14 @@
-# "https://pi31.its.unimelb.edu.au/webacs/api/v2/data/ClientSessions.json?.full=true&userName=tommyblue",
-# "https://pi31.its.unimelb.edu.au/webacs/api/v1/data/RadioDetails?.full=true&operStatus=\"DOWN\"&slotId=\"0\"",
-# "https://pi31.its.unimelb.edu.au/webacs/api/v1/data/RadioDetails?.full=true&operStatus=\"DOWN\"",
-# "https://pi31.its.unimelb.edu.au/webacs/api/v1/data/RadioDetails?.full=true&operStatus=\"DOWN\"&slotId=\"0\"&apName=contains(\"EXT\")"
-# "https://pi31.its.unimelb.edu.au/webacs/api/v2/data/ClientSessions/59036754\"
-# "https://pi31.its.unimelb.edu.au/webacs/api/v2/data\"
+# "https://server/webacs/api/v2/data/ClientSessions.json?.full=true&userName=tommyblue",
+# "https://server/webacs/api/v1/data/RadioDetails?.full=true&operStatus=\"DOWN\"&slotId=\"0\"",
+# "https://server/webacs/api/v1/data/RadioDetails?.full=true&operStatus=\"DOWN\"",
+# "https://server/webacs/api/v1/data/RadioDetails?.full=true&operStatus=\"DOWN\"&slotId=\"0\"&apName=contains(\"EXT\")"
+# "https://server/webacs/api/v2/data/ClientSessions/59036754\"
+# "https://server/webacs/api/v2/data\"
 #  reachabilityStatus - D_Content : str Value : Reachable
-# url = "https://pi.unimelb.net.au/webacs/api/v2/data/ClientSessions.json?.full=true&userName=" # Check Working
-# url = "https://pi.unimelb.net.au/webacs/api/v1/data/Alarms.json?.condition.value=AP_DISASSOCIATED&severity=MAJOR"
-# url = "https://pi.unimelb.net.au/webacs/api/v1/data/Alarms.json?.full=true"
-# url = "https://pi.unimelb.net.au/webacs/api/v2/data/AccessPointDetails/587698.json?.full=true" # Checked working
+# url = "https://server/webacs/api/v2/data/ClientSessions.json?.full=true&userName=" # Check Working
+# url = "https://server/webacs/api/v1/data/Alarms.json?.condition.value=AP_DISASSOCIATED&severity=MAJOR"
+# url = "https://server/webacs/api/v1/data/Alarms.json?.full=true"
+# url = "https://server/webacs/api/v2/data/AccessPointDetails/587698.json?.full=true" # Checked working
 # Pagination = 99
 
 import requests
