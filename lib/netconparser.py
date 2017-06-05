@@ -138,7 +138,8 @@ def show_vlan_to_dictionary(show_vlan_output=''):
     Dictionary: [VlanNumber_int], List
       List:(VlanNumber_str, VlanName, Composite(Vlan1))
     :param show_vlan_output
-    :return a dictionary of index int(vlan number)
+    :return a dictionary of index int(vlan number);
+    Dic[VlanNumber_int]: [[VlanNumber_str, VlanName, Composite(Vlan1)],...]
     """
     show_vlan_dictionary = {}
     show_vlan_list = cut_not_include(show_vlan_output, 'VLAN Name', 'VLAN Type')
