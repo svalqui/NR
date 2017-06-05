@@ -108,7 +108,9 @@ class Device(networktangents.NetworkDevice):
         self.VRF = netconparser.show_vrf_to_dictionary(self.send_command("sh ip vrf"))
 
     def show_ip_route(self):
+        print('send sh ip route')
         self.base_ip_route = self.send_command("sh ip route")
+        print('sh vrf')
         self.show_vrf()
         if len(self.VRF) > 0:
             for index in self.VRF.keys():
@@ -117,10 +119,10 @@ class Device(networktangents.NetworkDevice):
 
         for i in self.base_ip_route:
             if i.find('irec') > 0 :
-                print (i)
+                print(i)
 
         for index in self.VRF.keys():
-            for line in VRF[index][2]: # Routes per vrf
+            for line in self.VRF[index][2]: # Routes per vrf
                 if line.find('irec') > 0 :
                     print('VRF : ', index, ' subnet : ', line)
 
