@@ -104,10 +104,13 @@ class Device(networktangents.NetworkDevice):
         self.ShowVlan = self.send_command("sh vlan")
 
     def show_vrf(self):
-        self.ShowVRF = self.send_command("sh ip vrf")
+        self.VRF = netconparser.show_vrf_to_dictionary(self.send_command("sh ip vrf"))
 
     def show_ip_route(self):
-
+        self.base_ip_route = self.send_command("sh ip route")
+        if len(self.VRF) > 0:
+            for index in self.VRF.keys():
+                ip_route_per_vrf = self.send_command("sh ip route " + index)
 
     def show_etherchannelport(self):
         self.ShowEtherchannelPort = self.send_command("sh etherchannel port")
