@@ -29,6 +29,7 @@ class Device(networktangents.NetworkDevice):
         self.Show_File_System = ''
         self.Interfaces = {}
         self.Vlans = {}
+        self.base_ip_route = []
         self.ShowModule = []
         self.ShowCdpNeiDet = []
         self.ShowMacAddress = []
@@ -108,9 +109,20 @@ class Device(networktangents.NetworkDevice):
 
     def show_ip_route(self):
         self.base_ip_route = self.send_command("sh ip route")
+        self.show_vrf()
         if len(self.VRF) > 0:
             for index in self.VRF.keys():
-                ip_route_per_vrf = self.send_command("sh ip route " + index)
+                ip_route_per_vrf = self.send_command("sh ip route vrf " + index)
+                self.VRF[index][2] = ip_route_per_vrf
+
+        for i in self.base_ip_route:
+            if i.find('irec' > 0 ):
+                print (i)
+
+        for index in self.VRF.keys():
+            for line in VRF[index][2]: # Routes per vrf
+                if line.find('irec' > 0 ):
+                    print('VRF : ', index, ' subnet : ', line)
 
     def show_etherchannelport(self):
         self.ShowEtherchannelPort = self.send_command("sh etherchannel port")

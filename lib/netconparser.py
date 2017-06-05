@@ -230,23 +230,26 @@ def show_vrf_to_dictionary(show_ip_vrf=''):
     Nuts#
 
     :param show_ip_vrf:
-    :return: a dictionary structure of index vrf: Dic[vrf]: [[Distinguisher[RD], Interfaces[Interfaces_list]]
+    :return: a dictionary of index vrf: Dic[vrf]: [RD, [Interfaces_list], [ip_route]]
     inside a dictionary "distinguisher", and Interfaces
     """
+    # Structure needs to be reviewed sv 2017/06
     vrf_name = ''
-    show_vrf = {}
+    vrf = {}
+#    distinguisher = {}
     vrf_interface_list = []
+    vrf_ip_route = []
     for line in show_ip_vrf:
         line_split = line.split()
-        if len(line_split) > 1 and line_split[1].find(':') > 0 :
+        if len(line_split) > 1 and line_split[1].find(':') > 0:
             vrf_name = line_split[0].strip()
             vrf_rd = line_split[1]
             vrf_interface_list.append(line_split[2])
-            show_vrf[vrf_name] = [vrf_rd, [vrf_interface_list]]
+            vrf[vrf_name] = [vrf_rd, vrf_interface_list, vrf_ip_route]
         elif len(line_split) == 1:
-            show_vrf[vrf_name][1].append(line_split[0])
+            vrf[vrf_name][1].append(line_split[0])
 
-    return show_vrf
+    return vrf
 
 
 def int_name_to_int_short_name(interface_name=''):
