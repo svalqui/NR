@@ -18,5 +18,9 @@ A set of python libraries, code examples for Network Engineers to interact with 
 
 
 ####Requirements:
+
 Python3.5 or above
-Netmiko 0.4.3
+
+Netmiko
+
+requests
