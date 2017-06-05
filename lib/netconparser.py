@@ -229,7 +229,8 @@ def show_vrf_to_dictionary(show_ip_vrf=''):
     Nuts#
 
     :param show_ip_vrf:
-    :return: a dictionary of index vrf: Dic[vrf]: [RD, [Interfaces]]
+    :return: a dictionary structure of index vrf: Dic[vrf]: [[Distinguisher[RD], Interfaces[Interfaces_list]]
+    inside a dictionary "distinguisher", and Interfaces
     """
     vrf_name = ''
     show_vrf = {}

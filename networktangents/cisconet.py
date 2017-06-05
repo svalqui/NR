@@ -106,6 +106,9 @@ class Device(networktangents.NetworkDevice):
     def show_vrf(self):
         self.ShowVRF = self.send_command("sh ip vrf")
 
+    def show_ip_route(self):
+
+
     def show_etherchannelport(self):
         self.ShowEtherchannelPort = self.send_command("sh etherchannel port")
 
