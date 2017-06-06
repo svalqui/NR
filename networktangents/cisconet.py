@@ -107,24 +107,13 @@ class Device(networktangents.NetworkDevice):
     def show_vrf(self):
         self.VRF = netconparser.show_vrf_to_dictionary(self.send_command("sh ip vrf"))
 
-    def show_ip_route(self):
-        print('send sh ip route')
+    def populate_ip_route(self):
         self.base_ip_route = self.send_command("sh ip route")
-        print('sh vrf')
         self.show_vrf()
         if len(self.VRF) > 0:
             for index in self.VRF.keys():
                 ip_route_per_vrf = self.send_command("sh ip route vrf " + index)
                 self.VRF[index][2] = ip_route_per_vrf
-
-        for line in self.base_ip_route:
-            if line.find('irec') > 0 and line[0] == 'C':  # if directly connected
-                print(line)
-
-        for index in self.VRF.keys():
-            for line in self.VRF[index][2]: # Routes per vrf
-                if line.find('irec') > 0 and line[0] == 'C':  # if directly connected
-                    print('VRF : ', index, ' subnet : ', line)
 
     def show_etherchannelport(self):
         self.ShowEtherchannelPort = self.send_command("sh etherchannel port")

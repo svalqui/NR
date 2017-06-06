@@ -19,11 +19,13 @@ import time
 
 
 class CiscoPrimeApi(lib.restapimaster.RestApi):
-    def __init__(self, user_name, password):
+    def __init__(self, user_name, password, url_prime):
         super(CiscoPrimeApi, self).__init__()
         self.user_name = user_name
         self.password = password
-        self.urlbase = ""
+        self.urlbase = url_prime  # "https://pi.mydomain.net"
+        self.url_unreachable = self.urlbase + "/webacs/api/v2/data/AccessPointDetails.json?.full=true" \
+                   "&reachabilityStatus=UNREACHABLE"
         self.url_paged = ""
         self.list_content = []
         self.page = ""
@@ -75,11 +77,9 @@ class CiscoPrimeApi(lib.restapimaster.RestApi):
         return self.list_content
 
     def read_unreachable(self, debug=False):
-        self.urlbase = "https://pi.unimelb.net.au/webacs/api/v2/data/AccessPointDetails.json?.full=true" \
-                   "&reachabilityStatus=UNREACHABLE"
         if debug:
             print("calling page_handler")
-        self.list_content = self.page_handler(self.urlbase)
+        self.list_content = self.page_handler(self.url_unreachable)
         return
 
     def list_unreachable_neighbors(self, debug=False):
@@ -116,8 +116,8 @@ class CiscoPrimeApi(lib.restapimaster.RestApi):
 #   @last - D_Content : int Value : 47
 #   @count - D_Content : int Value : 48
 #   @type - D_Content : str Value : AccessPointDetails
-#   @requestUrl - D_Content : str Value : https://pi.unimelb.net.au/webacs/api/v2/data/AccessPointDetails?.full=true&amp;reachabilityStatus=UNREACHABLE&amp;.maxResults=99&amp;.firstResult=0
-#   @rootUrl - D_Content : str Value : https://pi.unimelb.net.au/webacs/api/v2/data
+#   @requestUrl - D_Content : str Value : https://server/webacs/api/v2/data/AccessPointDetails?.full=true&amp;reachabilityStatus=UNREACHABLE&amp;.maxResults=99&amp;.firstResult=0
+#   @rootUrl - D_Content : str Value : https://server/webacs/api/v2/data
 #   @responseType - D_Content : str Value : listEntityInstances
 #   @first - D_Content : int Value : 0
 #   entity - D_Content : list found on dict resending, len : 48

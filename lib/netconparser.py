@@ -242,9 +242,14 @@ def show_vrf_to_dictionary(show_ip_vrf=''):
     for line in show_ip_vrf:
         line_split = line.split()
         if len(line_split) > 1 and line_split[1].find(':') > 0:
-            vrf_name = line_split[0].strip()
-            vrf_rd = line_split[1]
-            vrf_interface_list.append(line_split[2])
+            if len(line_split) == 2:  # Name and RD
+                vrf_name = line_split[0].strip()
+                vrf_rd = line_split[1]
+                vrf_interface_list = []
+            else:
+                vrf_name = line_split[0].strip()
+                vrf_rd = line_split[1]
+                vrf_interface_list.append(line_split[2])
             vrf[vrf_name] = [vrf_rd, vrf_interface_list, vrf_ip_route]
         elif len(line_split) == 1:
             vrf[vrf_name][1].append(line_split[0])

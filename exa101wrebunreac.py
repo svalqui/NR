@@ -10,13 +10,14 @@ import lib.restapi.ciscoprimeapi as cpriapi
 from networktangents import cisconet
 import sys
 
+url_prime = "https://" + input("URL Prime https://")
 user_name = getpass.getpass("Username: ")
 password = getpass.getpass()
 
 list_ap_cdp = []
 list_ap_no_cdp = []
 
-class_cisco_prime = cpriapi.CiscoPrimeApi(user_name, password)
+class_cisco_prime = cpriapi.CiscoPrimeApi(user_name, password, url_prime)
 
 list_ap_cdp, list_ap_no_cdp = class_cisco_prime.list_unreachable_neighbors()
 
