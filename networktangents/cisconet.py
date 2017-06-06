@@ -117,13 +117,13 @@ class Device(networktangents.NetworkDevice):
                 ip_route_per_vrf = self.send_command("sh ip route vrf " + index)
                 self.VRF[index][2] = ip_route_per_vrf
 
-        for i in self.base_ip_route:
-            if i.find('irec') > 0 :
-                print(i)
+        for line in self.base_ip_route:
+            if line.find('irec') > 0 and line[0] == 'C':  # if directly connected
+                print(line)
 
         for index in self.VRF.keys():
             for line in self.VRF[index][2]: # Routes per vrf
-                if line.find('irec') > 0 :
+                if line.find('irec') > 0 and line[0] == 'C':  # if directly connected
                     print('VRF : ', index, ' subnet : ', line)
 
     def show_etherchannelport(self):
