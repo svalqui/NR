@@ -24,6 +24,7 @@ for line in network_device_1.base_ip_route:
 for index in network_device_1.VRF.keys():
     for line in network_device_1.VRF[index][2]:  # Routes per vrf
         if line.find('irec') > 0 and line[0] == 'C':  # if directly connected
-            print('VRF : ', index, ' subnet : ', line)
+            route_split = line.split(" ")
+            print(device_name, ", ", index, ", ", route_split[-5], ", ", route_split[-1])
 
 print(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
