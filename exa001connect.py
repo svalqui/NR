@@ -17,15 +17,16 @@ password = getpass.getpass()
 
 # Using telnetlib
 
+print("Connecting to: ", device_name, " using telnetlib")
 telnet_connection = telnetlib.Telnet(device_name)
 
-telnetlib.read_until(b"login: ")
-telnetlib.write(user_name.encode('ascii') + b"\n")
+telnet_connection.read_until(b"Username: ")
+telnet_connection.write(user_name.encode('ascii') + b"\n")
 if password:
     telnet_connection.read_until(b"Password: ")
     telnet_connection.write(password.encode('ascii') + b"\n")
 
-telnet_connection.write(b"ls\n")
+telnet_connection.write(b"sh ver\n")
 telnet_connection.write(b"exit\n")
 
 print(telnet_connection.read_all().decode('ascii'))
