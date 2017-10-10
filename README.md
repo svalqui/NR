@@ -18,4 +18,8 @@ WS-C3750X-24P, c3750e-ipbasek9-mz.150-2.SE9.bin, 20430848
 **exa101wrebunreac.py** : Example 101, wireless reboot unreachable; it would connect to "Prime" using its API to find out which wireless access points are on an unreachable state, it would take the details of the switch connected to, name and interface; then it would connect to each switch and reset the specific interface.
 
 
+This project was created to easy the learning curve of Network Engineers to Devops, as the examples give the general idea that it was intend to, progress on this project would concluded at the end of 2017.
 
+All the best,
+
+Sergio. 
