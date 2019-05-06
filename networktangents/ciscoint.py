@@ -1,3 +1,4 @@
+# Copyright 2019 by Sergio Valqui. All rights reserved.
 # Library for the Class, methods related to Network devices;
 #
 # Authors: Sergio Valqui

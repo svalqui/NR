@@ -1,3 +1,4 @@
+# Copyright 2019 by Sergio Valqui. All rights reserved.
 # libnetscrapr library for interactions with REST api systems
 #  Cisco Prime, Statseeker, Infoblox
 # Author: Sergio Valqui

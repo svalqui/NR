@@ -1,3 +1,4 @@
+# Copyright 2019 by Sergio Valqui. All rights reserved.
 # A library to work with files to read and write text files, common uses for NetworkTangents only.
 #
 # Authors: Sergio Valqui

@@ -1,3 +1,4 @@
+# Copyright 2019 by Sergio Valqui. All rights reserved.
 # Interface Source Class
 # Authors: Sergio Valqui
 # Created : 2016/08/31

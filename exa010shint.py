@@ -1,3 +1,4 @@
+# Copyright 2019 by Sergio Valqui. All rights reserved.
 # An example "show interfaces on steroids" to manipulate the output of "sh int status" and
 # return something a little bit more useful.
 #

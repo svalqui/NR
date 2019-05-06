@@ -1,3 +1,4 @@
+# Copyright 2019 by Sergio Valqui. All rights reserved.
 # libnetservices library for functions related to Network services
 # Such ssh, Sockets etc
 # Author: Sergio Valqui

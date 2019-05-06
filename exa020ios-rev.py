@@ -1,3 +1,4 @@
+# Copyright 2019 by Sergio Valqui. All rights reserved.
 # An example series related to IOS upgrades
 # On this examples we will connect to multiple switches to check if there is space in the file system
 #  for an IOS upgrade

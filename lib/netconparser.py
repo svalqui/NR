@@ -1,3 +1,4 @@
+# Copyright 2019 by Sergio Valqui. All rights reserved.
 # A library to work, process the output of Network Devices, and return a more workable structure.
 #
 # Authors: Sergio Valqui

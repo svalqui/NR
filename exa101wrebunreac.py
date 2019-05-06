@@ -1,3 +1,4 @@
+# Copyright 2019 by Sergio Valqui. All rights reserved.
 # Reboot all interfaces where a WAP is in disassociated state.
 # wrebunreac.py Wireless reboot unreachable
 #

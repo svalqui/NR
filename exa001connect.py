@@ -1,3 +1,4 @@
+# Copyright 2019 by Sergio Valqui. All rights reserved.
 # An example a connection to a network device
 # return something a little bit more useful.
 #  Genesis of connecting to a network devices

@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+# Copyright 2019 by Sergio Valqui. All rights reserved.
 # -*- coding: UTF-8 -*-# enable debugging
 import cgi
 import cgitb

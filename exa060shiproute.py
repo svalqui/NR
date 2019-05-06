@@ -1,3 +1,4 @@
+# Copyright 2019 by Sergio Valqui. All rights reserved.
 #
 # Authors: Sergio Valqui
 # Created : 2017/06/
